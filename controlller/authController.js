@@ -7,7 +7,7 @@ exports.loginAdmin = (req, res) => {
     if (!username || !password) {
         return res.status(400).json({message: "Username and password required"})
     }
-    Admin.find({username}).select("username password")
+    Admin.findOne({username}).select("username password")
         .lean()
         .then(data => {
             if (!data) {
@@ -39,7 +39,7 @@ exports.loginUser = (req, res) => {
         return res.status(400).json({message: "Username and password required"})
     }
 
-    User.find({username}).select("username password").lean().then(data => {
+    User.findOne({username}).select("username password").lean().then(data => {
         if (!data) {
             return res.status(404).json({message: "Username not found"})
         }
@@ -83,7 +83,7 @@ exports.loginToko = (req, res) => {
         return res.status(400).json({message: "Username and password required"})
     }
 
-    Toko.find({username}).select("username password")
+    Toko.findOne({username}).select("username password")
         .lean()
         .then(data => {
             if (!data) {
