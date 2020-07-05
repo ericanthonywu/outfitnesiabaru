@@ -34,7 +34,7 @@ const bannerSchema = new mongoose.Schema({
 exports.banner = mongoose.model("banner", bannerSchema);
 
 const tokoSchema = new mongoose.Schema({
-    username: {type: String, trim: true, unique: true},
+    username: {type: String, trim: true},
     password: {type: String, required: true, select: false},
     merek: String,
     deskripsi: String,
