@@ -39,7 +39,7 @@ const tokoSchema = new mongoose.Schema({
     merek: String,
     deskripsi: String,
     follower: [{type: mongoose.Schema.Types.ObjectID, ref: 'user'}],
-    email: String,
+    email: {type: String, trim: true, unique: true},
     instagram: String,
     whatsapp: String,
     website: String,

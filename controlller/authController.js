@@ -78,16 +78,16 @@ exports.registerUser = (req, res) => {
 }
 
 exports.loginToko = (req, res) => {
-    const {username, password} = req.body
-    if (!username || !password) {
+    const {email, password} = req.body
+    if (!email || !password) {
         return res.status(400).json({message: "Username and password required"})
     }
 
-    Toko.findOne({username}).select("username password approve")
+    Toko.findOne({email}).select("username password approve")
         .lean()
         .then(data => {
             if (!data) {
-                return res.status(404).json({message: "Username not found"})
+                return res.status(404).json({message: "Email not found"})
             }
             if (!data.approve){
                 return res.status(403).json({message: "Toko not approved"})
