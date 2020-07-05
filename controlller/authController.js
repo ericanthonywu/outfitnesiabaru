@@ -113,7 +113,7 @@ exports.loginToko = (req, res) => {
 }
 
 exports.registerToko = (req, res) => {
-    const {password, merek, alamat, whatsapp, instagram, line} = req.body
+    const {password, merek, alamat, whatsapp, instagram, line, email} = req.body
     bcrypt.hash(password, 10).then(password => {
         new Toko({
             password,
@@ -122,6 +122,7 @@ exports.registerToko = (req, res) => {
             whatsapp,
             instagram,
             line,
+            email,
             fotoktp: req.file.filename
         }).save()
             .then(() => res.status(201).json())
