@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+require('dotenv').config({path: ".env"})
+
 mongoose.connect(process.env.MONGOURL, {
     useNewUrlParser: true,
     keepAlive: true,
@@ -22,7 +24,7 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true, select: false},
 }, {timestamps: true});
 
-exports.user = mongoose.model("admin", userSchema);
+exports.user = mongoose.model("user", userSchema);
 
 const bannerSchema = new mongoose.Schema({
     username: {type: String, required: true, trim: true, unique: true},

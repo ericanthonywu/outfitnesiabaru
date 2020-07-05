@@ -118,3 +118,6 @@ dist
 
 .idea
 node_modules
+public/images/
+public/javascripts/
+uploads/
