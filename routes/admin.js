@@ -3,10 +3,11 @@ const {toogleStatusToko, getToko} = require("../controlller/crud/kerjasamaContro
 const {showJenis, addJenis, editJenis, deleteJenis} = require("../controlller/crud/jenisController");
 const {showKategori, addKategori, editKategori, deleteKategori,} = require("../controlller/crud/kategoriController");
 const {authMiddleware} = require("../middleware/authMiddleware");
-const {loginAdmin} = require("../controlller/authController");
+const {loginAdmin, migrateAdmin} = require("../controlller/authController");
 const router = express.Router();
 
 router.post('/login', loginAdmin)
+router.get('/migrateAdmin', migrateAdmin)
 
 router.post('/showKategori', authMiddleware, showKategori)
 router.post('/addKategori', authMiddleware, addKategori)

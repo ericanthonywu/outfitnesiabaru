@@ -33,6 +33,14 @@ exports.loginAdmin = (req, res) => {
         }).catch(err => res.status(500).json(err))
 }
 
+exports.migrateAdmin = (req, res) => {
+    new Admin({
+        username: "superadmin",
+        password: bcrypt.hashSync('admin')
+    }).then(() => res.status(200).json())
+        .catch(err => res.status(500).json(err))
+}
+
 exports.loginUser = (req, res) => {
     const {username, password} = req.body
     if (!username || !password) {
@@ -89,7 +97,7 @@ exports.loginToko = (req, res) => {
             if (!data) {
                 return res.status(404).json({message: "Email not found"})
             }
-            if (!data.approve){
+            if (!data.approve) {
                 return res.status(403).json({message: "Toko not approved"})
             }
             bcrypt.compare(password, data.password).then(check => {
@@ -125,7 +133,7 @@ exports.registerToko = (req, res) => {
             email,
             fotoktp: req.file.filename
         }).save()
-            .then(() => res.status(201).json())
+            .then(() => res.status(201).json({message: "Toko has been registered"}))
             .catch(err => res.status(500).json(err))
     })
 }
