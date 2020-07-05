@@ -69,10 +69,10 @@ exports.registerUser = (req, res) => {
         return res.status(400).json({message: "Username and password required"})
     }
 
-    User.insert({
+    new User({
         username,
         password: bcrypt.hashSync(password, 10)
-    })
+    }).save()
         .then(() => res.status(201).json())
         .catch(err => res.status(500).json(err))
 }
@@ -112,7 +112,7 @@ exports.loginToko = (req, res) => {
 exports.registerToko = (req, res) => {
     const {password, merek, alamat, whatsapp, instagram, line} = req.body
     bcrypt.hash(password, 10).then(password => {
-        Toko.insert({
+        new Toko({
             password,
             merek,
             alamat,
@@ -120,7 +120,8 @@ exports.registerToko = (req, res) => {
             instagram,
             line,
             fotoktp: req.file.filename
-        }).then(() => res.status(201).json())
+        }).save()
+            .then(() => res.status(201).json())
             .catch(err => res.status(500).json(err))
     })
 }
