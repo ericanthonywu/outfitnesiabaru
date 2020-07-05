@@ -36,10 +36,9 @@ exports.banner = mongoose.model("banner", bannerSchema);
 const tokoSchema = new mongoose.Schema({
     username: {type: String, trim: true, unique: true},
     password: {type: String, required: true, select: false},
-    nama_toko: String,
     merek: String,
     deskripsi: String,
-    follower: {type: mongoose.Schema.Types.ObjectID, ref: 'user'},
+    follower: [{type: mongoose.Schema.Types.ObjectID, ref: 'user'}],
     email: String,
     instagram: String,
     whatsapp: String,
