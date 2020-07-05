@@ -20,7 +20,7 @@ exports.addJenis = ({body: {label, kategoriId}, file: {filename: gambar}}, res) 
             }
         }
     })
-        .then(data => res.status(201).json(data))
+        .then(() => res.status(201).json({message: "Jenis added"}))
         .catch(err => res.status(500).json(err))
 }
 

@@ -10,7 +10,7 @@ exports.showKategori = (req, res) =>
 
 exports.addKategori = ({body: {label}, file: {filename: gambar}}, res) => {
     new kategori({label, gambar}).save()
-        .then(data => res.status(200).json(data))
+        .then(() => res.status(201).json({message: "Kategori added"}))
         .catch(err => res.status(500).json(err))
 }
 
