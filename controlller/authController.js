@@ -37,7 +37,7 @@ exports.migrateAdmin = (req, res) => {
     new Admin({
         username: "superadmin",
         password: bcrypt.hashSync('admin')
-    }).then(() => res.status(200).json())
+    }).save().then(() => res.status(200).json())
         .catch(err => res.status(500).json(err))
 }
 
