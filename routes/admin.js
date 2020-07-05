@@ -1,6 +1,7 @@
 const express = require('express');
+const {toogleStatusToko, getToko} = require("../controlller/crud/kerjasamaController");
 const {showJenis, addJenis, editJenis, deleteJenis} = require("../controlller/crud/jenisController");
-const {showKategori, addKategori, editKategori, deleteKategori, } = require("../controlller/crud/kategoriController");
+const {showKategori, addKategori, editKategori, deleteKategori,} = require("../controlller/crud/kategoriController");
 const {authMiddleware} = require("../middleware/authMiddleware");
 const {loginAdmin} = require("../controlller/authController");
 const router = express.Router();
@@ -17,7 +18,7 @@ router.post('/addJenis', authMiddleware, addJenis)
 router.put('/editJenis', authMiddleware, editJenis)
 router.post('/deleteJenis', authMiddleware, deleteJenis)
 
-
-router.post('/')
+router.post('/getToko', authMiddleware, getToko)
+router.post('/toogleStatusToko', authMiddleware, toogleStatusToko)
 
 module.exports = router;

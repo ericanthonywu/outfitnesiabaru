@@ -49,7 +49,7 @@ const tokoSchema = new mongoose.Schema({
     shopee: String,
     tokopedia: String,
     fotoktp: String,
-    approve: {type: Boolean, default: false},
+    approve: {type: Number, default: 0}, // 0: pending, 1: reject, 2: approve
 }, {timestamps: true});
 
 exports.toko = mongoose.model("toko", tokoSchema);

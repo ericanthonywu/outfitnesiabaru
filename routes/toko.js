@@ -6,4 +6,5 @@ const router = express.Router();
 router.post('/login', loginToko)
 router.post('/register', uploadKTPToko.single('foto_ktp') , registerToko)
 
+
 module.exports = router;
