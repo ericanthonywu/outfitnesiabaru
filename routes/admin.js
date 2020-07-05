@@ -12,12 +12,12 @@ router.get('/migrateAdmin', migrateAdmin)
 
 router.post('/showKategori', authMiddleware, showKategori)
 router.post('/addKategori', authMiddleware, gambarJenis.single('gambar'), addKategori)
-router.put('/editKategori', authMiddleware, editKategori)
+router.put('/editKategori', authMiddleware, gambarJenis.single('gambar'), editKategori)
 router.post('/deleteKategori', authMiddleware, deleteKategori)
 
 router.post('/showJenis', authMiddleware, showJenis)
 router.post('/addJenis', authMiddleware, gambarJenis.single('gambar'), addJenis)
-router.put('/editJenis', authMiddleware, editJenis)
+router.put('/editJenis', authMiddleware, gambarJenis.single('gambar'), editJenis)
 router.post('/deleteJenis', authMiddleware, deleteJenis)
 
 router.post('/getToko', authMiddleware, getToko)
