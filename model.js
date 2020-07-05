@@ -1,0 +1,77 @@
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGOURL, {
+    useNewUrlParser: true,
+    keepAlive: true,
+    keepAliveInitialDelay: 300000,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+}).then(_ => mongoose.connection.db.on('error', console.error.bind(console, 'connection error:')))
+    .catch(err => console.log(err));
+
+const adminSchema = new mongoose.Schema({
+    username: {type: String, required: true, trim: true, unique: true},
+    password: {type: String, required: true, select: false},
+}, {timestamps: true});
+
+exports.admin = mongoose.model("admin", adminSchema);
+
+const userSchema = new mongoose.Schema({
+    username: {type: String, required: true, trim: true, unique: true},
+    password: {type: String, required: true, select: false},
+}, {timestamps: true});
+
+exports.user = mongoose.model("admin", userSchema);
+
+const bannerSchema = new mongoose.Schema({
+    username: {type: String, required: true, trim: true, unique: true},
+    order: {type: Number, required: true},
+}, {timestamps: true});
+
+exports.banner = mongoose.model("banner", bannerSchema);
+
+const tokoSchema = new mongoose.Schema({
+    username: {type: String, trim: true, unique: true},
+    password: {type: String, required: true, select: false},
+    nama_toko: String,
+    merek: String,
+    deskripsi: String,
+    follower: {type: mongoose.Schema.Types.ObjectID, ref: 'user'},
+    email: String,
+    instagram: String,
+    whatsapp: String,
+    website: String,
+    alamat: String,
+    foto_profil: String,
+    bukalapak: String,
+    shopee: String,
+    tokopedia: String,
+    fotoktp: String,
+}, {timestamps: true});
+
+exports.toko = mongoose.model("toko", tokoSchema);
+
+const kategoriSchema = new mongoose.Schema({
+    label: String,
+    gambar: String,
+    jenis: [{
+        label: String,
+        gambar: String,
+    }]
+}, {timestamps: true});
+
+exports.kategori = mongoose.model("kategori", kategoriSchema);
+
+const produkSchema = new mongoose.Schema({
+    nama_produk: String,
+    kategori: String,
+    jenis: String,
+    bahan: String,
+    warna: String,
+    deskripsi: String,
+    foto_produk: [String],
+    show_status: Boolean
+}, {timestamps: true});
+
+exports.produk = mongoose.model("produk", produkSchema);
