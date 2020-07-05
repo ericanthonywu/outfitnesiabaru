@@ -50,6 +50,7 @@ const tokoSchema = new mongoose.Schema({
     shopee: String,
     tokopedia: String,
     fotoktp: String,
+    approve: {type: Boolean, default: false},
 }, {timestamps: true});
 
 exports.toko = mongoose.model("toko", tokoSchema);

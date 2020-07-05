@@ -83,11 +83,14 @@ exports.loginToko = (req, res) => {
         return res.status(400).json({message: "Username and password required"})
     }
 
-    Toko.findOne({username}).select("username password")
+    Toko.findOne({username}).select("username password approve")
         .lean()
         .then(data => {
             if (!data) {
                 return res.status(404).json({message: "Username not found"})
+            }
+            if (!data.approve){
+                return res.status(403).json({message: "Toko not approved"})
             }
             bcrypt.compare(password, data.password).then(check => {
                 if (!check) {
