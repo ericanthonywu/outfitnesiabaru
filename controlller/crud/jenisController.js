@@ -33,7 +33,7 @@ exports.editJenis = async (req, res) => {
             .select("gambar")
             .lean()
             .then(({gambar}) => {
-                fs.unlinkSync(path.join(__dirname, "../uploads/jenis/" + gambar))
+                fs.unlinkSync(path.join(__dirname, "../../uploads/jenis/" + gambar))
             })
     }
 

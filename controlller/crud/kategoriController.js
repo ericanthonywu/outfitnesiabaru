@@ -23,7 +23,7 @@ exports.editKategori = async (req, res) => {
             .select("gambar")
             .lean()
             .then(({gambar}) => {
-                fs.unlinkSync(path.join(__dirname, "../uploads/kategori/" + gambar))
+                fs.unlinkSync(path.join(__dirname, "../../uploads/kategori/" + gambar))
             })
     }
 
