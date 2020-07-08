@@ -11,8 +11,8 @@ router.post('/login', loginAdmin)
 router.get('/migrateAdmin', migrateAdmin)
 
 router.post('/showKategori', authMiddleware, showKategori)
-router.post('/addKategori', authMiddleware, gambarJenis.single('gambar'), addKategori)
-router.put('/editKategori', authMiddleware, gambarJenis.single('gambar'), editKategori)
+router.post('/addKategori', authMiddleware, gambarKategori.single('gambar'), addKategori)
+router.put('/editKategori', authMiddleware, gambarKategori.single('gambar'), editKategori)
 router.post('/deleteKategori', authMiddleware, deleteKategori)
 
 router.post('/showJenis', authMiddleware, showJenis)

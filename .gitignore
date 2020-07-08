@@ -120,4 +120,5 @@ dist
 node_modules
 public/images/
 public/javascripts/
-uploads/
+uploads/jenis/
+uploads/kategori/

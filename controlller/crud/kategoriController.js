@@ -8,23 +8,23 @@ exports.showKategori = (req, res) =>
         .then(data => res.status(200).json({data, prefix: 'uploads/kategori'}))
         .catch(err => res.status(500).json(err))
 
-exports.addKategori = ({body: {label}, file: {filename: gambar}}, res) => {
-    new kategori({label, gambar}).save()
+exports.addKategori = ({body: {label}, file: {filename: gambar}}, res) =>
+    new kategori({label, gambar})
+        .save()
         .then(() => res.status(201).json({message: "Kategori added"}))
         .catch(err => res.status(500).json(err))
-}
+
 
 exports.editKategori = async (req, res) => {
     const {id, label} = req.body
     const updateData = {label}
-    if (req.file.filename) {
+
+    if (req.file) {
         updateData['gambar'] = req.file.filename
         await kategori.findById(id)
             .select("gambar")
             .lean()
-            .then(({gambar}) => {
-                fs.unlinkSync(path.join(__dirname, "../../uploads/kategori/" + gambar))
-            })
+            .then(({gambar}) => fs.unlinkSync(path.join(__dirname, "../../uploads/kategori/" + gambar)))
     }
 
     kategori.findByIdAndUpdate(id, updateData)

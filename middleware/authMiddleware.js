@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 exports.authMiddleware = (req, res, next) => {
     const {token, role} = req.headers
-    if (!token) return res.status(400).json()
+    if (!token) return res.status(400).json({message: "Token auth required at header:token"})
     jwt.verify(token, process.env.JWTSECRETTOKEN, (err, data) => {
         if (err) {
             res.status(419).json(err)

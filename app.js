@@ -4,17 +4,21 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const helmet = require('helmet')
 
 const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
 const tokoRouter = require('./routes/toko');
 
 const app = express();
+app.use(helmet())
+
 require('dotenv').config({path: ".env"})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
 
 app.use(logger('dev'));
 app.use(express.json());
