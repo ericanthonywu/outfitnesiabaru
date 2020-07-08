@@ -11,7 +11,7 @@ const router = express.Router();
 router.post('/login', loginAdmin)
 router.get('/migrateAdmin', migrateAdmin)
 
-router.post('/showKategori', authMiddleware, showKategori)
+router.get('/showKategori', authMiddleware, showKategori)
 router.post('/addKategori', authMiddleware, gambarKategori.single('gambar'), addKategori)
 router.put('/editKategori', authMiddleware, gambarKategori.single('gambar'), editKategori)
 router.post('/deleteKategori', authMiddleware, deleteKategori)
@@ -21,7 +21,7 @@ router.post('/addJenis', authMiddleware, gambarJenis.single('gambar'), addJenis)
 router.put('/editJenis', authMiddleware, gambarJenis.single('gambar'), editJenis)
 router.post('/deleteJenis', authMiddleware, deleteJenis)
 
-router.post('/showBanner', authMiddleware, showBanner)
+router.get('/showBanner', authMiddleware, showBanner)
 router.post('/addBanner', authMiddleware, gambarBanner.single('gambar'), addBanner)
 router.put('/editBanner', authMiddleware, gambarBanner.single('gambar'), editBanner)
 router.post('/deleteBanner', authMiddleware, deleteBanner)

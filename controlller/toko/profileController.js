@@ -52,11 +52,13 @@ exports.updateProfile = (req, res) => {
         tokopedia
     }
     if (req.file) {
-        toko.findById(res.userData.id).select('foto_profil').then(data => {
-            if (data.foto_profil){
-                fs.unlinkSync(path.join(__dirname, "../../uploads/toko/" + data.foto_profil))
-            }
-        })
+        toko.findById(res.userData.id)
+            .select('foto_profil')
+            .then(data => {
+                if (data.foto_profil) {
+                    fs.unlinkSync(path.join(__dirname, "../../uploads/toko/" + data.foto_profil))
+                }
+            })
         updateData.foto_profil = req.file.filename
     }
     toko.findByIdAndUpdate(res.userData.id, updateData)
