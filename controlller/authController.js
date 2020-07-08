@@ -102,22 +102,27 @@ exports.loginToko = (req, res) => {
                     return res.status(403).json({message: "Password isn't correct"})
                 }
 
-                if (!data.approve) {
-                    return res.status(403).json({message: "Toko not approved"})
+                switch (data.approve) {
+                    case 0:
+                        return res.status(403).json({message: "Your Toko hasn't been approved yet"})
+                    case 1:
+                        return res.status(403).json({message: "Toko has been rejected"})
+                    case 2:
+                        return jwt.sign({id: data._id, username: data.username}, process.env.JWTSECRETTOKEN, {}, (err, token) => {
+                            if (err) {
+                                return res.status(500).json(err)
+                            }
+                            res.status(200).json({
+                                message: "Login Success",
+                                data: {
+                                    id: data._id,
+                                    token
+                                }
+                            })
+                        })
+                    default:
+                        return res.status(403).json({message: "Toko status unknown"})
                 }
-
-                jwt.sign({id: data._id, username: data.username}, process.env.JWTSECRETTOKEN, {}, (err, token) => {
-                    if (err) {
-                        return res.status(500).json(err)
-                    }
-                    res.status(200).json({
-                        message: "Login Success",
-                        data: {
-                            id: data._id,
-                            token
-                        }
-                    })
-                })
             }).catch(err => res.status(500).json(err))
         }).catch(err => res.status(500).json(err))
 }
