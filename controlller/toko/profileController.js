@@ -1,4 +1,6 @@
 const {toko} = require('../../model')
+const fs = require('fs')
+const path = require('path')
 
 exports.getProfile = (req, res) => {
     // toko.aggregate([
@@ -50,8 +52,14 @@ exports.updateProfile = (req, res) => {
         tokopedia
     }
     if (req.file) {
+        toko.findById(res.userData.id).select('foto_profil').then(data => {
+            if (data.foto_profil){
+                fs.unlinkSync(path.join(__dirname, "../../uploads/toko/" + data.foto_profil))
+            }
+        })
         updateData.foto_profil = req.file.filename
     }
-    toko.findByIdAndUpdate(res.userData.id, updateData).then(() => res.status(200).json())
+    toko.findByIdAndUpdate(res.userData.id, updateData)
+        .then(() => res.status(202).json({message: "Profile updated"}))
         .catch(error => res.status(500).json(error))
 }

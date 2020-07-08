@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/login', loginToko)
 router.post('/register', uploadKTPToko.single('foto_ktp'), registerToko)
 
-router.post('/getProfile', authMiddleware, getProfile)
+router.get('/getProfile', authMiddleware, getProfile)
 router.post('/updateProfile', authMiddleware, gambarProfilToko.single('foto_profil'), updateProfile)
 
 module.exports = router;
