@@ -1,10 +1,10 @@
 const express = require('express');
 const {gambarJenis, gambarKategori, gambarBanner} = require("../middleware/uploadFileMiddleware");
-const {toogleStatusToko, getToko} = require("../controlller/crud/kerjasamaController");
 const {showJenis, addJenis, editJenis, deleteJenis} = require("../controlller/crud/jenisController");
 const {showKategori, addKategori, editKategori, deleteKategori,} = require("../controlller/crud/kategoriController");
 const {showBanner, addBanner, editBanner, deleteBanner} = require("../controlller/crud/bannerController");
 const {authMiddleware} = require("../middleware/authMiddleware");
+const {toogleStatusToko, getToko} = require("../controlller/crud/kerjasamaController");
 const {loginAdmin, migrateAdmin} = require("../controlller/authController");
 const router = express.Router();
 

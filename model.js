@@ -73,7 +73,8 @@ const produkSchema = new mongoose.Schema({
     warna: String,
     deskripsi: String,
     foto_produk: [String],
-    show_status: Boolean
+    show_status: Boolean,
+    createdBy: {type: mongoose.Schema.Types.ObjectID, ref: 'user'}
 }, {timestamps: true});
 
 exports.produk = mongoose.model("produk", produkSchema);

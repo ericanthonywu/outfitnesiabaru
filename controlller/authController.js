@@ -97,13 +97,15 @@ exports.loginToko = (req, res) => {
             if (!data) {
                 return res.status(404).json({message: "Email not found"})
             }
-            if (!data.approve) {
-                return res.status(403).json({message: "Toko not approved"})
-            }
             bcrypt.compare(password, data.password).then(check => {
                 if (!check) {
                     return res.status(403).json({message: "Password isn't correct"})
                 }
+
+                if (!data.approve) {
+                    return res.status(403).json({message: "Toko not approved"})
+                }
+
                 jwt.sign({id: data._id, username: data.username}, process.env.JWTSECRETTOKEN, {}, (err, token) => {
                     if (err) {
                         return res.status(500).json(err)
@@ -133,7 +135,7 @@ exports.registerToko = (req, res) => {
             email,
             fotoktp: req.file.filename
         }).save()
-            .then(() => res.status(201).json({message: "Toko has been registered"}))
+            .then(() => res.status(201).json({message: "Register successfull! Waiting for admin's approval"}))
             .catch(err => res.status(500).json(err))
     })
 }
