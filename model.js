@@ -49,6 +49,22 @@ const tokoSchema = new mongoose.Schema({
     shopee: String,
     tokopedia: String,
     fotoktp: String,
+    banner: [{
+        gambar: {type: String, required: true, trim: true, unique: true},
+        order: {type: Number, required: true, unique: true},
+    }],
+    produk: [{
+        nama_produk: String,
+        kategori: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori'},
+        jenis: {type: mongoose.Schema.Types.ObjectID, ref: 'jenis'},
+        bahan: String,
+        warna: String,
+        deskripsi: String,
+        foto_produk: [String],
+        show_status: Boolean,
+        createdAt: {type: Date, default: Date.now()}
+    }],
+    etalase: [{type: mongoose.Schema.Types.ObjectID, ref: 'kategori'}],
     approve: {type: Number, default: 0}, // 0: pending, 1: reject, 2: approve
 }, {timestamps: true});
 
@@ -64,17 +80,3 @@ const kategoriSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 exports.kategori = mongoose.model("kategori", kategoriSchema);
-
-const produkSchema = new mongoose.Schema({
-    nama_produk: String,
-    kategori: String,
-    jenis: String,
-    bahan: String,
-    warna: String,
-    deskripsi: String,
-    foto_produk: [String],
-    show_status: Boolean,
-    createdBy: {type: mongoose.Schema.Types.ObjectID, ref: 'user'}
-}, {timestamps: true});
-
-exports.produk = mongoose.model("produk", produkSchema);
