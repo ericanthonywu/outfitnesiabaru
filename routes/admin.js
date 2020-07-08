@@ -1,8 +1,9 @@
 const express = require('express');
-const {gambarJenis, gambarKategori} = require("../middleware/uploadFileMiddleware");
+const {gambarJenis, gambarKategori, gambarBanner} = require("../middleware/uploadFileMiddleware");
 const {toogleStatusToko, getToko} = require("../controlller/crud/kerjasamaController");
 const {showJenis, addJenis, editJenis, deleteJenis} = require("../controlller/crud/jenisController");
 const {showKategori, addKategori, editKategori, deleteKategori,} = require("../controlller/crud/kategoriController");
+const {showBanner, addBanner, editBanner, deleteBanner} = require("../controlller/crud/bannerController");
 const {authMiddleware} = require("../middleware/authMiddleware");
 const {loginAdmin, migrateAdmin} = require("../controlller/authController");
 const router = express.Router();
@@ -19,6 +20,11 @@ router.post('/showJenis', authMiddleware, showJenis)
 router.post('/addJenis', authMiddleware, gambarJenis.single('gambar'), addJenis)
 router.put('/editJenis', authMiddleware, gambarJenis.single('gambar'), editJenis)
 router.post('/deleteJenis', authMiddleware, deleteJenis)
+
+router.post('/showBanner', authMiddleware, showBanner)
+router.post('/addBanner', authMiddleware, gambarBanner.single('gambar'), addBanner)
+router.put('/editBanner', authMiddleware, gambarBanner.single('gambar'), editBanner)
+router.post('/deleteBanner', authMiddleware, deleteBanner)
 
 router.post('/getToko', authMiddleware, getToko)
 router.post('/toogleStatusToko', authMiddleware, toogleStatusToko)

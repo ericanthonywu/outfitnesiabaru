@@ -5,6 +5,7 @@ const path = require('path')
 exports.showKategori = (req, res) =>
     kategori.find()
         .select('label gambar')
+        .lean()
         .then(data => res.status(200).json({data, prefix: 'uploads/kategori'}))
         .catch(err => res.status(500).json(err))
 
@@ -34,6 +35,17 @@ exports.editKategori = async (req, res) => {
 
 exports.deleteKategori = (req,res) => {
     const {id} = req.body
+    kategori.findById(id)
+        .select("gambar jenis")
+        .lean()
+        .then(data => {
+            if (data || data.gambar) {
+                fs.unlinkSync(path.join(__dirname, "../../uploads/kategori/" + data.gambar))
+            }
+            data.jenis.forEach(({gambar}) =>
+                fs.unlinkSync(path.join(__dirname, "../../uploads/jenis/" + gambar))
+            )
+        })
     kategori.findByIdAndDelete(id)
         .then(() => res.status(202).json({message: "Kategori deleted"}))
         .catch(err => res.status(500).json(err))

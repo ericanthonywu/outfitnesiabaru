@@ -27,8 +27,8 @@ const userSchema = new mongoose.Schema({
 exports.user = mongoose.model("user", userSchema);
 
 const bannerSchema = new mongoose.Schema({
-    username: {type: String, required: true, trim: true, unique: true},
-    order: {type: Number, required: true},
+    gambar: {type: String, required: true, trim: true, unique: true},
+    order: {type: Number, required: true, unique: true},
 }, {timestamps: true});
 
 exports.banner = mongoose.model("banner", bannerSchema);
