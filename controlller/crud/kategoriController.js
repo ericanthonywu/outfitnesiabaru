@@ -16,13 +16,13 @@ exports.addKategori = ({body: {label}, file: {filename: gambar}}, res) =>
         .catch(err => res.status(500).json(err))
 
 
-exports.editKategori = async (req, res) => {
+exports.editKategori = (req, res) => {
     const {id, label} = req.body
     const updateData = {label}
 
     if (req.file) {
         updateData['gambar'] = req.file.filename
-        await kategori.findById(id)
+        kategori.findById(id)
             .select("gambar")
             .lean()
             .then(({gambar}) => fs.unlinkSync(path.join(__dirname, "../../uploads/kategori/" + gambar)))
