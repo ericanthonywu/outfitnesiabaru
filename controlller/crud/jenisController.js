@@ -24,7 +24,7 @@ exports.addJenis = ({body: {label, kategoriId}, file: {filename: gambar}}, res) 
         .catch(err => res.status(500).json(err))
 }
 
-exports.editJenis = async (req, res) => {
+exports.editJenis = (req, res) => {
     const {kategoriId, jenisId, label} = req.body
     const updateData = {"jenis.$.label": label}
     if (req.file) {
