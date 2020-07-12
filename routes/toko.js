@@ -1,4 +1,6 @@
 const express = require('express');
+const {gambarProduk} = require("../middleware/uploadFileMiddleware");
+const {addProduk, showProduk, showAllTokoProduk, deleteProduk} = require("../controlller/toko/produkController");
 const {getEtalaseList, updateEtalaseList} = require("../controlller/toko/etalaseController");
 const {gambarProfilToko, gambarBannerToko} = require("../middleware/uploadFileMiddleware");
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -20,5 +22,10 @@ router.put("/updateBanner", authMiddleware, gambarBannerToko.single("gambar"), u
 
 router.get('/getEtalaseList', authMiddleware, getEtalaseList)
 router.put('/updateEtalaseList', authMiddleware, updateEtalaseList)
+
+router.get('/showProduk', authMiddleware, showProduk)
+router.post('/deleteProduk', authMiddleware, deleteProduk)
+router.get('/showAllTokoProduk', authMiddleware, showAllTokoProduk)
+router.post('/addProduk', authMiddleware, gambarProduk.array('gambar',5), addProduk)
 
 module.exports = router;

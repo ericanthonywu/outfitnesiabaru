@@ -56,7 +56,11 @@ exports.deleteJenis = (req, res) => {
                 fs.unlinkSync(path.join(__dirname, "../../uploads/jenis/" + data.gambar))
             }
         })
-    kategori.findByIdAndUpdate(kategoriId, {$pull: {jenis: {_id: jenisId}}})
+    kategori.findByIdAndUpdate(kategoriId, {
+        $pull: {
+            jenis: {_id: jenisId}
+        }
+    })
         .then(() => res.status(202).json({message: "jenis deleted"}))
         .catch(err => res.status(500).json(err))
 }

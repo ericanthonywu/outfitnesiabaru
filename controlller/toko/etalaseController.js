@@ -5,8 +5,8 @@ exports.getEtalaseList = async (req, res) => {
         .select('label')
         .lean()
         .then(data => {
-            toko.findById(res.userData.id).select("etalase").then(({etalase}) =>
-                res.status(200).json({etalaseList: data, etalaseToko: etalase})
+            toko.findById(res.userData.id).select("etalase").populate("etalase","label gambar").then(({etalase}) =>
+                res.status(200).json({etalaseList: data, etalaseToko: {data: etalase, prefix:"uploads/kategori"}})
             ).catch(err => res.status(500).json(err))
         })
         .catch(err => res.status(500).json(err))
