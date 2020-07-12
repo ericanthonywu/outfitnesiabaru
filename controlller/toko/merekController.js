@@ -2,7 +2,6 @@ const {toko} = require('../../model')
 const mongoose = require('mongoose')
 
 exports.getListMerek = (req, res) => {
-
     toko.findById(res.userData.id)
         .select("listMerek")
         .lean()
@@ -13,14 +12,14 @@ exports.getListMerek = (req, res) => {
                     {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
                     {$unwind: '$produk'},
                     {$match: {'produk._id': mongoose.Types.ObjectId(data)}},
-                    {$group: {_id: '$_id', produk: {$push: '$produk.foto_produk'}}}
-                ]).then(foto => listphoto.push(foto[0].produk[0][0]))
-            )).then(() => {
+                    {$group: {_id: '$_id', produk: {$push: '$produk.foto_produk'}, produk_id: {$push: '$produk._id'}}}
+                ]).then(foto => listphoto.push({foto: foto[0].produk[0][0], id: foto[0].produk_id[0]}))
+            )).then(() =>
                 res.status(200).json({
                     data: listphoto,
                     prefix: 'uploads/produk'
                 })
-            })
+            )
         })
         .catch(err => res.status(500).json(err))
 }
