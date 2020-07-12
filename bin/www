@@ -21,11 +21,12 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
-// const server = https.createServer({
-//   key: fs.readFileSync('key.pem'),
-//   cert: fs.readFileSync('cert.pem')
-// },app);
+// const server = http.createServer(app);
+const server = https.createServer({
+  key: fs.readFileSync('/etc/letsencrypt/live/example.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/example.com/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/example.com/chain.pem')
+},app);
 
 /**
  * Listen on provided port, on all network interfaces.
