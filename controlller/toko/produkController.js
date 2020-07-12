@@ -4,18 +4,24 @@ const fs = require('fs')
 const path = require('path')
 
 exports.showProduk = (req, res) => {
-    toko.findById(res.userData.id).select("etalase").lean().then(({etalase}) => {
-        toko.aggregate([
-            {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
-            {$unwind: '$produk'},
-            {
-                $match: {
-                    "$or": etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
-                }
-            },
-            {$group: {_id: '$_id', produk: {$push: '$produk'}}}
-        ]).then(data => res.status(200).json({data: data[0].produk, prefix: "uploads/produk"}))
-            .catch(err => res.status(500).json(err))
+    toko.findById(res.userData.id).select("etalase")
+        .lean()
+        .then(data => {
+        if (data.etalase) {
+            toko.aggregate([
+                {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
+                {$unwind: '$produk'},
+                {
+                    $match: {
+                        "$or": etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
+                    }
+                },
+                {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+            ]).then(data => res.status(200).json({data: data[0].produk, prefix: "uploads/produk"}))
+                .catch(err => res.status(500).json(err))
+        }else{
+            res.status(200).json({data: [], prefix: "uploads/produk"})
+        }
     })
 }
 
