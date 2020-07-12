@@ -7,19 +7,24 @@
 const app = require('../app');
 const debug = require('debug')('outfitnesia-backend:server');
 const http = require('http');
+const https = require('https');
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '443');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
+const server = https.createServer({
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+},app);
 
 /**
  * Listen on provided port, on all network interfaces.
