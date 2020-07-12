@@ -33,10 +33,26 @@ const bannerSchema = new mongoose.Schema({
 
 exports.banner = mongoose.model("banner", bannerSchema);
 
+const produkSchema = new mongoose.Schema({
+    nama_produk: String,
+    etalase: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori'},
+    kategori: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori'},
+    jenis: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori.jenis'},
+    bahan: String,
+    warna: String,
+    deskripsi: String,
+    foto_produk: [String],
+    harga: Number,
+    link_bukalapak: String,
+    link_shopee: String,
+    link_tokopedia: String,
+}, {timestamps: true})
+
 const tokoSchema = new mongoose.Schema({
     username: {type: String, trim: true},
     password: {type: String, required: true, select: false},
     merek: String,
+    listMerek: [{type: mongoose.Schema.Types.ObjectID, ref: 'produk', unique: true}],
     deskripsi: String,
     follower: [{type: mongoose.Schema.Types.ObjectID, ref: 'user'}],
     email: {type: String, trim: true, unique: true},
@@ -53,34 +69,22 @@ const tokoSchema = new mongoose.Schema({
         gambar: {type: String, required: true, trim: true, unique: true},
         order: {type: Number, required: true, unique: true},
     }],
-    produk: [{
-        nama_produk: String,
-        etalase: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori'},
-        kategori: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori'},
-        jenis: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori.jenis'},
-        bahan: String,
-        warna: String,
-        deskripsi: String,
-        foto_produk: [String],
-        harga: Number,
-        link_bukalapak: String,
-        link_shopee: String,
-        link_tokopedia: String,
-        createdAt: {type: Date, default: Date.now()}
-    }],
+    produk: [produkSchema],
     etalase: [{type: mongoose.Schema.Types.ObjectID, ref: 'kategori'}],
     approve: {type: Number, default: 0}, // 0: pending, 1: reject, 2: approve
 }, {timestamps: true});
 
 exports.toko = mongoose.model("toko", tokoSchema);
 
+const jenisSchema = new mongoose.Schema({
+    label: String,
+    gambar: String,
+}, {timestamps: true})
+
 const kategoriSchema = new mongoose.Schema({
     label: String,
     gambar: String,
-    jenis: [{
-        label: String,
-        gambar: String,
-    }]
+    jenis: [jenisSchema]
 }, {timestamps: true});
 
 exports.kategori = mongoose.model("kategori", kategoriSchema);
