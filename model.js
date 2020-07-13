@@ -46,7 +46,12 @@ const produkSchema = new mongoose.Schema({
     link_bukalapak: String,
     link_shopee: String,
     link_tokopedia: String,
-}, {timestamps: true})
+}, {
+    weights: {
+        nama_produk: 5,
+    },
+    timestamps: true
+})
 
 const tokoSchema = new mongoose.Schema({
     username: {type: String, trim: true},
