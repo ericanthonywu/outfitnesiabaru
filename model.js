@@ -57,7 +57,7 @@ const tokoSchema = new mongoose.Schema({
     username: {type: String, trim: true},
     password: {type: String, required: true, select: false},
     merek: String,
-    listMerek: [{type: mongoose.Schema.Types.ObjectID, ref: 'produk', unique: true}],
+    listMerek: [{type: mongoose.Schema.Types.ObjectID, ref: 'produk'}],
     deskripsi: String,
     follower: [{type: mongoose.Schema.Types.ObjectID, ref: 'user'}],
     email: {type: String, trim: true, unique: true},

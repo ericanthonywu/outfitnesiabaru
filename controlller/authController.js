@@ -129,6 +129,13 @@ exports.loginToko = (req, res) => {
 
 exports.registerToko = (req, res) => {
     const {password, merek, alamat, whatsapp, instagram, line, email} = req.body
+    if (password && merek && alamat && whatsapp && instagram && line && email){
+        return res.status(400).json({message: "request incomplete"})
+    }
+
+    if (!req.file){
+        return res.status(400).json({message: ""})
+    }
     bcrypt.hash(password, 10).then(password => {
         new Toko({
             password,
