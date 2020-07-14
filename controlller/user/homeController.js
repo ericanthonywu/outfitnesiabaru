@@ -18,7 +18,7 @@ exports.toggleFollow = (req, res) => {
                 $pull: {
                     follower: res.userData.id
                 }
-            }).then(() => res.status(200).json({message: "unfollow success"}))
+            }).then(() => res.status(200).json({message: "Unfollow success"}))
                 .catch(err => res.status(500).json(err))
             break;
         case 1: // follow
@@ -29,5 +29,7 @@ exports.toggleFollow = (req, res) => {
             }).then(() => res.status(200).json({message: "Follow success"}))
                 .catch(err => res.status(500).json(err))
             break;
+        default:
+            res.status(400).json({message: "Status invalid"})
     }
 }
