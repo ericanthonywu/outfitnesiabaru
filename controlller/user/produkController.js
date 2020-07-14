@@ -32,9 +32,11 @@ exports.filterProduk = (req, res) => {
         }
     }
 
-    toko.find(query)
-        .select("produk")
-        .lean()
+    toko.aggregate([
+        {$unwind: '$produk'},
+        {$match: query},
+        {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+    ])
         .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
         .catch(err => res.status(500).json(err))
 }
@@ -69,7 +71,7 @@ exports.listFilterProduk = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
-exports.carrouselAdmin = (req,res) => {
+exports.carrouselAdmin = (req, res) => {
     banner.find()
         .select("gambar")
         .sort({order: -1})
