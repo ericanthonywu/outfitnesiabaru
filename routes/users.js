@@ -14,6 +14,6 @@ router.post('/filterProduk', filterProduk)
 router.get('/listFilterProduk', listFilterProduk)
 router.get('/carrouselAdmin', carrouselAdmin)
 
-router.post('/followToko', toggleFollow)
+router.post('/toogleFollow', authMiddleware, toggleFollow)
 
 module.exports = router;
