@@ -4,7 +4,7 @@ const path = require('path')
 
 exports.showKategori = (req, res) =>
     kategori.find()
-        .select('label gambar jenis.label jenis.gambar')
+        .select('label gambar jenis.label jenis.gambar jenis._id')
         .lean()
         .then(data => res.status(200).json({data, prefix: 'uploads/kategori'}))
         .catch(err => res.status(500).json(err))

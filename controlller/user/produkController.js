@@ -70,12 +70,3 @@ exports.listFilterProduk = (req, res) => {
         )
         .catch(err => res.status(500).json(err))
 }
-
-exports.carrouselAdmin = (req, res) => {
-    banner.find()
-        .select("gambar")
-        .sort({order: -1})
-        .lean()
-        .then(data => res.status(200).json({data, prefix: 'uploads/banner'}))
-        .catch(err => res.status(500).json(err))
-}
