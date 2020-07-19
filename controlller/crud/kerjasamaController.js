@@ -14,8 +14,8 @@ exports.getToko = (req, res) => {
     }
 
     toko.find(query)
-        .limit(limit)
-        .skip(offset)
+        .limit(parseInt(limit))
+        .skip(parseInt(offset))
         .lean()
         .then(data => res.status(200).json({data, prefix: "uploads/KTPtoko"}))
         .catch(err => res.status(500).json(err))
