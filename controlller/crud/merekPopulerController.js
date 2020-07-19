@@ -5,8 +5,8 @@ exports.getListTokoMerekPopuler = (req, res) => {
 
     toko.find()
         .select("foto_profil produk.nama_produk produk.foto_produk populer")
-        .limit(limit)
-        .skip(offset)
+        .limit(parseInt(limit))
+        .skip(parseInt(offset))
         .lean()
         .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
         .catch(err => res.status(500).json(err))
