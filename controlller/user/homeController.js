@@ -9,6 +9,17 @@ exports.carrouselAdmin = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
+exports.getListMerekTokoPopuler = (req,res) => {
+    toko.find({
+        approve: 2,
+        populer: true,
+    })
+        .select("foto_profil produk.nama_produk produk.foto_produk populer")
+        .lean()
+        .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
+        .catch(err => res.status(500).json(err))
+}
+
 exports.toggleFollow = (req, res) => {
     const {status, tokoId} = req.body
 

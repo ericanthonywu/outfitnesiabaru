@@ -24,6 +24,6 @@ exports.addListTokoMerek = (req, res) => {
 exports.removeListTokoMerek = (req,res) => {
     const {tokoId} = req.body
     toko.findByIdAndUpdate(tokoId, {populer: false})
-        .then(() => res.status(200).json({message: "populer added"}))
+        .then(() => res.status(200).json({message: "populer removed"}))
         .catch(err => res.status(500).json(err))
 }
