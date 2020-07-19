@@ -150,6 +150,6 @@ exports.registerToko = (req, res) => {
         }).save()
             .then(() => res.status(201).json({message: "Register successfull! Waiting for admin's approval"}))
             .catch(err => res.status(500).json(err))
-    })
+    }).catch(err => res.status(500).json(err))
 }
 

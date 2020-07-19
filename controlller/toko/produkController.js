@@ -31,7 +31,7 @@ exports.showAllTokoProduk = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
-exports.addProduk = (req, res) => {
+exports.addProduk = async (req, res) => {
     const {etalase, nama_produk, kategori, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, deskripsi} = req.body
     if (!req.files) {
         return res.status(400).json({message: "Foto Produk required"})
@@ -51,7 +51,7 @@ exports.addProduk = (req, res) => {
                 link_shopee,
                 link_tokopedia,
                 deskripsi,
-                foto_produk: req.files.map(({filename}) => filename)
+                foto_produk: await req.files.map(({filename}) => filename)
             }
         }
     }).then(() => res.status(201).json({message: "Product added"}))

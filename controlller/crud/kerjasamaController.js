@@ -1,9 +1,15 @@
 const {toko} = require('../../model')
 
 exports.getToko = (req, res) => {
-    const {limit, offset} = req.body
+    const {limit, offset, approve = 0} = req.body
 
-    toko.find()
+    if (approve < 0 || approve > 2) {
+        return res.status(400).json({message: "Approve must between 1-3"})
+    }
+
+    toko.find({
+        approve: 0
+    })
         .limit(parseInt(limit))
         .skip(parseInt(offset))
         .lean()
