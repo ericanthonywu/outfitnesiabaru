@@ -1,17 +1,21 @@
 const {toko} = require('../../model')
 
 exports.getToko = (req, res) => {
-    const {limit, offset, approve = 0} = req.body
+    const {limit, offset, approve} = req.body
 
-    if (approve < 0 || approve > 2) {
-        return res.status(400).json({message: "Approve must between 1-3"})
+    const query = {}
+
+    if (approve) {
+        if (approve < 0 || approve > 2) {
+            return res.status(400).json({message: "Approve must between 1-3"})
+        } else {
+            query.approve = 0
+        }
     }
 
-    toko.find({
-        approve: 0
-    })
-        .limit(parseInt(limit))
-        .skip(parseInt(offset))
+    toko.find(query)
+        .limit(limit)
+        .skip(offset)
         .lean()
         .then(data => res.status(200).json({data, prefix: "uploads/KTPtoko"}))
         .catch(err => res.status(500).json(err))
