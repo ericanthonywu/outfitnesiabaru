@@ -14,7 +14,7 @@ exports.getListMerekTokoPopuler = (req,res) => {
         approve: 2,
         populer: true,
     })
-        .select("foto_profil produk.nama_produk produk.foto_produk populer")
+        .select("foto_profil username merek produk.nama_produk produk.foto_produk")
         .lean()
         .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
         .catch(err => res.status(500).json(err))
