@@ -1,11 +1,11 @@
 const {toko} = require('../../model')
 
 exports.getToko = (req, res) => {
-    const {limit, offset, approve} = req.body
+    const {limit, offset, approve = null} = req.body
 
     const query = {}
 
-    if (approve) {
+    if (approve !== null) {
         if (approve < 0 || approve > 2) {
             return res.status(400).json({message: "Approve must between 1-3"})
         } else {
