@@ -6,7 +6,7 @@ exports.showKategori = (req, res) =>
     kategori.find()
         .select('label gambar jenis.label jenis.gambar jenis._id')
         .lean()
-        .then(data => res.status(200).json({data, prefix: 'uploads/kategori'}))
+        .then(data => res.status(200).json({data, prefixKategori: 'uploads/kategori', prefixJenis: 'uploads/jenis'}))
         .catch(err => res.status(500).json(err))
 
 exports.addKategori = ({body: {label}, file: {filename: gambar}}, res) =>
