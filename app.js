@@ -26,9 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://194.59.165.96/",
+    // origin: "http://194.59.165.96/",
     optionsSuccessStatus: 200,
-    allowedHeaders: ""
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
