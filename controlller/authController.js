@@ -55,7 +55,7 @@ exports.loginUserAndToko = (req, res) => {
             if (!data) {
                 // login toko
                 Toko.findOne({email})
-                    .select("username password approve")
+                    .select("merek password approve")
                     .lean()
                     .then(data => {
                         if (!data) {
@@ -74,7 +74,7 @@ exports.loginUserAndToko = (req, res) => {
                                 case 2:
                                     return jwt.sign({
                                         id: data._id,
-                                        username: data.username,
+                                        username: data.merek,
                                         email,
                                         role: "toko"
                                     }, process.env.JWTSECRETTOKEN, (err, token) => {
@@ -86,6 +86,7 @@ exports.loginUserAndToko = (req, res) => {
                                             data: {
                                                 id: data._id,
                                                 token,
+                                                username: data.merek,
                                                 role: "toko"
                                             }
                                         })
