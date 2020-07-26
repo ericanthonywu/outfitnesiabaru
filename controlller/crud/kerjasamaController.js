@@ -9,7 +9,7 @@ exports.getToko = (req, res) => {
         if (approve < 0 || approve > 2) {
             return res.status(400).json({message: "Approve must between 1-3"})
         } else {
-            query.approve = 0
+            query.approve = approve
         }
     }
 
