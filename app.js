@@ -29,7 +29,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
-app.use('/admin', adminRouter);
+app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/toko', tokoRouter);
 app.use('/user', usersRouter);
