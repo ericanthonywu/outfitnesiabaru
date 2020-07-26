@@ -6,7 +6,13 @@ exports.showKategori = (req, res) =>
     kategori.find()
         .select('label gambar jenis.label jenis.gambar jenis._id')
         .lean()
-        .then(data => res.status(200).json({data, prefixKategori: 'uploads/kategori', prefixJenis: 'uploads/jenis'}))
+        .then(data => res.status(200).json({
+            data,
+            prefix: {
+                kategori: "uploads/kategori",
+                jenis: "uploads/jenis"
+            }
+        }))
         .catch(err => res.status(500).json(err))
 
 exports.addKategori = ({body: {label}, file: {filename: gambar}}, res) =>
@@ -33,7 +39,7 @@ exports.editKategori = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
-exports.deleteKategori = (req,res) => {
+exports.deleteKategori = (req, res) => {
     const {id} = req.body
     kategori.findById(id)
         .select("gambar jenis")
