@@ -41,100 +41,111 @@ exports.migrateAdmin = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
-exports.loginUser = (req, res) => {
-    const {username, password} = req.body
-    if (!username || !password) {
-        return res.status(400).json({message: "Username and password required"})
+exports.loginUserAndToko = (req, res) => {
+    const {email, password} = req.body
+    if (!email || !password) {
+        return res.status(400).json({message: "email and password required"})
     }
+    // login user
+    User.findOne({email})
+        .select("username password")
+        .lean()
+        .then(data => {
+            if (!data) {
+                // login toko
+                Toko.findOne({email})
+                    .select("username password approve")
+                    .lean()
+                    .then(data => {
+                        if (!data) {
+                            return res.status(404).json({message: "User / Toko not found"})
+                        }
+                        bcrypt.compare(password, data.password).then(check => {
+                            if (!check) {
+                                return res.status(403).json({message: "Password isn't correct"})
+                            }
 
-    User.findOne({username}).select("username password").lean().then(data => {
-        if (!data) {
-            return res.status(404).json({message: "Username not found"})
-        }
-        bcrypt.compare(password, data.password).then(check => {
-            if (!check) {
-                return res.status(403).json({message: "Password isn't correct"})
-            }
-            jwt.sign({id: data._id, username: data.username}, process.env.JWTSECRETTOKEN, {}, (err, token) => {
-                if (err) {
-                    return res.status(500).json(err)
-                }
-                res.status(200).json({
-                    message: "Login Success",
-                    data: {
-                        id: data._id,
-                        token
+                            switch (data.approve) {
+                                case 0:
+                                    return res.status(403).json({message: "Your Toko hasn't been approved yet"})
+                                case 1:
+                                    return res.status(403).json({message: "Toko has been rejected"})
+                                case 2:
+                                    return jwt.sign({
+                                        id: data._id,
+                                        username: data.username,
+                                        email,
+                                        role: "toko"
+                                    }, process.env.JWTSECRETTOKEN, (err, token) => {
+                                        if (err) {
+                                            return res.status(500).json(err)
+                                        }
+                                        return res.status(200).json({
+                                            message: "Login Success",
+                                            data: {
+                                                id: data._id,
+                                                token,
+                                                role: "toko"
+                                            }
+                                        })
+                                    })
+                                default:
+                                    return res.status(403).json({message: "Toko status unknown"})
+                            }
+                        }).catch(err => res.status(500).json(err))
+                    }).catch(err => res.status(500).json(err))
+            } else {
+                bcrypt.compare(password, data.password).then(check => {
+                    if (!check) {
+                        return res.status(403).json({message: "Password isn't correct"})
                     }
-                })
-            })
-        }).catch(err => res.status(500).json(err))
-    }).catch(err => res.status(500).json(err))
+                    jwt.sign({
+                        id: data._id,
+                        username: data.username,
+                        email,
+                        role: "user"
+                    }, process.env.JWTSECRETTOKEN, {}, (err, token) => {
+                        if (err) {
+                            return res.status(500).json(err)
+                        }
+                        res.status(200).json({
+                            message: "Login Success",
+                            data: {
+                                id: data._id,
+                                username: data.username,
+                                token,
+                                role: "user"
+                            }
+                        })
+                    })
+                }).catch(err => res.status(500).json(err))
+            }
+        })
 }
 
 exports.registerUser = (req, res) => {
-    const {username, password} = req.body
-    if (!username || !password) {
-        return res.status(400).json({message: "Username and password required"})
+    const {username, email, password} = req.body
+    if (!username || !password || !email) {
+        return res.status(400).json({message: "Username, email or password required"})
     }
 
     new User({
         username,
-        password: bcrypt.hashSync(password, 10)
+        password: bcrypt.hashSync(password, 10),
+        email,
     }).save()
-        .then(() => res.status(201).json())
+        .then(() => res.status(201).json({message: "User registered"}))
         .catch(err => res.status(500).json(err))
-}
-
-exports.loginToko = (req, res) => {
-    const {email, password} = req.body
-    if (!email || !password) {
-        return res.status(400).json({message: "Username and password required"})
-    }
-
-    Toko.findOne({email}).select("username password approve")
-        .lean()
-        .then(data => {
-            if (!data) {
-                return res.status(404).json({message: "Email not found"})
-            }
-            bcrypt.compare(password, data.password).then(check => {
-                if (!check) {
-                    return res.status(403).json({message: "Password isn't correct"})
-                }
-
-                switch (data.approve) {
-                    case 0:
-                        return res.status(403).json({message: "Your Toko hasn't been approved yet"})
-                    case 1:
-                        return res.status(403).json({message: "Toko has been rejected"})
-                    case 2:
-                        return jwt.sign({id: data._id, username: data.username}, process.env.JWTSECRETTOKEN, {}, (err, token) => {
-                            if (err) {
-                                return res.status(500).json(err)
-                            }
-                            res.status(200).json({
-                                message: "Login Success",
-                                data: {
-                                    id: data._id,
-                                    token
-                                }
-                            })
-                        })
-                    default:
-                        return res.status(403).json({message: "Toko status unknown"})
-                }
-            }).catch(err => res.status(500).json(err))
-        }).catch(err => res.status(500).json(err))
 }
 
 exports.registerToko = (req, res) => {
     const {password, merek, alamat, whatsapp, instagram, line, email} = req.body
 
-    if (!password && !merek && !alamat && !whatsapp && !instagram && !line && !email){
+    if (!password && !merek && !alamat && !whatsapp && !instagram && !line && !email) {
         return res.status(400).json({message: "request incomplete"})
     }
 
-    if (!req.file){
+    if (!req.file) {
         return res.status(400).json({message: "foto_ktp needed"})
     }
     bcrypt.hash(password, 10).then(password => {
@@ -153,3 +164,6 @@ exports.registerToko = (req, res) => {
     }).catch(err => res.status(500).json(err))
 }
 
+exports.checkToken = (req, res) => {
+    res.status(200).json({message: "jwt valid!"})
+}

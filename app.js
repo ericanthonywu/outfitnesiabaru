@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet')
 
+const indexRouter = require('./routes/index'); // for global router
 const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
 const tokoRouter = require('./routes/toko');
@@ -28,6 +29,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
+app.use('/admin', adminRouter);
 app.use('/admin', adminRouter);
 app.use('/toko', tokoRouter);
 app.use('/user', usersRouter);

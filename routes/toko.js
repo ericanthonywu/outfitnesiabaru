@@ -7,11 +7,10 @@ const {gambarProfilToko, gambarBannerToko} = require("../middleware/uploadFileMi
 const {authMiddleware} = require("../middleware/authMiddleware");
 const {updateProfile, getProfile} = require("../controlller/toko/profileController");
 const {getBanner, addBanner, updateBanner} = require("../controlller/toko/bannerController");
-const {loginToko, registerToko} = require("../controlller/authController");
+const {registerToko} = require("../controlller/authController");
 const {uploadKTPToko} = require('../middleware/uploadFileMiddleware')
 const router = express.Router();
 
-router.post('/login', loginToko)
 router.post('/register', uploadKTPToko.single('foto_ktp'), registerToko)
 
 router.get('/getProfile', authMiddleware, getProfile)

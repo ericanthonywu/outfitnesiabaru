@@ -16,11 +16,9 @@ exports.authMiddleware = (req, res, next) => {
             return;
         }
 
-        // if (data.role !== role){
-        //     return res.status(403).json()
-        // }
-
-        // TODO: ADD SECURITY ROLE IN JWT
+        if (data.role !== role){
+            return res.status(401).json({role: "isn't match"})
+        }
 
         res.userData = data;
         next()
