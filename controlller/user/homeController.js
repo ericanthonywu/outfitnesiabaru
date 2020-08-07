@@ -2,7 +2,7 @@ const {banner, toko} = require("../../model");
 
 exports.carrouselAdmin = (req, res) => {
     banner.find()
-        .select("gambar")
+        .select("gambar link")
         .sort({order: -1})
         .lean()
         .then(data => res.status(200).json({data, prefix: 'uploads/banner'}))
