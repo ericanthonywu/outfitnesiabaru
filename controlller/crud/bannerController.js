@@ -12,14 +12,15 @@ exports.showBanner = (req, res) => {
 }
 
 exports.addBanner = (req, res) => {
-    const {order} = req.body
+    const {order, link} = req.body
     if (!req.file) {
         return res.status(400).json({message: "Image needed"})
     }
 
     new banner({
         gambar: req.file.filename,
-        order
+        order,
+        link
     }).save()
         .then(() => res.status(201).json({message: "Banner added"}))
         .catch(err => {
@@ -29,8 +30,8 @@ exports.addBanner = (req, res) => {
 }
 
 exports.editBanner = async (req, res) => {
-    const {id} = req.body
-    const updateData = {}
+    const {id, link} = req.body
+    const updateData = {link}
 
     if (req.file) {
         updateData.gambar = req.file.filename
@@ -38,7 +39,7 @@ exports.editBanner = async (req, res) => {
             .select("gambar")
             .lean()
             .then(({gambar}) => {
-                if (gambar){
+                if (gambar) {
                     fs.unlinkSync(path.join(__dirname, "../../uploads/banner/" + gambar))
                 }
             })
