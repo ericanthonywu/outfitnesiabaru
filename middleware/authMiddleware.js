@@ -17,7 +17,7 @@ exports.authMiddleware = (req, res, next) => {
         }
 
         if (data.role !== role){
-            return res.status(401).json({role: "isn't match"})
+            return res.status(401).json({message: "role isn't match"})
         }
 
         res.userData = data;
