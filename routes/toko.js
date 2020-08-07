@@ -6,7 +6,7 @@ const {getEtalaseList, updateEtalaseList} = require("../controlller/toko/etalase
 const {gambarProfilToko, gambarBannerToko} = require("../middleware/uploadFileMiddleware");
 const {authMiddleware} = require("../middleware/authMiddleware");
 const {updateProfile, getProfile} = require("../controlller/toko/profileController");
-const {getBanner, addBanner, updateBanner} = require("../controlller/toko/bannerController");
+const {getBanner, addBanner, updateBanner, deleteBanner} = require("../controlller/toko/bannerController");
 const {registerToko} = require("../controlller/authController");
 const {uploadKTPToko} = require('../middleware/uploadFileMiddleware')
 const router = express.Router();
@@ -19,6 +19,7 @@ router.post('/updateProfile', authMiddleware, gambarProfilToko.single('foto_prof
 router.get("/getBanner", authMiddleware, getBanner)
 router.post("/addBanner", authMiddleware, gambarBannerToko.single("gambar"), addBanner)
 router.put("/updateBanner", authMiddleware, gambarBannerToko.single("gambar"), updateBanner)
+router.post("/deleteBanner", authMiddleware, deleteBanner)
 
 router.get('/getEtalaseList', authMiddleware, getEtalaseList)
 router.put('/updateEtalaseList', authMiddleware, updateEtalaseList)

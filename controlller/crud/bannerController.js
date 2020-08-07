@@ -22,15 +22,18 @@ exports.addBanner = (req, res) => {
         order
     }).save()
         .then(() => res.status(201).json({message: "Banner added"}))
-        .catch(err => res.status(500).json(err))
+        .catch(err => {
+            res.status(500).json(err)
+            fs.unlinkSync(path.join(__dirname, "../../uploads/banner/" + req.file.filename))
+        })
 }
 
 exports.editBanner = async (req, res) => {
-    const {id, order} = req.body
-    const updateData = {order}
+    const {id} = req.body
+    const updateData = {}
 
     if (req.file) {
-        updateData['gambar'] = req.file.filename
+        updateData.gambar = req.file.filename
         await banner.findById(id)
             .select("gambar")
             .lean()
