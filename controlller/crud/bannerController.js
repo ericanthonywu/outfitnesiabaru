@@ -5,7 +5,7 @@ const path = require('path')
 exports.showBanner = (req, res) => {
     banner.find()
         .sort({order: 1})
-        .select("gambar order")
+        .select("gambar order link")
         .lean()
         .then(data => res.status(200).json({data, prefix: 'uploads/banner'}))
         .catch(err => res.status(500).json(err))
