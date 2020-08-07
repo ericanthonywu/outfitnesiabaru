@@ -56,8 +56,8 @@ exports.deleteBanner = (req, res) => {
         })
     })
 
-    toko.findOneAndUpdate({_id: res.userData.id, "banner._id": bannerId}, {
-        $pull: {"banner._id": bannerId}
+    toko.findOneAndUpdate({_id: res.userData.id}, {
+        $pull: {banner: {_id: bannerId}}
     })
         .then(() => res.status(202).json({message: "Banner deleted"}))
         .catch(error => res.status(500).json(error))
