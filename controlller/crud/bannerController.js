@@ -38,9 +38,9 @@ exports.editBanner = async (req, res) => {
         await banner.findById(id)
             .select("gambar")
             .lean()
-            .then(({gambar}) => {
-                if (gambar) {
-                    fs.unlinkSync(path.join(__dirname, "../../uploads/banner/" + gambar))
+            .then(data => {
+                if (data) {
+                    fs.unlinkSync(path.join(__dirname, "../../uploads/banner/" + data.gambar))
                 }
             })
     }
