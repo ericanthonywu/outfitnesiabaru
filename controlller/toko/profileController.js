@@ -65,3 +65,4 @@ exports.updateProfile = (req, res) => {
         .then(() => res.status(202).json({message: "Profile updated"}))
         .catch(error => res.status(500).json(error))
 }
+
