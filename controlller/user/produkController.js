@@ -57,7 +57,7 @@ exports.listFilterProduk = (req, res) => {
     kategori.find()
         .lean()
         .then(data =>
-            toko.find()
+            toko.find({approve: 2})
                 .select("merek")
                 .lean()
                 .then(merek =>
