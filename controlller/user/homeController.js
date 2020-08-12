@@ -73,17 +73,28 @@ exports.getTokoById = (req, res) => {
             etalase: 1
         })
         .then(async allData => {
-            toko.aggregate([
-                {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
-                {$unwind: '$produk'},
-                {
-                    $match: {
-                        "$or": await allData.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
-                    }
-                },
-                {$group: {_id: '$_id', produk: {$push: '$produk'}}}
-            ]).then(data => {
-                allData.produk = data[0].produk
+            if (allData.etalase) {
+                toko.aggregate([
+                    {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
+                    {$unwind: '$produk'},
+                    {
+                        $match: {
+                            "$or": await allData.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
+                        }
+                    },
+                    {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+                ]).then(data => {
+                    allData.produk = data[0].produk
+                    res.status(200).json({
+                        data: allData,
+                        prefix: {
+                            banner: "uploads/banner",
+                            produk: "uploads/produk",
+                            toko: "uploads/toko"
+                        }
+                    })
+                }).catch(err => res.status(500).json(err))
+            }else{
                 res.status(200).json({
                     data: allData,
                     prefix: {
@@ -92,6 +103,6 @@ exports.getTokoById = (req, res) => {
                         toko: "uploads/toko"
                     }
                 })
-            }).catch(err => res.status(500).json(err))
+            }
         }).catch(err => res.status(500).json(err))
 }
