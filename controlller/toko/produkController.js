@@ -32,7 +32,7 @@ exports.showAllTokoProduk = (req, res) => {
 }
 
 exports.addProduk = async (req, res) => {
-    const {etalase, nama_produk, kategori, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, deskripsi} = req.body
+    const {etalase, nama_produk, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, deskripsi} = req.body
     if (!req.files) {
         return res.status(400).json({message: "Foto Produk required"})
     }
@@ -42,7 +42,6 @@ exports.addProduk = async (req, res) => {
             produk: {
                 nama_produk,
                 etalase,
-                kategori,
                 jenis,
                 bahan,
                 warna,
