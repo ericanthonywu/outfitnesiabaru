@@ -8,25 +8,25 @@ exports.showProduk = (req, res) => {
         .select("etalase")
         .lean()
         .then(data => {
-        if (data.etalase) {
-            toko.aggregate([
-                {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
-                {$unwind: '$produk'},
-                {
-                    $match: {
-                        "$or": data.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
-                    }
-                },
-                {$group: {_id: '$_id', produk: {$push: '$produk'}}}
-            ]).then(data => {
-                return res.status(200).json(data)
-                res.status(200).json({data: data[0].produk, prefix: "uploads/produk"})
-            })
-                .catch(err => res.status(500).json(err))
-        }else{
-            res.status(200).json({data: [], prefix: "uploads/produk"})
-        }
-    })
+            if (data.etalase) {
+                toko.aggregate([
+                    {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
+                    {$unwind: '$produk'},
+                    {
+                        $match: {
+                            "$or": data.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
+                        }
+                    },
+                    {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+                ]).then(data => res.status(200).json({
+                    data: data.length > 0 ? data[0].produk : [],
+                    prefix: "uploads/produk"
+                }))
+                    .catch(err => res.status(500).json(err))
+            } else {
+                res.status(200).json({data: [], prefix: "uploads/produk"})
+            }
+        })
 }
 
 exports.showAllTokoProduk = (req, res) => {
