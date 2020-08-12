@@ -18,3 +18,8 @@ exports.updateEtalaseList = (req, res) => {
         .then(() => res.status(202).json({message: "Etalase Updated"}))
         .catch(err => res.status(500).json(err))
 }
+
+exports.getListJenisByKategori = (req,res) => {
+    const {idKategori} = req.body
+    kategori.findById(idKategori).select("jenis.label jenis._id").lean().then(({jenis}) => res.status(200).json({data: jenis}))
+}
