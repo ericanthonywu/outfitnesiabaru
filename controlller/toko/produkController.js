@@ -4,9 +4,11 @@ const fs = require('fs')
 const path = require('path')
 
 exports.showProduk = (req, res) => {
-    toko.findById(res.userData.id).select("etalase")
+    toko.findById(res.userData.id)
+        .select("etalase")
         .lean()
         .then(data => {
+            return res.status(200).json(data)
         if (data.etalase) {
             toko.aggregate([
                 {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
