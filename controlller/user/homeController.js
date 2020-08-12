@@ -49,7 +49,6 @@ exports.toggleFollow = (req, res) => {
 exports.getTokoById = (req, res) => {
     const {id} = req.body
     toko.findById(id)
-        .lean()
         .select({
             _id: 0,
             username: 1,
@@ -72,12 +71,13 @@ exports.getTokoById = (req, res) => {
             populer: 1,
             etalase: 1
         })
+        .lean()
         .then(async allData => {
             // return res.status(200).json(allData)
             allData.produk = []
             if (allData.etalase.length > 0) {
                 toko.aggregate([
-                    {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
+                    {$match: {_id: mongoose.Types.ObjectId(id)}},
                     {$unwind: '$produk'},
                     {
                         $match: {
