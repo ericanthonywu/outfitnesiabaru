@@ -1,4 +1,4 @@
-const {toko, kategori, banner} = require('../../model')
+const {toko, kategori} = require('../../model')
 
 exports.filterProduk = (req, res) => {
     const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir} = req.body

@@ -9,7 +9,7 @@ exports.carrouselAdmin = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
-exports.getListMerekTokoPopuler = (req,res) => {
+exports.getListMerekTokoPopuler = (req, res) => {
     toko.find({
         approve: 2,
         populer: true,
@@ -43,4 +43,18 @@ exports.toggleFollow = (req, res) => {
         default:
             res.status(400).json({message: "Status invalid"})
     }
+}
+
+exports.getTokoById = (req, res) => {
+    const {id} = req.body
+    toko.findById(id).lean().then(data =>
+        res.status(200).json({
+            data,
+            prefix: {
+                banner: "uploads/banner",
+                produk: "uploads/produk",
+                toko: "uploads/toko"
+            }
+        })
+    ).catch(err => res.status(500).json(err))
 }
