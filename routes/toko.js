@@ -2,7 +2,7 @@ const express = require('express');
 const {getListMerek, addMerek, deleteMerek} = require("../controlller/toko/merekController");
 const {gambarProduk} = require("../middleware/uploadFileMiddleware");
 const {addProduk, showProduk, showAllTokoProduk, deleteProduk} = require("../controlller/toko/produkController");
-const {getEtalaseList, updateEtalaseList} = require("../controlller/toko/etalaseController");
+const {getEtalaseList, updateEtalaseList, getListJenisByKategori} = require("../controlller/toko/etalaseController");
 const {gambarProfilToko, gambarBannerToko} = require("../middleware/uploadFileMiddleware");
 const {authMiddleware} = require("../middleware/authMiddleware");
 const {updateProfile, getProfile} = require("../controlller/toko/profileController");
@@ -23,6 +23,7 @@ router.post("/deleteBanner", authMiddleware, deleteBanner)
 
 router.get('/getEtalaseList', authMiddleware, getEtalaseList)
 router.put('/updateEtalaseList', authMiddleware, updateEtalaseList)
+router.post('/getListJenisByKategori', authMiddleware, getListJenisByKategori)
 
 router.get('/showProduk', authMiddleware, showProduk)
 router.post('/deleteProduk', authMiddleware, deleteProduk)
