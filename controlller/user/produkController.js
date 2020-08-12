@@ -35,7 +35,7 @@ exports.filterProduk = (req, res) => {
     toko.aggregate([
         {$unwind: '$produk'},
         {$match: query},
-        {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+        {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: '$foto_profil'}}
     ])
         .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
         .catch(err => res.status(500).json(err))
