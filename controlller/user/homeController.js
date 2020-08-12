@@ -1,4 +1,5 @@
 const {banner, toko} = require("../../model");
+const mongoose = require("mongoose");
 
 exports.carrouselAdmin = (req, res) => {
     banner.find()
@@ -47,14 +48,50 @@ exports.toggleFollow = (req, res) => {
 
 exports.getTokoById = (req, res) => {
     const {id} = req.body
-    toko.findById(id).lean().then(data =>
-        res.status(200).json({
-            data,
-            prefix: {
-                banner: "uploads/banner",
-                produk: "uploads/produk",
-                toko: "uploads/toko"
-            }
+    toko.findById(id)
+        .lean()
+        .select({
+            _id: 0,
+            username: 1,
+            merek: 1,
+            listMerek: 1,
+            deskripsi: 1,
+            follower: 1,
+            email: 1,
+            instagram: 1,
+            whatsapp: 1,
+            website: 1,
+            alamat: 1,
+            foto_profil: 1,
+            bukalapak: 1,
+            shopee: 1,
+            tokopedia: 1,
+            fotoktp: 1,
+            banner: 1,
+            approve: 1,
+            populer: 1,
+            etalase: 1
         })
-    ).catch(err => res.status(500).json(err))
+        .then(async allData => {
+            toko.aggregate([
+                {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
+                {$unwind: '$produk'},
+                {
+                    $match: {
+                        "$or": await allData.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
+                    }
+                },
+                {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+            ]).then(data => {
+                allData.produk = data[0].produk
+                res.status(200).json({
+                    data: allData,
+                    prefix: {
+                        banner: "uploads/banner",
+                        produk: "uploads/produk",
+                        toko: "uploads/toko"
+                    }
+                })
+            }).catch(err => res.status(500).json(err))
+        }).catch(err => res.status(500).json(err))
 }

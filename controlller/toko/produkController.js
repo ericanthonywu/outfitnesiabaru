@@ -13,7 +13,7 @@ exports.showProduk = (req, res) => {
                 {$unwind: '$produk'},
                 {
                     $match: {
-                        "$or": etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
+                        "$or": data.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
                     }
                 },
                 {$group: {_id: '$_id', produk: {$push: '$produk'}}}
