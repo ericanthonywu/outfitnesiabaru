@@ -74,7 +74,7 @@ exports.getTokoById = (req, res) => {
         })
         .then(async allData => {
             return res.status(200).json(allData)
-            if (allData.etalase) {
+            if (allData.etalase.length > 0) {
                 toko.aggregate([
                     {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
                     {$unwind: '$produk'},
