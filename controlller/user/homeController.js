@@ -71,6 +71,7 @@ exports.getTokoById = (req, res) => {
             populer: 1,
             etalase: 1
         })
+        .populate("etalase","label")
         .lean()
         .then(async allData => {
             allData.produk = []
@@ -80,7 +81,7 @@ exports.getTokoById = (req, res) => {
                     {$unwind: '$produk'},
                     {
                         $match: {
-                            "$or": await allData.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
+                            "$or": await allData.etalase.map(({_id: data}) => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
                         }
                     },
                     {$group: {_id: '$_id', produk: {$push: '$produk'}}}
