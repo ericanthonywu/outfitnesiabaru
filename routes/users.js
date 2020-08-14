@@ -14,7 +14,7 @@ router.get('/listFilterProduk', listFilterProduk)
 router.get('/carrouselAdmin', carrouselAdmin)
 router.get('/getListMerekTokoPopuler', getListMerekTokoPopuler)
 router.post('/getTokoById', getTokoById)
-router.post('/findTokoByAlphabet', findTokoByAlphabet)
+router.get('/findTokoByAlphabet', findTokoByAlphabet)
 
 router.post('/toogleFollow', authMiddleware, toggleFollow)
 
