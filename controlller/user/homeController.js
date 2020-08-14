@@ -71,7 +71,7 @@ exports.getTokoById = (req, res) => {
             populer: 1,
             etalase: 1
         })
-        .populate("etalase","label")
+        .populate("etalase", "label")
         .lean()
         .then(async allData => {
             allData.produk = []
@@ -96,7 +96,7 @@ exports.getTokoById = (req, res) => {
                         }
                     })
                 }).catch(err => res.status(500).json(err))
-            }else{
+            } else {
                 res.status(200).json({
                     data: allData,
                     prefix: {
@@ -107,4 +107,16 @@ exports.getTokoById = (req, res) => {
                 })
             }
         }).catch(err => res.status(500).json(err))
+}
+
+exports.findTokoByAlphabet = (req, res) => {
+    const {alphabet} = req.body
+    if (alphabet.length !== 1){
+        return res.status(400).json({message: "Invalid alphabet"})
+    }
+    toko.find({merek: {$regex: '^' + alphabet, $options: 'i'}})
+        .select('merek foto_profil')
+        .lean()
+        .then(data => res.status(200).json(data))
+        .catch(error => res.status(500).json(error))
 }
