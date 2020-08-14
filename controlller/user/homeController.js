@@ -91,7 +91,7 @@ exports.getTokoById = (req, res) => {
                         prefix: {
                             banner: "uploads/banner",
                             produk: "uploads/produk",
-                            toko: "uploads/toko"
+                            toko: "uploads/bannerToko"
                         }
                     })
                 }).catch(err => res.status(500).json(err))
@@ -101,7 +101,7 @@ exports.getTokoById = (req, res) => {
                     prefix: {
                         banner: "uploads/banner",
                         produk: "uploads/produk",
-                        toko: "uploads/toko"
+                        toko: "uploads/bannerToko"
                     }
                 })
             }
