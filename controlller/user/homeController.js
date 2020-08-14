@@ -75,18 +75,18 @@ exports.getTokoById = (req, res) => {
         .lean()
         .then(async allData => {
             allData.produk = []
-            return res.status(200).json(allData.etalase)
             if (allData.etalase.length > 0) {
                 toko.aggregate([
                     {$match: {_id: mongoose.Types.ObjectId(id)}},
                     {$unwind: '$produk'},
                     {
                         $match: {
-                            "$or": await allData.etalase.map(({_id: data}) => ({'produk.etalase': mongoose.Types.ObjectId(data)}))
+                            "$or": await allData.etalase.map(({_id}) => ({'produk.etalase': mongoose.Types.ObjectId(_id)}))
                         }
                     },
                     {$group: {_id: '$_id', produk: {$push: '$produk'}}}
                 ]).then(data => {
+                    return res.status(200).json(data)
                     allData.produk = data[0].produk
                     res.status(200).json({
                         data: allData,
