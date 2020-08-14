@@ -86,16 +86,26 @@ exports.getTokoById = (req, res) => {
                     },
                     {$group: {_id: '$_id', produk: {$push: '$produk'}}}
                 ]).then(data => {
-                    return res.status(200).json(data)
-                    allData.produk = data[0].produk
-                    res.status(200).json({
-                        data: allData,
-                        prefix: {
-                            banner: "uploads/banner",
-                            produk: "uploads/produk",
-                            toko: "uploads/bannerToko"
-                        }
-                    })
+                    if (data.length > 0) {
+                        allData.produk = data[0].produk
+                        res.status(200).json({
+                            data: allData,
+                            prefix: {
+                                banner: "uploads/banner",
+                                produk: "uploads/produk",
+                                toko: "uploads/bannerToko"
+                            }
+                        })
+                    }else {
+                        res.status(200).json({
+                            data: allData,
+                            prefix: {
+                                banner: "uploads/banner",
+                                produk: "uploads/produk",
+                                toko: "uploads/bannerToko"
+                            }
+                        })
+                    }
                 }).catch(err => res.status(500).json(err))
             } else {
                 res.status(200).json({
