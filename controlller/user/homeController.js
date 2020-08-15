@@ -91,18 +91,18 @@ exports.getTokoById = (req, res) => {
                         res.status(200).json({
                             data: allData,
                             prefix: {
-                                banner: "uploads/banner",
+                                banner: "uploads/bannerToko",
                                 produk: "uploads/produk",
-                                toko: "uploads/bannerToko"
+                                toko: "uploads/toko"
                             }
                         })
-                    }else {
+                    } else {
                         res.status(200).json({
                             data: allData,
                             prefix: {
-                                banner: "uploads/banner",
+                                banner: "uploads/bannerToko",
                                 produk: "uploads/produk",
-                                toko: "uploads/bannerToko"
+                                toko: "uploads/toko"
                             }
                         })
                     }
@@ -111,9 +111,9 @@ exports.getTokoById = (req, res) => {
                 res.status(200).json({
                     data: allData,
                     prefix: {
-                        banner: "uploads/banner",
+                        banner: "uploads/bannerToko",
                         produk: "uploads/produk",
-                        toko: "uploads/bannerToko"
+                        toko: "uploads/toko"
                     }
                 })
             }
@@ -122,7 +122,7 @@ exports.getTokoById = (req, res) => {
 
 exports.findTokoByAlphabet = (req, res) => {
     const {alphabet} = req.body
-    if (alphabet.length !== 1){
+    if (alphabet.length !== 1) {
         return res.status(400).json({message: "Invalid alphabet"})
     }
     toko.find({merek: {$regex: '^' + alphabet, $options: 'i'}})
