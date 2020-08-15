@@ -88,7 +88,7 @@ exports.getTokoById = (req, res) => {
                     {
                         $lookup: {
                             "from": "kategoris",
-                            "localField": "produk",
+                            "localField": "produk.jenis",
                             "foreignField": "jenis",
                             "as": "jenisnya"
                         }
