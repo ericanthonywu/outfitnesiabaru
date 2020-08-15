@@ -90,8 +90,8 @@ exports.getTokoById = (req, res) => {
                         // allData.produk = data[0].produk
                         const produk = data[0].produk
                         const produkTemp = []
-                        Promise.all(produk.map(async data => {
-                            if (data.jenis) {
+                        Promise.all(produk.map(async data =>
+                            data.jenis ?
                                 await kategori.find({"jenis._id": data.jenis})
                                     .select("jenis.label jenis._id")
                                     .lean()
@@ -101,15 +101,13 @@ exports.getTokoById = (req, res) => {
                                                 if (_id == data.jenis) {
                                                     data.jenis = kategoriJenis.label
                                                     console.log(data)
-                                                    produkTemp.push(data)
-                                                    return data
+                                                    return produkTemp.push(data)
                                                 }
                                             })
                                         }
                                     })
-                            }
-                            return data
-                        })).then(() => {
+                            : []
+                        )).then(() => {
                             allData.produk = produkTemp
                             res.status(200).json({
                                 data: allData,
