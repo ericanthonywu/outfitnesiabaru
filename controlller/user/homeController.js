@@ -90,7 +90,7 @@ exports.getTokoById = (req, res) => {
                         // allData.produk = data[0].produk
                         const produk = data[0].produk
                         const produkTemp = []
-                        Promise.all(produk.forEach(async data => {
+                        Promise.all(produk.map(async data => {
                             if (data.jenis) {
                                 await kategori.find({"jenis._id": data.jenis})
                                     .select("jenis.label jenis._id")
