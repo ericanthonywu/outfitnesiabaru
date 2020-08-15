@@ -101,11 +101,13 @@ exports.getTokoById = (req, res) => {
                                                 if (_id == data.jenis) {
                                                     data.jenis = kategoriJenis.label
                                                     produkTemp.push(data)
+                                                    return data
                                                 }
                                             })
                                         }
                                     })
                             }
+                            return data
                         })).then(() => {
                             allData.produk = produkTemp
                             res.status(200).json({
