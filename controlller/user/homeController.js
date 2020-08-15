@@ -85,41 +85,16 @@ exports.getTokoById = (req, res) => {
                         }
                     },
                     {$group: {_id: '$_id', produk: {$push: '$produk'}}},
-                    {
-                        $lookup: {
-                            "from": "kategoris",
-                            "localField": "produk.jenis",
-                            "foreignField": "jenis._id",
-                            "as": "jenisnya"
-                        }
-                    }
                 ]).then(async data => {
                     if (data.length > 0) {
-                        // allData.produk = data[0].produk
-                        const produk  = []
-                        await Promise.all(data[0].produk.forEach(produkData => {
-                            if (produkData.jenis) {
-                                kategori.aggregate([
-                                    // {$unwind: '$jenis'},
-                                    {$match: {'jenis._id': mongoose.Types.ObjectId(produkData.jenis)}},
-                                    {
-                                        $group: {
-                                            _id: '$_id',
-                                            label: {$push: '$jenis.label'},
-                                        }
-                                    }
-                                ]).then(jenis => produk.push(jenis)).catch(err => produk.push(err));
+                        allData.produk = data[0].produk
+                        res.status(200).json({
+                            data: allData,
+                            prefix: {
+                                banner: "uploads/bannerToko",
+                                produk: "uploads/produk",
+                                toko: "uploads/toko"
                             }
-                        })).then(() => {
-                            return res.status(200).json(produk)
-                            res.status(200).json({
-                                data: allData,
-                                prefix: {
-                                    banner: "uploads/bannerToko",
-                                    produk: "uploads/produk",
-                                    toko: "uploads/toko"
-                                }
-                            })
                         })
                     } else {
                         res.status(200).json({
