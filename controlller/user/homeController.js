@@ -1,4 +1,4 @@
-const {banner, toko} = require("../../model");
+const {banner, toko, kategori} = require("../../model");
 const mongoose = require("mongoose");
 
 exports.carrouselAdmin = (req, res) => {
@@ -89,21 +89,37 @@ exports.getTokoById = (req, res) => {
                         $lookup: {
                             "from": "kategoris",
                             "localField": "produk.jenis",
-                            "foreignField": "jenis",
+                            "foreignField": "jenis._id",
                             "as": "jenisnya"
                         }
                     }
-                ]).then(data => {
-                    return res.status(200).json(data)
+                ]).then(async data => {
                     if (data.length > 0) {
-                        allData.produk = data[0].produk
-                        res.status(200).json({
-                            data: allData,
-                            prefix: {
-                                banner: "uploads/bannerToko",
-                                produk: "uploads/produk",
-                                toko: "uploads/toko"
+                        // allData.produk = data[0].produk
+                        const produk  = []
+                        await Promise.all(data[0].produk.forEach(produkData => {
+                            if (produkData.jenis) {
+                                kategori.aggregate([
+                                    {$unwind: '$jenis'},
+                                    {$match: {'jenis._id': mongoose.Types.ObjectId(produkData.jenis)}},
+                                    {
+                                        $group: {
+                                            _id: '$_id',
+                                            label: {$push: '$jenis.label'},
+                                        }
+                                    }
+                                ]).then(jenis => produk.push(jenis));
                             }
+                        })).then(() => {
+                            return res.status(200).json(produk)
+                            res.status(200).json({
+                                data: allData,
+                                prefix: {
+                                    banner: "uploads/bannerToko",
+                                    produk: "uploads/produk",
+                                    toko: "uploads/toko"
+                                }
+                            })
                         })
                     } else {
                         res.status(200).json({

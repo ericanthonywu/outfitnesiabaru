@@ -34,6 +34,7 @@ exports.editKategori = (req, res) => {
             .then(({gambar}) => fs.unlinkSync(path.join(__dirname, "../../uploads/kategori/" + gambar)))
     }
 
+
     kategori.findByIdAndUpdate(id, updateData)
         .then(() => res.status(202).json({message: "Kategori Updated"}))
         .catch(err => res.status(500).json(err))
