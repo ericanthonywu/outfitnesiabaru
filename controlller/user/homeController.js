@@ -100,7 +100,7 @@ exports.getTokoById = (req, res) => {
                         await Promise.all(data[0].produk.forEach(produkData => {
                             if (produkData.jenis) {
                                 kategori.aggregate([
-                                    {$unwind: '$jenis'},
+                                    // {$unwind: '$jenis'},
                                     {$match: {'jenis._id': mongoose.Types.ObjectId(produkData.jenis)}},
                                     {
                                         $group: {
