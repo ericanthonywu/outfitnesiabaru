@@ -99,8 +99,8 @@ exports.getTokoById = (req, res) => {
                                     .then(kategoriJenis => {
                                         if (kategoriJenis[0].jenis) {
                                             kategoriJenis[0].jenis.forEach(({_id, label}) => {
-                                                console.log(_id,label,data.jenis, data.jenis == _id)
-                                                if (_id == data.jenis) {
+                                                console.log(_id, label, data.jenis, data.jenis.toString() == _id.toString())
+                                                if (_id.toString() == data.jenis.toString()) {
                                                     data.jenis = label
                                                     console.log(data)
                                                     return produkTemp.push(data)
@@ -108,7 +108,7 @@ exports.getTokoById = (req, res) => {
                                             })
                                         }
                                     })
-                            : []
+                                : []
                         )).then(() => {
                             allData.produk = produkTemp
                             res.status(200).json({
