@@ -108,7 +108,7 @@ exports.getTokoById = (req, res) => {
                                             label: {$push: '$jenis.label'},
                                         }
                                     }
-                                ]).then(jenis => produk.push(jenis));
+                                ]).then(jenis => produk.push(jenis)).catch(err => produk.push(err));
                             }
                         })).then(() => {
                             return res.status(200).json(produk)
