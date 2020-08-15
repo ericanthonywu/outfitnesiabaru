@@ -127,7 +127,7 @@ exports.getTokoById = (req, res) => {
                             }
                         })
                     }
-                }).catch(err => res.status(500).json(err))
+                })
             } else {
                 res.status(200).json({
                     data: allData,
@@ -138,7 +138,7 @@ exports.getTokoById = (req, res) => {
                     }
                 })
             }
-        }).catch(err => res.status(500).json(err))
+        })
 }
 
 exports.findTokoByAlphabet = (req, res) => {
