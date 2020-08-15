@@ -94,6 +94,7 @@ exports.getTokoById = (req, res) => {
                         }
                     }
                 ]).then(data => {
+                    return res.status(200).json(data)
                     if (data.length > 0) {
                         allData.produk = data[0].produk
                         res.status(200).json({
