@@ -101,7 +101,7 @@ exports.getTokoById = (req, res) => {
                                         if (kategoriJenis.jenis) {
                                             kategoriJenis.jenis.forEach(({_id, label}) => {
                                                 if (_id == data.jenis) {
-                                                    data.jenis = kategoriJenis.label
+                                                    data.jenis_label = kategoriJenis.label
                                                     console.log(data)
                                                     return produkTemp.push(data)
                                                 }
