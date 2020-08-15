@@ -84,7 +84,15 @@ exports.getTokoById = (req, res) => {
                             "$or": await allData.etalase.map(({_id}) => ({'produk.etalase': mongoose.Types.ObjectId(_id)}))
                         }
                     },
-                    {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+                    {$group: {_id: '$_id', produk: {$push: '$produk'}}},
+                    {
+                        $lookup: {
+                            "from": "kategoris",
+                            "localField": "produk",
+                            "foreignField": "jenis",
+                            "as": "jenisnya"
+                        }
+                    }
                 ]).then(data => {
                     if (data.length > 0) {
                         allData.produk = data[0].produk
