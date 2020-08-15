@@ -98,7 +98,7 @@ exports.getTokoById = (req, res) => {
                                     .lean()
                                     .then(kategoriJenis => {
                                         if (kategoriJenis[0].jenis) {
-                                            kategoriJenis.jenis.forEach(({_id, label}) => {
+                                            kategoriJenis[0].jenis.forEach(({_id, label}) => {
                                                 console.log(_id,label)
                                                 if (_id == data.jenis) {
                                                     data.jenis = label
