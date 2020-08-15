@@ -87,14 +87,35 @@ exports.getTokoById = (req, res) => {
                     {$group: {_id: '$_id', produk: {$push: '$produk'}}},
                 ]).then(async data => {
                     if (data.length > 0) {
-                        allData.produk = data[0].produk
-                        res.status(200).json({
-                            data: allData,
-                            prefix: {
-                                banner: "uploads/bannerToko",
-                                produk: "uploads/produk",
-                                toko: "uploads/toko"
+                        // allData.produk = data[0].produk
+                        const produk = data[0].produk
+                        const produkTemp = []
+                        Promise.all(produk.forEach(data => {
+                            if (data.jenis) {
+                                return kategori.find({"jenis._id": data.jenis})
+                                    .select("jenis.label jenis._id")
+                                    .lean()
+                                    .then(kategoriJenis => {
+                                        if (kategoriJenis.jenis) {
+                                            kategoriJenis.jenis.forEach(({_id, label}) => {
+                                                if (_id == data.jenis) {
+                                                    data.jenis = kategoriJenis.label
+                                                    produkTemp.push(data)
+                                                }
+                                            })
+                                        }
+                                    })
                             }
+                        })).then(() => {
+                            allData.produk = produkTemp
+                            res.status(200).json({
+                                data: allData,
+                                prefix: {
+                                    banner: "uploads/bannerToko",
+                                    produk: "uploads/produk",
+                                    toko: "uploads/toko"
+                                }
+                            })
                         })
                     } else {
                         res.status(200).json({
