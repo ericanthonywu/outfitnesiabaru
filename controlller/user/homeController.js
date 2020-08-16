@@ -186,7 +186,7 @@ exports.getTokoById = (req, res) => {
                         merek: {$first: "$merek"},
                         listMerek: {$first: "$listMerek"},
                         deskripsi: {$first: "$deskripsi"},
-                        follower: {$first: "$follower"},
+                        follower: {$sum: "$follower"},
                         email: {$first: "$email"},
                         instagram: {$first: "$instagram"},
                         whatsapp: {$first: "$whatsapp"},
@@ -248,4 +248,8 @@ exports.findTokoByAlphabet = (req, res) => {
         .lean()
         .then(data => res.status(data.length ? 200 : 404).json({data, prefix: "uploads/toko"}))
         .catch(error => res.status(500).json(error))
+}
+
+exports.merekPopuler = (req, res) => {
+    toko.find({populer: true}).select('')
 }
