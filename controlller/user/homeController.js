@@ -195,6 +195,31 @@ exports.getTokoById = (req, res) => {
                         approve: {$first: "approve"},
                         populer: {$first: "populer"},
                     }
+                },
+                {
+                    $project:{
+                        _id:1,
+                        produk:1,
+                        "produk.jenisnya.jenis":1,
+                        username:1,
+                        merek:1,
+                        listMerek:1,
+                        deskripsi:1,
+                        follower:1,
+                        email:1,
+                        instagram:1,
+                        whatsapp: 1,
+                        website: 1,
+                        alamat: 1,
+                        foto_profil: 1,
+                        bukalapak:1,
+                        shopee: 1,
+                        tokopedia:1,
+                        fotoktp:1,
+                        banner: 1,
+                        approve:1,
+                        populer:1,
+                    }
                 }
             ]).then(resultData => {
                 // allData.produk = data[0].produk
