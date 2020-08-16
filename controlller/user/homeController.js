@@ -179,11 +179,6 @@ exports.getTokoById = (req, res) => {
                         ]
                     }
                 },
-                {
-                    $project: {
-                        "produk.jenisnya.jenis": 1,
-                    }
-                },
                 {$unwind: {path: "$produk.jenisnya"}},
                 {
                     $group: {
