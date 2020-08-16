@@ -163,7 +163,7 @@ exports.getTokoById = (req, res) => {
                 {
                     $lookup: {
                         from: "kategoris",
-                        as: "produk.jenisnya",
+                        as: "produk.etalase",
                         let: {pjid: "$produk.jenis"},
                         pipeline: [
                             {$unwind: "$jenis"},
@@ -177,29 +177,29 @@ exports.getTokoById = (req, res) => {
                         ]
                     }
                 },
-                {$unwind: {path: "$produk.jenisnya"}},
+                {$unwind: {path: "$produk.etalase"}},
                 {
                     $group: {
                         _id: "$_id",
                         produk: {$push: "$produk"},
-                        username: {$first: "username"},
-                        merek: {$first: "merek"},
-                        listMerek: {$first: "listMerek"},
-                        deskripsi: {$first: "deskripsi"},
-                        follower: {$first: "follower"},
-                        email: {$first: "email"},
-                        instagram: {$first: "instagram"},
-                        whatsapp: {$first: "whatsapp"},
-                        website: {$first: "website"},
-                        alamat: {$first: "alamat"},
-                        foto_profil: {$first: "foto_profil"},
-                        bukalapak: {$first: "bukalapak"},
-                        shopee: {$first: "shopee"},
-                        tokopedia: {$first: "tokopedia"},
-                        fotoktp: {$first: "fotoktp"},
-                        banner: {$first: "banner"},
-                        approve: {$first: "approve"},
-                        populer: {$first: "populer"},
+                        username: {$first: "$username"},
+                        merek: {$first: "$merek"},
+                        listMerek: {$first: "$listMerek"},
+                        deskripsi: {$first: "$deskripsi"},
+                        follower: {$first: "$follower"},
+                        email: {$first: "$email"},
+                        instagram: {$first: "$instagram"},
+                        whatsapp: {$first: "$whatsapp"},
+                        website: {$first: "$website"},
+                        alamat: {$first: "$alamat"},
+                        foto_profil: {$first: "$foto_profil"},
+                        bukalapak: {$first: "$bukalapak"},
+                        shopee: {$first: "$shopee"},
+                        tokopedia: {$first: "$tokopedia"},
+                        fotoktp: {$first: "$fotoktp"},
+                        banner: {$first: "$banner"},
+                        approve: {$first: "$approve"},
+                        populer: {$first: "$populer"},
                     }
                 },
                 {
@@ -228,7 +228,6 @@ exports.getTokoById = (req, res) => {
                 }
             ]).then(resultData => {
                 const data = resultData[0]
-                data.etalase = allData.etalase
                 res.status(200).json({
                     data,
                     prefix: {
