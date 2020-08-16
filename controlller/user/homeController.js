@@ -236,8 +236,8 @@ exports.getTokoById = (req, res) => {
                         toko: "uploads/toko"
                     }
                 })
-            }).catch(err => res.status(500).json(err))
-        }).catch(err => res.status(500).json(err))
+            })
+        })
 }
 exports.findTokoByAlphabet = (req, res) => {
     const {alphabet} = req.body
