@@ -5,6 +5,11 @@ const path = require('path')
 exports.getProfile = (req, res) => {
     toko.aggregate([
         {
+            $match: {
+                _id: res.userData.id
+            },
+        },
+        {
             $group: {
                 _id: '$_id',
                 follower: {$sum: 1}
@@ -28,11 +33,6 @@ exports.getProfile = (req, res) => {
                 tokopedia: 1
             },
         },
-        {
-            $match: {
-                _id: res.userData.id
-            },
-        }
     ]).then(data => res.status(200).json({data: data, prefix: 'uploads/toko'}))
         .catch(error => res.status(500).json(error))
 
