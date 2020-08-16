@@ -198,7 +198,6 @@ exports.getTokoById = (req, res) => {
                         tokopedia: {$first: "$tokopedia"},
                         fotoktp: {$first: "$fotoktp"},
                         banner: {$first: "$banner"},
-                        approve: {$first: "$approve"},
                         populer: {$first: "$populer"},
                     }
                 },
@@ -222,7 +221,6 @@ exports.getTokoById = (req, res) => {
                         tokopedia: 1,
                         fotoktp: 1,
                         banner: 1,
-                        approve: 1,
                         populer: 1,
                     }
                 }
