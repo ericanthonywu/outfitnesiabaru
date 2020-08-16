@@ -11,12 +11,6 @@ exports.getProfile = (req, res) => {
             },
         },
         {
-            $group: {
-                _id: '$_id',
-                // follower: {$size: 1}
-            }
-        },
-        {
             $project: {
                 _id: 1,
                 username: 1,
