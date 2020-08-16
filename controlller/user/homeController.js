@@ -146,24 +146,6 @@ exports.getTokoById = (req, res) => {
     toko.findById(id)
         .select({
             _id: 0,
-            username: 1,
-            merek: 1,
-            listMerek: 1,
-            deskripsi: 1,
-            follower: 1,
-            email: 1,
-            instagram: 1,
-            whatsapp: 1,
-            website: 1,
-            alamat: 1,
-            foto_profil: 1,
-            bukalapak: 1,
-            shopee: 1,
-            tokopedia: 1,
-            fotoktp: 1,
-            banner: 1,
-            approve: 1,
-            populer: 1,
             etalase: 1
         })
         .populate("etalase", "label")
@@ -197,7 +179,25 @@ exports.getTokoById = (req, res) => {
                             _id: "$_id",
                             produk: {$push: "$produk"},
                             // you can add otehr fields as well like alamat
-                            alamat: {$first: "$alamat"}
+
+                            username: {$first: "username"},
+                            merek: {$first: "merek"},
+                            listMerek: {$first: "listMerek"},
+                            deskripsi: {$first: "deskripsi"},
+                            follower: {$first: "follower"},
+                            email: {$first: "email"},
+                            instagram: {$first: "instagram"},
+                            whatsapp: {$first: "whatsapp"},
+                            website: {$first: "website"},
+                            alamat: {$first: "alamat"},
+                            foto_profil: {$first: "foto_profil"},
+                            bukalapak: {$first: "bukalapak"},
+                            shopee: {$first: "shopee"},
+                            tokopedia: {$first: "tokopedia"},
+                            fotoktp: {$first: "fotoktp"},
+                            banner: {$first: "banner"},
+                            approve: {$first: "approve"},
+                            populer: {$first: "populer"},
                         }
                     }
                 ]).then(data => {
