@@ -167,7 +167,13 @@ exports.getTokoById = (req, res) => {
                         let: {pjid: "$produk.jenis"},
                         pipeline: [
                             {$unwind: "$jenis"},
-                            {$match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}}}
+                            {$match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}}},
+                            {
+                                $project: {
+                                    "jenis._id": 1,
+                                    "jenis.label": 1
+                                }
+                            }
                         ]
                     }
                 },
