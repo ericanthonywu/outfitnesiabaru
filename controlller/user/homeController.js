@@ -227,16 +227,48 @@ exports.getTokoById = (req, res) => {
                 }
             ]).then(resultData => {
                 const data = resultData[0]
-                console.log(etalaseData ? etalaseData.etalase : [], resultData)
-                data.etalase = etalaseData ? etalaseData.etalase : []
-                res.status(200).json({
-                    data,
-                    prefix: {
-                        banner: "uploads/bannerToko",
-                        produk: "uploads/produk",
-                        toko: "uploads/toko"
-                    }
-                })
+                if (data) {
+                    data.etalase = etalaseData.etalase
+
+                    res.status(200).json({
+                        data,
+                        prefix: {
+                            banner: "uploads/bannerToko",
+                            produk: "uploads/produk",
+                            toko: "uploads/toko"
+                        }
+                    })
+                }else{
+                    toko.findById(id).select({
+                        _id: 1,
+                        produk: 1,
+                        username: 1,
+                        merek: 1,
+                        listMerek: 1,
+                        deskripsi: 1,
+                        follower: 1,
+                        email: 1,
+                        instagram: 1,
+                        whatsapp: 1,
+                        website: 1,
+                        alamat: 1,
+                        foto_profil: 1,
+                        bukalapak: 1,
+                        shopee: 1,
+                        tokopedia: 1,
+                        fotoktp: 1,
+                        banner: 1,
+                        populer: 1,
+                        produk: 1
+                    }).lean().then(data => res.status(200).json({
+                        data: {...data, ...etalaseData},
+                        prefix: {
+                            banner: "uploads/bannerToko",
+                            produk: "uploads/produk",
+                            toko: "uploads/toko"
+                        }
+                    }))
+                }
             })
         })
 }
