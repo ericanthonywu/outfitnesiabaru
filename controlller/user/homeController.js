@@ -227,7 +227,7 @@ exports.getTokoById = (req, res) => {
                 }
             ]).then(resultData => {
                 const data = resultData[0]
-                console.log(etalaseData ? etalaseData.etalase : [], data)
+                console.log(etalaseData ? etalaseData.etalase : [], resultData)
                 data.etalase = etalaseData ? etalaseData.etalase : []
                 res.status(200).json({
                     data,
