@@ -1,4 +1,5 @@
 const {toko} = require('../../model')
+const mongoose = require("mongoose");
 const fs = require('fs')
 const path = require('path')
 
@@ -6,7 +7,7 @@ exports.getProfile = (req, res) => {
     toko.aggregate([
         {
             $match: {
-                _id: res.userData.id
+                _id: mongoose.Types.ObjectId(res.userData.id)
             },
         },
         {
