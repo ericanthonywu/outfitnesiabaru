@@ -16,7 +16,7 @@ exports.getProfile = (req, res) => {
                 username: 1,
                 merek: 1,
                 deskripsi: 1,
-                follower: 1,
+                follower: {$size: 1},
                 email: 1,
                 instagram: 1,
                 whatsapp: 1,
