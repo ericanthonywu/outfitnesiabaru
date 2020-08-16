@@ -13,7 +13,7 @@ exports.getProfile = (req, res) => {
         {
             $group: {
                 _id: '$_id',
-                follower: {$sum: 1}
+                follower: {$size: 1}
             }
         },
         {
