@@ -167,9 +167,7 @@ exports.getTokoById = (req, res) => {
                         let: {pjid: "$produk.jenis"},
                         pipeline: [
                             {$unwind: "$jenis"},
-                            {
-                                $match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}},
-                            },
+                            {$match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}}}
                         ]
                     }
                 },
@@ -199,28 +197,27 @@ exports.getTokoById = (req, res) => {
                     }
                 },
                 {
-                    $project: {
-                        _id: 1,
-                        produk: 1,
-                        "produk.jenisnya.jenis": 1,
-                        username: 1,
-                        merek: 1,
-                        listMerek: 1,
-                        deskripsi: 1,
-                        follower: 1,
-                        email: 1,
-                        instagram: 1,
-                        whatsapp: 1,
-                        website: 1,
-                        alamat: 1,
-                        foto_profil: 1,
-                        bukalapak: 1,
-                        shopee: 1,
-                        tokopedia: 1,
-                        fotoktp: 1,
-                        banner: 1,
-                        approve: 1,
-                        populer: 1,
+                    $project:{
+                        _id: "$_id",
+                        produk: {$push: "$produk"},
+                        username: {$first: "username"},
+                        merek: {$first: "merek"},
+                        listMerek: {$first: "listMerek"},
+                        deskripsi: {$first: "deskripsi"},
+                        follower: {$first: "follower"},
+                        email: {$first: "email"},
+                        instagram: {$first: "instagram"},
+                        whatsapp: {$first: "whatsapp"},
+                        website: {$first: "website"},
+                        alamat: {$first: "alamat"},
+                        foto_profil: {$first: "foto_profil"},
+                        bukalapak: {$first: "bukalapak"},
+                        shopee: {$first: "shopee"},
+                        tokopedia: {$first: "tokopedia"},
+                        fotoktp: {$first: "fotoktp"},
+                        banner: {$first: "banner"},
+                        approve: {$first: "approve"},
+                        populer: {$first: "populer"},
                     }
                 }
             ]).then(resultData => {
