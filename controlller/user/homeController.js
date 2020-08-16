@@ -186,7 +186,7 @@ exports.getTokoById = (req, res) => {
                         merek: {$first: "$merek"},
                         listMerek: {$first: "$listMerek"},
                         deskripsi: {$first: "$deskripsi"},
-                        follower: {$sum: 1},
+                        follower: {$first: "follower"},
                         email: {$first: "$email"},
                         instagram: {$first: "$instagram"},
                         whatsapp: {$first: "$whatsapp"},

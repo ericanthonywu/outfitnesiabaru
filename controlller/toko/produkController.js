@@ -65,7 +65,7 @@ exports.deleteProduk = (req, res) => {
     const {produkId} = req.body
     toko.findById(res.userData.id).select("produk").then(({produk}) => {
         produk.forEach(({_id, foto_produk}) => {
-            if (_id == produkId) {
+            if (_id.toString() == produkId) {
                 foto_produk.forEach(gambar => fs.unlinkSync(path.join(__dirname, "../../uploads/jenis/" + gambar)))
             }
         })
