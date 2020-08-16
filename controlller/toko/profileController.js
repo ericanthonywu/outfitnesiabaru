@@ -3,38 +3,44 @@ const fs = require('fs')
 const path = require('path')
 
 exports.getProfile = (req, res) => {
-    // toko.aggregate([
-    //     {
-    //         $project: {
-    //             _id: 1,
-    //             username: 1,
-    //             merek: 1,
-    //             deskripsi: 1,
-    //             follower: {$size: "$follower"},
-    //             email: 1,
-    //             instagram: 1,
-    //             whatsapp: 1,
-    //             website: 1,
-    //             alamat: 1,
-    //             foto_profil: 1,
-    //             bukalapak: 1,
-    //             shopee: 1,
-    //             tokopedia: 1
-    //         },
-    //     },
-    //     {
-    //         $match:{
-    //             _id: res.userData.id
-    //         },
-    //     }
-    // ]).then(data => res.status(200).json({data: data, prefix: 'uploads/toko'}))
-    //     .catch(error => res.status(500).json(error))
-
-    toko.findById(res.userData.id)
-        .select('username merek deskripsi follower email instagram whatsapp website alamat foto_profil bukalapak shopee tokopedia')
-        .lean()
-        .then(data => res.status(200).json({data, prefix: 'uploads/toko'}))
+    toko.aggregate([
+        {
+            $group: {
+                _id: '$_id',
+                follower: {$sum: 1}
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                username: 1,
+                merek: 1,
+                deskripsi: 1,
+                follower: 1,
+                email: 1,
+                instagram: 1,
+                whatsapp: 1,
+                website: 1,
+                alamat: 1,
+                foto_profil: 1,
+                bukalapak: 1,
+                shopee: 1,
+                tokopedia: 1
+            },
+        },
+        {
+            $match: {
+                _id: res.userData.id
+            },
+        }
+    ]).then(data => res.status(200).json({data: data, prefix: 'uploads/toko'}))
         .catch(error => res.status(500).json(error))
+
+    // toko.findById(res.userData.id)
+    //     .select('username merek deskripsi follower email instagram whatsapp website alamat foto_profil bukalapak shopee tokopedia')
+    //     .lean()
+    //     .then(data => res.status(200).json({data, prefix: 'uploads/toko'}))
+    //     .catch(error => res.status(500).json(error))
 }
 
 exports.updateProfile = (req, res) => {
