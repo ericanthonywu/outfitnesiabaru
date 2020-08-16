@@ -227,15 +227,8 @@ exports.getTokoById = (req, res) => {
                     }
                 }
             ]).then(resultData => {
-                // allData.produk = data[0].produk
                 const data = resultData[0]
                 data.etalase = allData.etalase
-                // const produk  = data[0].produk
-                // produk.map(data => {
-                //     if (data.jenis){
-                //
-                //     }
-                // })
                 res.status(200).json({
                     data,
                     prefix: {
