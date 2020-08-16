@@ -5,6 +5,7 @@ exports.getListTokoMerekPopuler = (req, res) => {
 
     toko.find({
         approve: 2,
+        populer: true
     })
         .select("foto_profil username merek produk.nama_produk produk.foto_produk")
         .limit(parseInt(limit))
