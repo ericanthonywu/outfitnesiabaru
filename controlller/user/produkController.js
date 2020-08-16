@@ -37,8 +37,40 @@ exports.filterProduk = (req, res) => {
         {$match: query},
         {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}}
     ])
-        .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
-        .catch(err => res.status(500).json(err))
+        .then(async data => {
+            res.status(200).json({data, prefix: "uploads/produk"})
+            Promise.all(data.map(produkData => {
+                    const produkTemp = []
+                    if (produkData.produk) {
+                        produkData.produk.map(data => {
+
+                        })
+                    }
+                }
+            ))
+            const produkTemp = []
+            // console.log(produk)
+            await Promise.all(produk.map(async data =>
+                data.jenis ?
+                    await kategori.find({"jenis._id": data.jenis})
+                        .select("jenis.label jenis._id")
+                        .lean()
+                        .then(kategoriJenis => {
+                            if (kategoriJenis[0].jenis) {
+                                kategoriJenis[0].jenis.forEach(({_id, label}) => {
+                                    if (_id.toString() == data.jenis.toString()) {
+                                        data.jenis = label
+                                        return produkTemp.push(data)
+                                    }
+                                })
+                            }
+                        })
+                    : []
+            ))
+                .then(() => {
+                })
+                .catch(err => res.status(500).json(err))
+        })
 }
 
 exports.searchProduk = (req, res) => {
