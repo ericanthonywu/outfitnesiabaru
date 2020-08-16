@@ -170,12 +170,6 @@ exports.getTokoById = (req, res) => {
                             {
                                 $match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}},
                             },
-                            {
-                                $project: {
-                                    "jenis._id": 1,
-                                    "jenis.label": 1
-                                }
-                            }
                         ]
                     }
                 },
