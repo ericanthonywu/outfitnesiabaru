@@ -151,84 +151,61 @@ exports.getTokoById = (req, res) => {
         .populate("etalase", "label")
         .lean()
         .then(async allData => {
-            allData.produk = []
-            if (allData.etalase.length > 0) {
-                toko.aggregate([
-                    {$match: {_id: mongoose.Types.ObjectId(id)}},
-                    {$unwind: '$produk'},
-                    {
-                        $match: {
-                            "$or": await allData.etalase.map(({_id}) => ({'produk.etalase': mongoose.Types.ObjectId(_id)}))
-                        }
-                    },
-                    {$unwind: "$produk"},
-                    {
-                        $lookup: {
-                            from: "kategoris",
-                            as: "produk.jenisnya",
-                            let: {pjid: "$produk.jenis"},
-                            pipeline: [
-                                {$unwind: "$jenis"},
-                                {$match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}}}
-                            ]
-                        }
-                    },
-                    {$unwind: {path: "$produk.jenisnya"}},
-                    {
-                        $group: {
-                            _id: "$_id",
-                            produk: {$push: "$produk"},
-                            // you can add otehr fields as well like alamat
-
-                            username: {$first: "username"},
-                            merek: {$first: "merek"},
-                            listMerek: {$first: "listMerek"},
-                            deskripsi: {$first: "deskripsi"},
-                            follower: {$first: "follower"},
-                            email: {$first: "email"},
-                            instagram: {$first: "instagram"},
-                            whatsapp: {$first: "whatsapp"},
-                            website: {$first: "website"},
-                            alamat: {$first: "alamat"},
-                            foto_profil: {$first: "foto_profil"},
-                            bukalapak: {$first: "bukalapak"},
-                            shopee: {$first: "shopee"},
-                            tokopedia: {$first: "tokopedia"},
-                            fotoktp: {$first: "fotoktp"},
-                            banner: {$first: "banner"},
-                            approve: {$first: "approve"},
-                            populer: {$first: "populer"},
-                        }
+            toko.aggregate([
+                {$match: {_id: mongoose.Types.ObjectId(id)}},
+                {$unwind: '$produk'},
+                {
+                    $match: {
+                        "$or": await allData.etalase.map(({_id}) => ({'produk.etalase': mongoose.Types.ObjectId(_id)}))
                     }
-                ]).then(data => {
-                    if (data.length > 0) {
-                        allData.produk = data[0].produk
-                        // const produk  = data[0].produk
-                        // produk.map(data => {
-                        //     if (data.jenis){
-                        //
-                        //     }
-                        // })
-                        res.status(200).json({
-                            data: allData,
-                            prefix: {
-                                banner: "uploads/bannerToko",
-                                produk: "uploads/produk",
-                                toko: "uploads/toko"
-                            }
-                        })
-                    } else {
-                        res.status(200).json({
-                            data: allData,
-                            prefix: {
-                                banner: "uploads/bannerToko",
-                                produk: "uploads/produk",
-                                toko: "uploads/toko"
-                            }
-                        })
+                },
+                {$unwind: "$produk"},
+                {
+                    $lookup: {
+                        from: "kategoris",
+                        as: "produk.jenisnya",
+                        let: {pjid: "$produk.jenis"},
+                        pipeline: [
+                            {$unwind: "$jenis"},
+                            {$match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}}}
+                        ]
                     }
-                }).catch(err => res.status(500).json(err))
-            } else {
+                },
+                {$unwind: {path: "$produk.jenisnya"}},
+                {
+                    $group: {
+                        _id: "$_id",
+                        produk: {$push: "$produk"},
+                        username: {$first: "username"},
+                        merek: {$first: "merek"},
+                        listMerek: {$first: "listMerek"},
+                        deskripsi: {$first: "deskripsi"},
+                        follower: {$first: "follower"},
+                        email: {$first: "email"},
+                        instagram: {$first: "instagram"},
+                        whatsapp: {$first: "whatsapp"},
+                        website: {$first: "website"},
+                        alamat: {$first: "alamat"},
+                        foto_profil: {$first: "foto_profil"},
+                        bukalapak: {$first: "bukalapak"},
+                        shopee: {$first: "shopee"},
+                        tokopedia: {$first: "tokopedia"},
+                        fotoktp: {$first: "fotoktp"},
+                        banner: {$first: "banner"},
+                        approve: {$first: "approve"},
+                        populer: {$first: "populer"},
+                    }
+                }
+            ]).then(resultData => {
+                // allData.produk = data[0].produk
+                const data = resultData[0]
+                data.etalase = allData.etalase
+                // const produk  = data[0].produk
+                // produk.map(data => {
+                //     if (data.jenis){
+                //
+                //     }
+                // })
                 res.status(200).json({
                     data: allData,
                     prefix: {
@@ -237,7 +214,7 @@ exports.getTokoById = (req, res) => {
                         toko: "uploads/toko"
                     }
                 })
-            }
+            }).catch(err => res.status(500).json(err))
         }).catch(err => res.status(500).json(err))
 }
 exports.findTokoByAlphabet = (req, res) => {
