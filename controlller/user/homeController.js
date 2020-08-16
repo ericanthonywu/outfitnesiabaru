@@ -207,7 +207,7 @@ exports.getTokoById = (req, res) => {
                 //     }
                 // })
                 res.status(200).json({
-                    data: allData,
+                    data,
                     prefix: {
                         banner: "uploads/bannerToko",
                         produk: "uploads/produk",
