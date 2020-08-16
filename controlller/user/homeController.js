@@ -34,6 +34,7 @@ exports.toggleFollow = (req, res) => {
                 .catch(err => res.status(500).json(err))
             break;
         case 1: // follow
+
             toko.findByIdAndUpdate(tokoId, {
                 $push: {
                     follower: res.userData.id
@@ -156,7 +157,7 @@ exports.getTokoById = (req, res) => {
                 {$unwind: '$produk'},
                 {
                     $match: {
-                        "$or": await etalaseData.etalase.map(({_id}) => ({'produk.etalase': mongoose.Types.ObjectId(_id)}))
+                        "$or": await etalaseData.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data._id)}))
                     },
                 },
                 {$unwind: "$produk"},
