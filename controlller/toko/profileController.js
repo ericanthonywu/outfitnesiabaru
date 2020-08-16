@@ -28,7 +28,7 @@ exports.getProfile = (req, res) => {
                 tokopedia: 1
             },
         },
-    ]).then(data => res.status(200).json({data: data, prefix: 'uploads/toko'}))
+    ]).then(data => res.status(200).json({data: data[0], prefix: 'uploads/toko'}))
         .catch(error => res.status(500).json(error))
 
     // toko.findById(res.userData.id)
