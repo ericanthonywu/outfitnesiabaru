@@ -13,6 +13,7 @@ const tokoRouter = require('./routes/toko');
 
 const app = express();
 app.use(helmet())
+app.use(cors());
 
 require('dotenv').config({path: ".env"})
 
@@ -25,10 +26,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(cors({
-    // origin: "http://194.59.165.96/",
-    optionsSuccessStatus: 200,
-}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
