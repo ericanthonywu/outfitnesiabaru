@@ -146,12 +146,15 @@ exports.getTokoById = (req, res) => {
     const {id} = req.body
     toko.findById(id)
         .select({
-            _id: 0,
+            _id: 1,
             etalase: 1
         })
         .populate("etalase", "label")
         .lean()
         .then(async etalaseData => {
+            if (!etalaseData._id){
+                return res.status(404).json({message: "Toko id not found"})
+            }
             toko.aggregate([
                 {$match: {_id: mongoose.Types.ObjectId(id)}},
                 {$unwind: '$produk'},
