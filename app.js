@@ -14,7 +14,10 @@ const tokoRouter = require('./routes/toko');
 const app = express();
 app.use(helmet())
 app.use(cors());
-
+// {
+    // origin: "http://194.59.165.96/",
+    // optionsSuccessStatus: 200,
+// }
 require('dotenv').config({path: ".env"})
 
 // view engine setup
