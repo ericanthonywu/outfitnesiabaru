@@ -152,7 +152,7 @@ exports.getTokoById = (req, res) => {
         .populate("etalase", "label")
         .lean()
         .then(async etalaseData => {
-            if (!etalaseData._id){
+            if (!etalaseData){
                 return res.status(404).json({message: "Toko id not found"})
             }
             toko.aggregate([
