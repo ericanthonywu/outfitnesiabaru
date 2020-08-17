@@ -161,7 +161,7 @@ exports.getTokoById = (req, res) => {
                 {$unwind: '$produk'},
                 {
                     $match: {
-                        "$or": await etalaseData.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data._id)}))
+                        // "$or": await etalaseData.etalase.map(data => ({'produk.etalase': mongoose.Types.ObjectId(data._id)}))
                     },
                 },
                 {$unwind: "$produk"},
