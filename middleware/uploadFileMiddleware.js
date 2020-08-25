@@ -10,9 +10,6 @@ exports.uploadKTPToko = multer({
         filename: (req, file, cb) =>
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
 });
 
 exports.gambarJenis = multer({
@@ -24,9 +21,6 @@ exports.gambarJenis = multer({
         filename: (req, file, cb) =>
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
 });
 
 exports.gambarKategori = multer({
@@ -39,9 +33,6 @@ exports.gambarKategori = multer({
         filename: (req, file, cb) =>
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
 });
 
 exports.gambarBanner = multer({
@@ -53,9 +44,6 @@ exports.gambarBanner = multer({
         filename: (req, file, cb) =>
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
 });
 
 exports.gambarProduk = multer({
@@ -67,9 +55,6 @@ exports.gambarProduk = multer({
         filename: (req, file, cb) =>
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
 });
 
 exports.gambarProfilToko = multer({
@@ -81,9 +66,6 @@ exports.gambarProfilToko = multer({
         filename: (req, file, cb) =>
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
 });
 
 
@@ -96,7 +78,4 @@ exports.gambarBannerToko = multer({
         filename: (req, file, cb) =>
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
 });

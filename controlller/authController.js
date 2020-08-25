@@ -17,7 +17,11 @@ exports.loginAdmin = (req, res) => {
                 if (!check) {
                     return res.status(403).json({message: "Password isn't correct"})
                 }
-                jwt.sign({id: data._id, username: data.username, role: "admin"}, process.env.JWTSECRETTOKEN, {}, (err, token) => {
+                jwt.sign({
+                    id: data._id,
+                    username: data.username,
+                    role: "admin"
+                }, process.env.JWTSECRETTOKEN, {}, (err, token) => {
                     if (err) {
                         return res.status(500).json(err)
                     }

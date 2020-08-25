@@ -35,7 +35,7 @@ exports.editBanner = async (req, res) => {
 
     if (req.file) {
         updateData.gambar = req.file.filename
-        await banner.findById(id)
+        banner.findById(id)
             .select("gambar")
             .lean()
             .then(data => {
