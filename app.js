@@ -7,11 +7,6 @@ const cors = require('cors');
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 
-const indexRouter = require('./routes/index'); // for global router
-const adminRouter = require('./routes/admin');
-const usersRouter = require('./routes/users');
-const tokoRouter = require('./routes/toko');
-
 const app = express();
 app.use(helmet())
 app.use(cors());
@@ -20,6 +15,12 @@ app.use(cors());
     // optionsSuccessStatus: 200,
 // }
 require('dotenv').config({path: ".env"})
+
+const indexRouter = require('./routes/index'); // for global router
+const adminRouter = require('./routes/admin');
+const usersRouter = require('./routes/users');
+const tokoRouter = require('./routes/toko');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
