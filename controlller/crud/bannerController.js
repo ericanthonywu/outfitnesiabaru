@@ -4,7 +4,7 @@ const path = require('path')
 
 exports.showBanner = (req, res) => {
     banner.find()
-        .sort({order: 1})
+        // .sort({order: 1})
         .select("gambar order link")
         .lean()
         .then(data => res.status(200).json({data, prefix: 'uploads/banner'}))
@@ -19,7 +19,7 @@ exports.addBanner = (req, res) => {
 
     new banner({
         gambar: req.file.filename,
-        order,
+        // order,
         link
     }).save()
         .then(() => res.status(201).json({message: "Banner added"}))

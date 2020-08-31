@@ -30,7 +30,7 @@ exports.user = mongoose.model("user", userSchema);
 const bannerSchema = new mongoose.Schema({
     gambar: {type: String, required: true, trim: true, unique: true},
     link: {type: String, required: true, trim: true},
-    order: {type: Number, required: true, unique: true},
+    // order: {type: Number, required: true, unique: true},
 }, {timestamps: true});
 
 exports.banner = mongoose.model("banner", bannerSchema);
@@ -81,7 +81,7 @@ const tokoSchema = new mongoose.Schema({
     fotoktp: String,
     banner: [{
         gambar: {type: String, required: true, trim: true},
-        order: {type: Number, required: true},
+        // order: {type: Number, required: true},
     }],
     produk: [produkSchema],
     etalase: [{type: mongoose.Schema.Types.ObjectID, ref: 'kategori'}],
