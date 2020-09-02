@@ -29,8 +29,8 @@ exports.filterProduk = (req, res) => {
         }
 
         query["produk.harga"] = {
-            $gt: hargaAwal,
-            $lt: hargaAkhir
+            $gt: parseInt(hargaAwal),
+            $lt: parseInt(hargaAkhir)
         }
     }
     if (or.length > 0) {
