@@ -37,7 +37,7 @@ exports.filterProduk = (req, res) => {
         query = {$or: or, ...query}
     }
 
-    console.log(query)
+    console.log(query, req.body)
 
     toko.aggregate([
         {$unwind: '$produk'},
