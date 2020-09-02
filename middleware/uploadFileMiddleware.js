@@ -79,3 +79,14 @@ exports.gambarBannerToko = multer({
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
 });
+
+exports.gambarPoster = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            req.dest = "poster";
+            cb(null, path.join(__dirname, `../uploads/${req.dest}`))
+        },
+        filename: (req, file, cb) =>
+            cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
+    }),
+});
