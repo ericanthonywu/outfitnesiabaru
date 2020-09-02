@@ -1,4 +1,5 @@
 const express = require('express');
+const {editProduk} = require("../controlller/toko/produkController");
 const {getListMerek, addMerek, deleteMerek} = require("../controlller/toko/merekController");
 const {gambarProduk} = require("../middleware/uploadFileMiddleware");
 const {addProduk, showProduk, showAllTokoProduk, deleteProduk} = require("../controlller/toko/produkController");
