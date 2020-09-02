@@ -43,7 +43,7 @@ exports.filterProduk = (req, res) => {
         {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}}
     ])
         .then(async data => {
-            res.status(200).json({data, prefix: "uploads/produk"})
+            res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}})
             // Promise.all(data.map(produkData => {
             //         const produkTemp = []
             //         if (produkData.produk) {
