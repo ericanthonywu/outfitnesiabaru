@@ -1,11 +1,10 @@
 const express = require('express');
-const {merekPopuler} = require("../controlller/user/homeController");
 const router = express.Router();
 
 const {authMiddleware} = require("../middleware/authMiddleware");
 const {registerUser} = require("../controlller/authController");
 const {filterProduk, searchProduk, listFilterProduk} = require("../controlller/user/produkController");
-const {carrouselAdmin, toggleFollow, getListMerekTokoPopuler, getTokoById, findTokoByAlphabet, poster} = require("../controlller/user/homeController");
+const {carrouselAdmin, toggleFollow, getListMerekTokoPopuler, getTokoById, findTokoByAlphabet, poster, merekPopuler} = require("../controlller/user/homeController");
 
 router.post('/register', registerUser)
 
