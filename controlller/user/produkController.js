@@ -1,4 +1,5 @@
 const {toko, kategori} = require('../../model')
+const mongoose = require("mongoose");
 
 exports.filterProduk = (req, res) => {
     const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir} = req.body
@@ -6,7 +7,7 @@ exports.filterProduk = (req, res) => {
     const query = {}
 
     if (merek) {
-        query["merek"] = merek
+        query["merek"] = mongoose.Types.ObjectId(merek)
     }
 
     if (warna) {
@@ -14,11 +15,11 @@ exports.filterProduk = (req, res) => {
     }
 
     if (kategori) {
-        query["produk.etalase"] = kategori
+        query["produk.etalase"] = mongoose.Types.ObjectId(kategori)
     }
 
     if (jenis) {
-        query["produk.jenis"] = jenis
+        query["produk.jenis"] = mongoose.Types.ObjectId(jenis)
     }
 
     if (hargaAwal && hargaAkhir) {
