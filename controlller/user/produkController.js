@@ -12,7 +12,7 @@ exports.filterProduk = (req, res) => {
     }
 
     if (warna) {
-        warna.forEach(data => or.push({"produk.warna": mongoose.Types.ObjectId(data)}))
+        warna.forEach(data => or.push({"produk.warna": data}))
     }
 
     if (kategori) {
