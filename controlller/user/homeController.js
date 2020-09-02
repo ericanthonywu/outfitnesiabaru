@@ -1,4 +1,4 @@
-const {banner, toko, kategori} = require("../../model");
+const {banner, toko, poster} = require("../../model");
 const mongoose = require("mongoose");
 
 exports.carrouselAdmin = (req, res) => {
@@ -8,6 +8,10 @@ exports.carrouselAdmin = (req, res) => {
         .lean()
         .then(data => res.status(200).json({data, prefix: 'uploads/banner'}))
         .catch(err => res.status(500).json(err))
+}
+
+exports.poster = (req, res) => {
+    poster.find().lean().then(data => res.status(200).json({data, prefix: 'uploads/poster'}))
 }
 
 exports.getListMerekTokoPopuler = (req, res) => {
