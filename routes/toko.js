@@ -29,6 +29,7 @@ router.get('/showProduk', authMiddleware, showProduk)
 router.post('/deleteProduk', authMiddleware, deleteProduk)
 router.get('/showAllTokoProduk', authMiddleware, showAllTokoProduk)
 router.post('/addProduk', authMiddleware, gambarProduk.array('gambar',10), addProduk)
+router.put('/editProduk', authMiddleware, editProduk)
 
 router.get('/getListMerek', authMiddleware, getListMerek)
 router.post('/addMerek', authMiddleware, addMerek)

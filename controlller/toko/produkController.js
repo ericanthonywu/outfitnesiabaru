@@ -61,8 +61,34 @@ exports.addProduk = async (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
+exports.editProduk = (req, res) => {
+    const {etalase, nama_produk, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, deskripsi, produkId} = req.body
+    toko.findOneAndUpdate({_id: res.userData.id, "produk._id": produkId}, {
+        $set: {
+            "produk.$.nama_produk": nama_produk,
+            "produk.$.etalase": etalase,
+            "produk.$.jenis": jenis,
+            "produk.$.bahan": bahan,
+            "produk.$.warna": warna,
+            "produk.$.harga": harga,
+            "produk.$.link_bukalapak": link_bukalapak,
+            "produk.$.link_shopee": link_shopee,
+            "produk.$.link_tokopedia": link_tokopedia,
+            "produk.$.deskripsi": deskripsi,
+        }
+    }).then(() => res.status(201).json({message: "Product updated"}))
+        .catch(err => res.status(500).json(err))
+}
+
 exports.deleteProduk = (req, res) => {
     const {produkId} = req.body
+    toko.findByIdAndUpdate(res.userData.id, {
+        $pull: {
+            produk: {_id: produkId}
+        }
+    }).then(() => res.status(202).json({message: "Product deleted"}))
+        .catch(err => res.status(500).json(err))
+
     toko.findById(res.userData.id).select("produk").then(({produk}) => {
         produk.forEach(({_id, foto_produk}) => {
             if (_id.toString() == produkId) {
@@ -70,11 +96,4 @@ exports.deleteProduk = (req, res) => {
             }
         })
     })
-
-    toko.findByIdAndUpdate(res.userData.id, {
-        $pull: {
-            produk: {_id: produkId}
-        }
-    }).then(() => res.status(202).json({message: "Product deleted"}))
-        .catch(err => res.status(500).json(err))
 }
