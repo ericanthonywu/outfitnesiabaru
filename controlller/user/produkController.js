@@ -23,13 +23,13 @@ exports.filterProduk = (req, res) => {
         jenis.forEach(data => or.push({"produk.jenis": mongoose.Types.ObjectId(data)}))
     }
 
-    if (hargaAwal !== '' && hargaAkhir !== '') {
-        if (hargaAwal > hargaAkhir) {
-            return res.status(400).json({message: "harga awal lebih gede dari harga akhir"})
-        }
-
+    if (hargaAwal !== '') {
         query["produk.harga"] = {
             $gte: parseInt(hargaAwal),
+        }
+    }
+    if (hargaAkhir !== '') {
+        query["produk.harga"] = {
             $lte: parseInt(hargaAkhir)
         }
     }
