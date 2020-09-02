@@ -8,7 +8,7 @@ exports.filterProduk = (req, res) => {
     const or = []
 
     if (merek) {
-        merek.forEach(data => or.push({merek: mongoose.Types.ObjectId(data)}))
+        merek.forEach(data => or.push({_id: mongoose.Types.ObjectId(data)}))
     }
 
     if (warna) {
