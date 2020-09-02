@@ -14,7 +14,7 @@ exports.filterProduk = (req, res) => {
     }
 
     if (kategori) {
-        query["produk.kategori"] = kategori
+        query["produk.etalase"] = kategori
     }
 
     if (jenis) {
