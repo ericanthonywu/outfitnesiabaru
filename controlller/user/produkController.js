@@ -29,13 +29,15 @@ exports.filterProduk = (req, res) => {
         }
 
         query["produk.harga"] = {
-            $gt: parseInt(hargaAwal),
-            $lt: parseInt(hargaAkhir)
+            $gte: parseInt(hargaAwal),
+            $lte: parseInt(hargaAkhir)
         }
     }
     if (or.length > 0) {
         query = {$or: or, ...query}
     }
+
+    console.log(query)
 
     toko.aggregate([
         {$unwind: '$produk'},
