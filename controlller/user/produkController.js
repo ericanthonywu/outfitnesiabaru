@@ -5,14 +5,14 @@ exports.filterProduk = (req, res) => {
     const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir} = req.body
 
     const query = {}
-    const $or = []
+    const or = []
 
     if (merek) {
-        merek.forEach(data => $or.push({_id: mongoose.Types.ObjectId(data)}))
+        merek.forEach(data => or.push({_id: mongoose.Types.ObjectId(data)}))
     }
 
     if (warna) {
-        warna.forEach(data => $or.push({"produk.warna": data}))
+        warna.forEach(data => or.push({"produk.warna": data}))
     }
 
     if (kategori) {
@@ -20,7 +20,7 @@ exports.filterProduk = (req, res) => {
     }
 
     if (jenis) {
-        jenis.forEach(data => $or.push({"produk.jenis": mongoose.Types.ObjectId(data)}))
+        jenis.forEach(data => or.push({"produk.jenis": mongoose.Types.ObjectId(data)}))
     }
 
     if (hargaAwal && hargaAkhir) {
@@ -36,7 +36,7 @@ exports.filterProduk = (req, res) => {
 
     toko.aggregate([
         {$unwind: '$produk'},
-        {$match: {$or, ...query}},
+        {$match: {$or: or, ...query}},
         {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}}
     ])
         .then(async data => {
