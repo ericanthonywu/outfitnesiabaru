@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 exports.filterProduk = (req, res) => {
     const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir} = req.body
 
-    const query = {}
+    let query = {}
     const or = []
 
     if (merek) {
@@ -33,10 +33,13 @@ exports.filterProduk = (req, res) => {
             $lt: hargaAkhir
         }
     }
+    if (or.length > 0) {
+        query = {$or: or, ...query}
+    }
 
     toko.aggregate([
         {$unwind: '$produk'},
-        {$match: {$or: or, ...query}},
+        {$match: query},
         {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}}
     ])
         .then(async data => {
