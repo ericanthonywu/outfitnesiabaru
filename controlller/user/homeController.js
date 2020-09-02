@@ -293,5 +293,12 @@ exports.findTokoByAlphabet = (req, res) => {
 }
 
 exports.merekPopuler = (req, res) => {
-    toko.find({populer: true}).select('')
+    toko.find({populer: true}).lean()
+        .then(data =>
+            res.status(200).json({
+                data,
+                prefix:{
+                    profil:"uploads/toko",
+                    populer: "uploads/merekPopuler"}}))
+        .catch(error => res.status(500).json(error))
 }

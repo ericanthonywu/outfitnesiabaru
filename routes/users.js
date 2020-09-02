@@ -1,4 +1,5 @@
 const express = require('express');
+const {merekPopuler} = require("../controlller/user/homeController");
 const router = express.Router();
 
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -15,6 +16,7 @@ router.get('/carrouselAdmin', carrouselAdmin)
 router.get('/getListMerekTokoPopuler', getListMerekTokoPopuler)
 router.post('/getTokoById', getTokoById)
 router.get('/findTokoByAlphabet', findTokoByAlphabet)
+router.get('/merekPopuler', merekPopuler)
 router.get('/poster', poster)
 
 router.post('/toogleFollow', authMiddleware, toggleFollow)

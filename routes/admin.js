@@ -1,4 +1,5 @@
 const express = require('express');
+const {gambarMerekPopuler} = require("../middleware/uploadFileMiddleware");
 const {addPoster, deletePoster, editPoster, showPoster} = require("../controlller/crud/posterController");
 const {getListTokoMerekPopuler, addListTokoMerek, removeListTokoMerek} = require("../controlller/crud/merekPopulerController");
 const {gambarJenis, gambarKategori, gambarBanner, gambarPoster} = require("../middleware/uploadFileMiddleware");
@@ -32,7 +33,7 @@ router.post('/getToko', authMiddleware, getToko)
 router.post('/toogleStatusToko', authMiddleware, toogleStatusToko)
 
 router.post('/getListTokoMerekPopuler', authMiddleware, getListTokoMerekPopuler)
-router.post('/addListTokoMerek', authMiddleware, addListTokoMerek)
+router.post('/addListTokoMerek', authMiddleware, gambarMerekPopuler.array("gambar", 2), addListTokoMerek)
 router.post('/removeListTokoMerek', authMiddleware, removeListTokoMerek)
 
 router.get('/showPoster', authMiddleware, showPoster)

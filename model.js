@@ -88,6 +88,7 @@ const tokoSchema = new mongoose.Schema({
     etalase: [{type: mongoose.Schema.Types.ObjectID, ref: 'kategori'}],
     approve: {type: Number, default: 0}, // 0: pending, 1: reject, 2: approve
     populer: {type: Boolean, default: false},
+    gambar_populer: [String],
 }, {timestamps: true});
 
 exports.toko = mongoose.model("toko", tokoSchema);

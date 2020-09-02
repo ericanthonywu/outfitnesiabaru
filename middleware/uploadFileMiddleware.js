@@ -90,3 +90,14 @@ exports.gambarPoster = multer({
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
 });
+
+exports.gambarMerekPopuler = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            req.dest = "merekPopuler";
+            cb(null, path.join(__dirname, `../uploads/${req.dest}`))
+        },
+        filename: (req, file, cb) =>
+            cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
+    }),
+});
