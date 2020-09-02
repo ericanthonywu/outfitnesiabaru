@@ -159,7 +159,6 @@ exports.getTokoById = (req, res) => {
             if (!etalaseData) {
                 return res.status(404).json({message: "Toko id not found"})
             }
-            console.log(etalaseData)
             toko.aggregate([
                 {$match: {_id: mongoose.Types.ObjectId(id)}},
                 {$unwind: '$produk'},
