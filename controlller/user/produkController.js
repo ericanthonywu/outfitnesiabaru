@@ -5,14 +5,16 @@ exports.filterProduk = (req, res) => {
     const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir} = req.body
 
     let query = {}
-    const or = []
+    const $and = []
 
     if (merek) {
-        merek.forEach(data => or.push({_id: mongoose.Types.ObjectId(data)}))
+        $and.push({$or: merek.map(id => ({_id: mongoose.Types.ObjectId(id)}))})
+        // merek.forEach(data => or.push({_id: mongoose.Types.ObjectId(data)}))
     }
 
     if (warna) {
-        warna.forEach(data => or.push({"produk.warna": data}))
+        $and.push({$or: warna.map(warna => ({"produk.warna": warna}))})
+        // warna.forEach(data => or.push({"produk.warna": data}))
     }
 
     if (kategori) {
@@ -20,7 +22,8 @@ exports.filterProduk = (req, res) => {
     }
 
     if (jenis) {
-        jenis.forEach(data => or.push({"produk.jenis": mongoose.Types.ObjectId(data)}))
+        $and.push({$or: jenis.map(id => ({"produk.jenis": mongoose.Types.ObjectId(id)}))})
+        // jenis.forEach(data => or.push({"produk.jenis": mongoose.Types.ObjectId(data)}))
     }
 
     if (hargaAwal !== '') {
@@ -33,11 +36,10 @@ exports.filterProduk = (req, res) => {
             $lte: parseInt(hargaAkhir)
         }
     }
-    if (or.length > 0) {
-        query = {$or: or, ...query}
-    }
 
-    console.log(query, req.body)
+    if ($and.length > 0) {
+        query = {$and, ...query}
+    }
 
     toko.aggregate([
         {$unwind: '$produk'},
