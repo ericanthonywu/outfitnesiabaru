@@ -7,6 +7,8 @@ const cors = require('cors');
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 
+// password mysql server: pmi;aqp-+0#S
+
 const app = express();
 app.use(helmet())
 app.use(cors());

@@ -53,13 +53,13 @@ exports.loginUserAndToko = (req, res) => {
     }
     // login user
     User.findOne({email})
-        .select("username password")
+        .select("username password foto_profil")
         .lean()
         .then(data => {
             if (!data) {
                 // login toko
                 Toko.findOne({email})
-                    .select("merek password approve")
+                    .select("merek password approve foto_profil")
                     .lean()
                     .then(data => {
                         if (!data) {
@@ -91,8 +91,10 @@ exports.loginUserAndToko = (req, res) => {
                                                 id: data._id,
                                                 token,
                                                 username: data.merek,
-                                                role: "toko"
-                                            }
+                                                role: "toko",
+                                                foto_profil: data.foto_profil
+                                            },
+                                            prefix: "uploads/toko"
                                         })
                                     })
                                 default:
@@ -120,8 +122,10 @@ exports.loginUserAndToko = (req, res) => {
                                 id: data._id,
                                 username: data.username,
                                 token,
+                                foto_profil: data.foto_profil,
                                 role: "user"
-                            }
+                            },
+                            prefix: "uploads/user"
                         })
                     })
                 }).catch(err => res.status(500).json(err))

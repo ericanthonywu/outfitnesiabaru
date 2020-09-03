@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     username: {type: String, required: true, trim: true, unique: true},
     email: {type: String, required: true, trim: true, unique: true},
     password: {type: String, required: true, select: false},
+    foto_profil: {String}
 }, {timestamps: true});
 
 exports.user = mongoose.model("user", userSchema);
@@ -86,6 +87,10 @@ const tokoSchema = new mongoose.Schema({
     }],
     produk: [produkSchema],
     etalase: [{type: mongoose.Schema.Types.ObjectID, ref: 'kategori'}],
+    // etalase: [{
+    //     kategori: {type: mongoose.Schema.Types.ObjectID, ref: 'kategori'},
+    //     order: {Number}
+    // }],
     approve: {type: Number, default: 0}, // 0: pending, 1: reject, 2: approve
     populer: {type: Boolean, default: false},
     gambar_populer: [String],
