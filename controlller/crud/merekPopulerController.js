@@ -1,6 +1,7 @@
 const {toko} = require('../../model')
 const fs = require('fs')
 const path = require('path')
+
 exports.getListTokoMerekPopuler = (req, res) => {
     const {limit, offset, populer} = req.body
 
@@ -12,7 +13,7 @@ exports.getListTokoMerekPopuler = (req, res) => {
         .limit(parseInt(limit))
         .skip(parseInt(offset))
         .lean()
-        .then(data => res.status(200).json({data, prefix: {produk: "uploads/produk", populer: "uploads/merekPopuler"}}))
+        .then(data => res.status(200).json({data, prefix: {foto_profil: "uploads/toko", populer: "uploads/merekPopuler"}}))
         .catch(err => res.status(500).json(err))
 }
 
