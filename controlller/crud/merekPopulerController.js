@@ -2,11 +2,11 @@ const {toko} = require('../../model')
 const fs = require('fs')
 const path = require('path')
 exports.getListTokoMerekPopuler = (req, res) => {
-    const {limit, offset} = req.body
+    const {limit, offset, populer} = req.body
 
     toko.find({
         approve: 2,
-        populer: true
+        populer
     })
         .select("foto_profil username merek produk.nama_produk produk.foto_produk gambar_populer")
         .limit(parseInt(limit))
