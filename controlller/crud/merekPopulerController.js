@@ -8,7 +8,7 @@ exports.getListTokoMerekPopuler = (req, res) => {
         approve: 2,
         populer
     })
-        .select("foto_profil username merek produk.nama_produk produk.foto_produk gambar_populer")
+        .select("foto_profil username merek gambar_populer")
         .limit(parseInt(limit))
         .skip(parseInt(offset))
         .lean()
