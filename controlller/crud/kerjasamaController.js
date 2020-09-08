@@ -14,7 +14,7 @@ exports.getToko = (req, res) => {
     }
 
     toko.find(query)
-        .select("merek alamat email ig whatsapp fotoKTP")
+        .select("merek alamat email instagram whatsapp fotoKTP")
         .limit(parseInt(limit))
         .skip(parseInt(offset))
         .lean()
@@ -37,3 +37,27 @@ exports.toogleStatusToko = (req, res) => {
     }).then(() => res.status(202).json({message: "Status Updated!"}))
         .catch(err => res.status(500).json(err))
 }
+
+const res = {
+    code: undefined,
+    object: undefined,
+    status: code => {
+        this.code = code
+        return this
+    },
+    json: object => {
+        this.object = object
+        return this
+    },
+}
+
+class res {
+    static code = 200
+    static object = {}
+
+    status = code => {
+
+    }
+
+}
+ res.status(200).status(204).json({message: ""})

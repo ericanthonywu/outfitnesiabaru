@@ -202,11 +202,13 @@ exports.findTokoByAlphabet = (req, res) => {
 }
 
 /**
- * @param {any} req
- * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} res
+ * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} req
+ * @param {Response<P, ResBody, ReqQuery>|http.ServerResponse} res
  */
 exports.merekPopuler = (req, res) => {
-    toko.find({populer: true}).lean()
+    toko.find({populer: true})
+        .select('merek foto_profil gambar_populer')
+        .lean()
         .then(data =>
             res.status(200).json({
                 data,
