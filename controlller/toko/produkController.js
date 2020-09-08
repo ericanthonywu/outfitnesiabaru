@@ -97,3 +97,35 @@ exports.deleteProduk = (req, res) => {
         })
     })
 }
+
+exports.saveDisplayToko = (req, res) => {
+    const {produk} = req.body
+    if (!Array.isArray(produk)){
+        return res.status(400).json({message: "Produk must be an array of ids"})
+    }
+
+    toko.findOneAndUpdate({
+        $or: produk.map(id => ({"produk._id": id})),
+        _id: res.userData.id,
+    }, {
+        $set: {
+            "produk.$[].display": true
+        }
+    })
+        .then(() => res.status(201).json({message: "Display saved"}))
+        .catch(err => res.status(500).json(err))
+}
+
+exports.showDisplayToko = (req, res) => {
+    toko.aggregate([
+        {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},
+        {$unwind: '$produk'},
+        {
+            $match: {
+                'produk.display': true
+            }
+        },
+        {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+    ]).then(data => res.status(201).json({data, prefix: 'uploads/produk'}))
+        .catch(err => res.status(500).json(err))
+}

@@ -149,10 +149,7 @@ exports.toggleFollow = (req, res) => {
 exports.getTokoById = (req, res) => {
     const {id} = req.body
     toko.findById(id)
-        .select({
-            _id: 1,
-            etalase: 1
-        })
+        .select('etalase')
         .populate("etalase", "label")
         .lean()
         .then(async etalaseData => {
@@ -296,8 +293,25 @@ exports.merekPopuler = (req, res) => {
         .then(data =>
             res.status(200).json({
                 data,
-                prefix:{
-                    profil:"uploads/toko",
-                    populer: "uploads/merekPopuler"}}))
+                prefix: {
+                    profil: "uploads/toko",
+                    populer: "uploads/merekPopuler"
+                }
+            }))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.showAllMerek = (req, res) => {
+    toko.find({
+        "produk.display": true
+    })
+        .select("merek produk foto_profil")
+        .lean()
+        .then(data => res.status(200).json({
+            data, prefix: {
+                toko: "uploads/toko",
+                produk: "uploads/produk"
+            }
+        }))
         .catch(error => res.status(500).json(error))
 }
