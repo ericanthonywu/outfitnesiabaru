@@ -51,101 +51,10 @@ exports.toggleFollow = (req, res) => {
     }
 }
 
-// exports.getTokoById = (req, res) => {
-//     const {id} = req.body
-//     toko.findById(id)
-//         .select({
-//             _id: 0,
-//             username: 1,
-//             merek: 1,
-//             listMerek: 1,
-//             deskripsi: 1,
-//             follower: 1,
-//             email: 1,
-//             instagram: 1,
-//             whatsapp: 1,
-//             website: 1,
-//             alamat: 1,
-//             foto_profil: 1,
-//             bukalapak: 1,
-//             shopee: 1,
-//             tokopedia: 1,
-//             fotoktp: 1,
-//             banner: 1,
-//             approve: 1,
-//             populer: 1,
-//             etalase: 1
-//         })
-//         .populate("etalase", "label")
-//         .lean()
-//         .then(async allData => {
-//             allData.produk = []
-//             if (allData.etalase.length > 0) {
-//                 toko.aggregate([
-//                     {$match: {_id: mongoose.Types.ObjectId(id)}},
-//                     {$unwind: '$produk'},
-//                     {
-//                         $match: {
-//                             "$or": await allData.etalase.map(({_id}) => ({'produk.etalase': mongoose.Types.ObjectId(_id)}))
-//                         }
-//                     },
-//                     {$group: {_id: '$_id', produk: {$push: '$produk'}}},
-//                 ]).then(async data => {
-//                     if (data.length > 0) {
-//                         // allData.produk = data[0].produk
-//                         const produk = data[0].produk
-//                         const produkTemp = []
-//                         // console.log(produk)
-//                         await Promise.all(produk.map(async data =>
-//                             data.jenis ?
-//                                 await kategori.find({"jenis._id": data.jenis})
-//                                     .select("jenis.label jenis._id")
-//                                     .lean()
-//                                     .then(kategoriJenis => {
-//                                         if (kategoriJenis[0].jenis) {
-//                                             kategoriJenis[0].jenis.forEach(({_id, label}) => {
-//                                                 if (_id.toString() == data.jenis.toString()) {
-//                                                     data.jenis = label
-//                                                     return produkTemp.push(data)
-//                                                 }
-//                                             })
-//                                         }
-//                                     })
-//                                 : []
-//                         )).then(() => {
-//                             allData.produk = produkTemp
-//                             res.status(200).json({
-//                                 data: allData,
-//                                 prefix: {
-//                                     banner: "uploads/bannerToko",
-//                                     produk: "uploads/produk",
-//                                     toko: "uploads/toko"
-//                                 }
-//                             })
-//                         })
-//                     } else {
-//                         res.status(200).json({
-//                             data: allData,
-//                             prefix: {
-//                                 banner: "uploads/bannerToko",
-//                                 produk: "uploads/produk",
-//                                 toko: "uploads/toko"
-//                             }
-//                         })
-//                     }
-//                 })
-//             } else {
-//                 res.status(200).json({
-//                     data: allData,
-//                     prefix: {
-//                         banner: "uploads/bannerToko",
-//                         produk: "uploads/produk",
-//                         toko: "uploads/toko"
-//                     }
-//                 })
-//             }
-//         })
-// }
+/**
+ * @param {any} req
+ * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} res
+ */
 exports.getTokoById = (req, res) => {
     const {id} = req.body
     toko.findById(id)
@@ -276,6 +185,10 @@ exports.getTokoById = (req, res) => {
             })
         })
 }
+/**
+ * @param {any} req
+ * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} res
+ */
 exports.findTokoByAlphabet = (req, res) => {
     const {alphabet} = req.body
     if (alphabet.length !== 1) {
@@ -288,6 +201,10 @@ exports.findTokoByAlphabet = (req, res) => {
         .catch(error => res.status(500).json(error))
 }
 
+/**
+ * @param {any} req
+ * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} res
+ */
 exports.merekPopuler = (req, res) => {
     toko.find({populer: true}).lean()
         .then(data =>
