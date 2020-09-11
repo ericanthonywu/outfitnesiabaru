@@ -99,13 +99,10 @@ exports.deleteProduk = (req, res) => {
 }
 
 exports.saveDisplayToko = (req, res) => {
-    const {produk} = req.body
-    if (!Array.isArray(produk)){
-        return res.status(400).json({message: "Produk must be an array of ids"})
-    }
+    const {produkId} = req.body
 
     toko.findOneAndUpdate({
-        $or: produk.map(id => ({"produk._id": id})),
+        "produk._id": produkId,
         _id: res.userData.id,
     }, {
         $set: {
@@ -119,7 +116,7 @@ exports.saveDisplayToko = (req, res) => {
 exports.removeDisplayToko = (req, res) => {
     const {produkId} = req.body
 
-    toko.findOneAndUpdate({_id: res.userData.id, "produk._id": produkId},{
+    toko.findOneAndUpdate({_id: res.userData.id, "produk._id": produkId}, {
         $set: {
             "produk.$.display": false
         }
