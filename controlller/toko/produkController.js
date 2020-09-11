@@ -109,7 +109,7 @@ exports.saveDisplayToko = (req, res) => {
         _id: res.userData.id,
     }, {
         $set: {
-            "produk.$[].display": true
+            "produk.$.display": true
         }
     })
         .then(() => res.status(201).json({message: "Display saved"}))
