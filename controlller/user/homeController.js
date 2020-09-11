@@ -57,6 +57,7 @@ exports.toggleFollow = (req, res) => {
  */
 exports.getTokoById = (req, res) => {
     const {id} = req.body
+
     toko.findById(id)
         .select('etalase')
         .populate("etalase", "label")

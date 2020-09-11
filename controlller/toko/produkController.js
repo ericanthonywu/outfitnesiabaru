@@ -116,6 +116,17 @@ exports.saveDisplayToko = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
+exports.removeDisplayToko = (req, res) => {
+    const {produkId} = req.body
+
+    toko.findOneAndUpdate({_id: res.userData.id, "produk._id": produkId},{
+        $set: {
+            "produk.$.display": false
+        }
+    }).then(() => res.status(201).json({message: "Display removed"}))
+        .catch(err => res.status(500).json(err))
+}
+
 exports.showDisplayToko = (req, res) => {
     toko.aggregate([
         {$match: {_id: mongoose.Types.ObjectId(res.userData.id)}},

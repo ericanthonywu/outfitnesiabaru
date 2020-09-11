@@ -18,8 +18,6 @@ router.post('/findTokoByAlphabet', findTokoByAlphabet)
 router.get('/merekPopuler', merekPopuler)
 router.get('/poster', poster)
 router.get('/showAllMerek', showAllMerek)
-
-
 router.post('/toogleFollow', authMiddleware, toggleFollow)
 
 module.exports = router;
