@@ -222,11 +222,28 @@ exports.merekPopuler = (req, res) => {
 }
 
 exports.showAllMerek = (req, res) => {
-    toko.find({
-        "produk.display": true
-    })
-        .select("merek produk foto_profil")
-        .lean()
+    toko.aggregate([
+        {
+            $addFields: {
+                produk: {
+                    $filter: {
+                        input: "$produk",
+                        cond: {
+                            $eq: [ "$$this.display", true ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                merek: 1,
+                produk: 1,
+                foto_profil: 1,
+            }
+        }
+    ])
         .then(data => res.status(200).json({
             data, prefix: {
                 toko: "uploads/toko",
