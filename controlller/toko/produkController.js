@@ -137,6 +137,6 @@ exports.showDisplayToko = (req, res) => {
             }
         },
         {$group: {_id: '$_id', produk: {$push: '$produk'}}}
-    ]).then(data => res.status(201).json({data: data.produk, prefix: 'uploads/produk'}))
+    ]).then(data => res.status(201).json({data: data[0].produk, prefix: 'uploads/produk'}))
         .catch(err => res.status(500).json(err))
 }
