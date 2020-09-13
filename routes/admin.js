@@ -1,13 +1,14 @@
 const express = require('express');
+const {getTentangKami, updateTentangKami} = require("../controlller/crud/tentangKamiController");
 const {gambarMerekPopuler} = require("../middleware/uploadFileMiddleware");
 const {addPoster, deletePoster, editPoster, showPoster} = require("../controlller/crud/posterController");
 const {getListTokoMerekPopuler, addListTokoMerek, removeListTokoMerek} = require("../controlller/crud/merekPopulerController");
 const {gambarJenis, gambarKategori, gambarBanner, gambarPoster} = require("../middleware/uploadFileMiddleware");
 const {showJenis, addJenis, editJenis, deleteJenis} = require("../controlller/crud/jenisController");
-const {showKategori, addKategori, editKategori, deleteKategori,} = require("../controlller/crud/kategoriController");
+const {showKategori, addKategori, editKategori, deleteKategori} = require("../controlller/crud/kategoriController");
 const {showBanner, addBanner, editBanner, deleteBanner} = require("../controlller/crud/bannerController");
 const {authMiddleware} = require("../middleware/authMiddleware");
-const {toogleStatusToko, getToko} = require("../controlller/crud/kerjasamaController");
+const {toogleStatusToko, getToko, deleteTokoById, tooglePilihan} = require("../controlller/crud/kerjasamaController");
 const {loginAdmin, migrateAdmin} = require("../controlller/authController");
 const router = express.Router();
 
@@ -32,6 +33,10 @@ router.post('/deleteBanner', authMiddleware, deleteBanner)
 router.post('/getToko', authMiddleware, getToko)
 router.post('/toogleStatusToko', authMiddleware, toogleStatusToko)
 
+router.post('/deleteTokoById', authMiddleware, deleteTokoById)
+
+router.post("/tooglePilihan", authMiddleware, tooglePilihan)
+
 router.post('/getListTokoMerekPopuler', authMiddleware, getListTokoMerekPopuler)
 router.post('/addListTokoMerek', authMiddleware, gambarMerekPopuler.array("gambar", 2), addListTokoMerek)
 router.post('/removeListTokoMerek', authMiddleware, removeListTokoMerek)
@@ -40,5 +45,8 @@ router.get('/showPoster', authMiddleware, showPoster)
 router.post('/addPoster', authMiddleware, gambarPoster.single('gambar'), addPoster)
 router.put('/editPoster', authMiddleware, gambarPoster.single('gambar'), editPoster)
 router.post('/deletePoster', authMiddleware, deletePoster)
+
+router.get("/getTentangKami", authMiddleware, getTentangKami)
+router.put("/tentangKami", authMiddleware, updateTentangKami)
 
 module.exports = router;

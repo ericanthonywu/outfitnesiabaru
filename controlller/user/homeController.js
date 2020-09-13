@@ -229,10 +229,47 @@ exports.showAllMerek = (req, res) => {
                     $filter: {
                         input: "$produk",
                         cond: {
-                            $eq: [ "$$this.display", true ]
+                            $eq: ["$$this.display", true]
                         }
                     }
                 }
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                merek: 1,
+                produk: 1,
+                foto_profil: 1,
+            }
+        }
+    ])
+        .then(data => res.status(200).json({
+            data, prefix: {
+                toko: "uploads/toko",
+                produk: "uploads/produk"
+            }
+        }))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.tokoPilihan = (req, res) => {
+    toko.aggregate([
+        {
+            $addFields: {
+                produk: {
+                    $filter: {
+                        input: "$produk",
+                        cond: {
+                            $eq: ["$$this.display", true]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $match: {
+                "toko.display": true
             }
         },
         {

@@ -95,6 +95,7 @@ const tokoSchema = new mongoose.Schema({
     approve: {type: Number, default: 0}, // 0: pending, 1: reject, 2: approve
     populer: {type: Boolean, default: false},
     gambar_populer: [String],
+    pilihan: {type: Boolean, default: false},
 }, {timestamps: true});
 
 exports.toko = mongoose.model("toko", tokoSchema);
@@ -111,3 +112,10 @@ const kategoriSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 exports.kategori = mongoose.model("kategori", kategoriSchema);
+
+const tentangKamiSchema = new mongoose.Schema({
+    paragraf: String,
+    html: String
+}, {timestamps: true});
+
+exports.tentangKami = mongoose.model("tentangKami", tentangKamiSchema);

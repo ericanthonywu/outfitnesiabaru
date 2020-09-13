@@ -4,7 +4,7 @@ const router = express.Router();
 const {authMiddleware} = require("../middleware/authMiddleware");
 const {registerUser} = require("../controlller/authController");
 const {filterProduk, searchProduk, listFilterProduk} = require("../controlller/user/produkController");
-const {carrouselAdmin, toggleFollow, getListMerekTokoPopuler, getTokoById, findTokoByAlphabet, poster, merekPopuler, showAllMerek} = require("../controlller/user/homeController");
+const {carrouselAdmin, toggleFollow, getListMerekTokoPopuler, getTokoById, findTokoByAlphabet, poster, merekPopuler, showAllMerek, tokoPilihan} = require("../controlller/user/homeController");
 
 router.post('/register', registerUser)
 
@@ -19,5 +19,6 @@ router.get('/merekPopuler', merekPopuler)
 router.get('/poster', poster)
 router.get('/showAllMerek', showAllMerek)
 router.post('/toogleFollow', authMiddleware, toggleFollow)
+router.get("/tokoPilihan", tokoPilihan)
 
 module.exports = router;
