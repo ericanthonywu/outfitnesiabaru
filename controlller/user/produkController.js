@@ -45,8 +45,8 @@ exports.filterProduk = (req, res) => {
         {$unwind: '$produk'},
         {$match: query},
         {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}},
-        {"$limit": skip + limit},
-        {"$skip": skip}
+        // {"$limit": skip + limit},
+        // {"$skip": skip}
     ])
         .then(async data => {
             res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}})
