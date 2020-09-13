@@ -14,7 +14,7 @@ exports.getToko = (req, res) => {
     }
 
     toko.find(query)
-        .select("merek alamat email instagram whatsapp fotoKTP pilihan")
+        .select("merek alamat email instagram whatsapp fotoktp pilihan")
         .limit(parseInt(limit))
         .skip(parseInt(offset))
         .lean()
