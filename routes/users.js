@@ -35,6 +35,6 @@ router.post('/toogleFollow', authMiddleware, toggleFollow)
 router.get("/tokoPilihan", tokoPilihan)
 router.post("/searchMerekByNama", searchMerekByNama)
 router.get("/tentangKami", tentangKami)
-router.get("/addTentangKami", addTentangKami)
+// router.get("/addTentangKami", addTentangKami)
 
 module.exports = router;
