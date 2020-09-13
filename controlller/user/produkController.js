@@ -9,12 +9,10 @@ exports.filterProduk = (req, res) => {
 
     if (merek) {
         $and.push({$or: merek.map(id => ({_id: mongoose.Types.ObjectId(id)}))})
-        // merek.forEach(data => or.push({_id: mongoose.Types.ObjectId(data)}))
     }
 
     if (warna) {
         $and.push({$or: warna.map(warna => ({"produk.warna": warna}))})
-        // warna.forEach(data => or.push({"produk.warna": data}))
     }
 
     if (kategori) {
@@ -23,7 +21,6 @@ exports.filterProduk = (req, res) => {
 
     if (jenis) {
         $and.push({$or: jenis.map(id => ({"produk.jenis": mongoose.Types.ObjectId(id)}))})
-        // jenis.forEach(data => or.push({"produk.jenis": mongoose.Types.ObjectId(data)}))
     }
 
     if (hargaAwal !== '') {
