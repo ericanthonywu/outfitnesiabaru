@@ -258,7 +258,7 @@ exports.tokoPilihan = (req, res) => {
         },
         {
             $match: {
-                "toko.display": true
+                display: true
             }
         },
         {
