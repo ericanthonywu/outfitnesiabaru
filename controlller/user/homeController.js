@@ -258,7 +258,7 @@ exports.tokoPilihan = (req, res) => {
         },
         {
             $match: {
-                display: true
+                pilihan: true
             }
         },
         {
