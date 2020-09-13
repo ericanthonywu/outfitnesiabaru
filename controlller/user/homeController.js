@@ -1,4 +1,4 @@
-const {banner, toko, poster} = require("../../model");
+const {banner, toko, poster, tentangKami} = require("../../model");
 const mongoose = require("mongoose");
 
 exports.carrouselAdmin = (req, res) => {
@@ -279,11 +279,18 @@ exports.tokoPilihan = (req, res) => {
         .catch(error => res.status(500).json(error))
 }
 
-exports.searchMerekByNama = (req,res) => {
+exports.searchMerekByNama = (req, res) => {
     const {nama} = req.body
     toko.find({merek: {$regex: `(?i)${nama}.*`}})
         .select("merek foto_profil")
         .lean()
         .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.tentangKami = (req, res) => {
+    tentangKami.findOne()
+        .lean()
+        .then(data => res.status(200).json({data}))
         .catch(error => res.status(500).json(error))
 }
