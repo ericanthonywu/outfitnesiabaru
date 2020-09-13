@@ -1,4 +1,5 @@
 const {tentangKami} = require("../../model");
+
 exports.updateTentangKami = (req,res) => {
     const {id, paragraf, html} = req.body
 
