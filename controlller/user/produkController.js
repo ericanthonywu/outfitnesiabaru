@@ -2,7 +2,7 @@ const {toko, kategori} = require('../../model')
 const mongoose = require("mongoose");
 
 exports.filterProduk = (req, res) => {
-    const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir} = req.body
+    const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir, skip, limit} = req.body
 
     let query = {}
     const $and = []
@@ -44,7 +44,9 @@ exports.filterProduk = (req, res) => {
     toko.aggregate([
         {$unwind: '$produk'},
         {$match: query},
-        {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}}
+        {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}},
+        {"$limit": skip + limit},
+        {"$skip": skip}
     ])
         .then(async data => {
             res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}})
