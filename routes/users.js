@@ -1,4 +1,5 @@
 const express = require('express');
+const {addTentangKami} = require("../controlller/crud/tentangKamiController");
 const router = express.Router();
 
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -34,5 +35,6 @@ router.post('/toogleFollow', authMiddleware, toggleFollow)
 router.get("/tokoPilihan", tokoPilihan)
 router.post("/searchMerekByNama", searchMerekByNama)
 router.get("/tentangKami", tentangKami)
+router.get("/addTentangKami", addTentangKami)
 
 module.exports = router;

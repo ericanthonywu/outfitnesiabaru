@@ -8,6 +8,13 @@ exports.updateTentangKami = (req,res) => {
         .catch(err => res.status(500).json({err}))
 }
 
+exports.addTentangKami = (_,res) => {
+    new tentangKami({
+        paragraf: "lorem",
+        html: "lorem",
+    })
+}
+
 exports.getTentangKami = (req,res) => {
     tentangKami.findOne()
         .lean()
