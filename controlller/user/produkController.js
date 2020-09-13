@@ -44,9 +44,25 @@ exports.filterProduk = (req, res) => {
     toko.aggregate([
         {$unwind: '$produk'},
         {$match: query},
+        {
+            $lookup: {
+                from: "kategoris",
+                as: "produk.etalase",
+                let: {pjid: "$produk.jenis"},
+                pipeline: [
+                    {$unwind: "$jenis"},
+                    {$match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}}},
+                    {
+                        $project: {
+                            "jenis._id": 1,
+                            "jenis.label": 1
+                        }
+                    }
+                ]
+            }
+        },
+        {$unwind: {path: "$produk.etalase"}},
         {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}},
-        // {"$limit": skip + limit},
-        // {"$skip": skip}
     ])
         .then(async data => {
             res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}})

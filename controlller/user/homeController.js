@@ -51,10 +51,6 @@ exports.toggleFollow = (req, res) => {
     }
 }
 
-/**
- * @param {any} req
- * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} res
- */
 exports.getTokoById = (req, res) => {
     const {id} = req.body
 
@@ -186,10 +182,7 @@ exports.getTokoById = (req, res) => {
             })
         })
 }
-/**
- * @param {any} req
- * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} res
- */
+
 exports.findTokoByAlphabet = (req, res) => {
     const {alphabet} = req.body
     if (alphabet.length !== 1) {
@@ -202,10 +195,6 @@ exports.findTokoByAlphabet = (req, res) => {
         .catch(error => res.status(500).json(error))
 }
 
-/**
- * @param {Request<P, ResBody, ReqBody, ReqQuery>|http.ServerResponse} req
- * @param {Response<P, ResBody, ReqQuery>|http.ServerResponse} res
- */
 exports.merekPopuler = (req, res) => {
     toko.find({populer: true})
         .select('merek foto_profil gambar_populer')
