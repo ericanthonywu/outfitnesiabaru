@@ -225,6 +225,11 @@ exports.showAllMerek = (req, res) => {
             }
         },
         {
+            $match:{
+                approve: 2
+            }
+        },
+        {
             $project: {
                 _id: 1,
                 merek: 1,
