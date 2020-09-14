@@ -188,7 +188,7 @@ exports.findTokoByAlphabet = (req, res) => {
     if (alphabet.length !== 1) {
         return res.status(400).json({message: "Invalid alphabet"})
     }
-    toko.find({merek: {$regex: '^' + alphabet, $options: 'i'}})
+    toko.find({merek: {$regex: '^' + alphabet, $options: 'i'}, approve: 2})
         .select('merek foto_profil')
         .lean()
         .then(data => res.status(data.length ? 200 : 404).json({data, prefix: "uploads/toko"}))
