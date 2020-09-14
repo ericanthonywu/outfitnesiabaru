@@ -57,6 +57,7 @@ const produkSchema = new mongoose.Schema({
     link_bukalapak: String,
     link_shopee: String,
     link_tokopedia: String,
+    link_lazada: String,
     display: {type: Boolean, default: false},
 }, {
     weights: {

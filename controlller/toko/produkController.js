@@ -36,7 +36,7 @@ exports.showAllTokoProduk = (req, res) => {
 }
 
 exports.addProduk = async (req, res) => {
-    const {etalase, nama_produk, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, deskripsi} = req.body
+    const {etalase, nama_produk, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, link_lazada, deskripsi} = req.body
     if (!req.files) {
         return res.status(400).json({message: "Foto Produk required"})
     }
@@ -54,6 +54,7 @@ exports.addProduk = async (req, res) => {
                 link_shopee,
                 link_tokopedia,
                 deskripsi,
+                link_lazada,
                 foto_produk: await req.files.map(({filename}) => filename)
             }
         }
@@ -62,7 +63,7 @@ exports.addProduk = async (req, res) => {
 }
 
 exports.editProduk = (req, res) => {
-    const {etalase, nama_produk, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, deskripsi, produkId} = req.body
+    const {etalase, nama_produk, jenis, bahan, warna, harga, link_bukalapak, link_shopee, link_tokopedia, link_lazada, deskripsi, produkId} = req.body
     toko.findOneAndUpdate({_id: res.userData.id, "produk._id": produkId}, {
         $set: {
             "produk.$.nama_produk": nama_produk,
@@ -74,6 +75,7 @@ exports.editProduk = (req, res) => {
             "produk.$.link_bukalapak": link_bukalapak,
             "produk.$.link_shopee": link_shopee,
             "produk.$.link_tokopedia": link_tokopedia,
+            "produk.$.link_lazada": link_lazada,
             "produk.$.deskripsi": deskripsi,
         }
     }).then(() => res.status(201).json({message: "Product updated"}))
