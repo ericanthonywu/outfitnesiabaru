@@ -6,6 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
+require('dotenv').config({path: ".env"})
 
 // password mysql server: Student123@
 
@@ -16,7 +17,6 @@ app.use(cors());
     // origin: "http://194.59.165.96/",
     // optionsSuccessStatus: 200,
 // }
-require('dotenv').config({path: ".env"})
 
 const indexRouter = require('./routes/index'); // for global router
 const adminRouter = require('./routes/admin');
