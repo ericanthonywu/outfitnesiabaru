@@ -23,11 +23,11 @@ exports.filterProduk = (req, res) => {
         $and.push({$or: jenis.map(id => ({"produk.jenis": mongoose.Types.ObjectId(id)}))})
     }
 
-    // if (hargaAwal !== '') {
-    //     query["produk.harga"] = {
-    //         $gte: parseInt(hargaAwal),
-    //     }
-    // }
+    if (hargaAwal !== '') {
+        query["produk.harga"] = {
+            $gte: parseInt(hargaAwal),
+        }
+    }
     if (hargaAkhir !== '') {
         query["produk.harga"] = {
             $lte: parseInt(hargaAkhir)
@@ -39,7 +39,6 @@ exports.filterProduk = (req, res) => {
     }
 
     toko.aggregate([
-        {$match: query},
         {$unwind: '$produk'},
         {$match: query},
         {
