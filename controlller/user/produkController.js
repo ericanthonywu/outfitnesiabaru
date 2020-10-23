@@ -29,7 +29,7 @@ exports.filterProduk = (req, res) => {
     //     }
     // }
     if (hargaAkhir !== '') {
-        query["harga"] = {
+        query["produk.harga"] = {
             $lte: parseInt(hargaAkhir)
         }
     }
