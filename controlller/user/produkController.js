@@ -41,6 +41,7 @@ exports.filterProduk = (req, res) => {
     toko.aggregate([
         {$match: query},
         {$unwind: '$produk'},
+        {$match: query},
         {
             $lookup: {
                 from: "kategoris",
