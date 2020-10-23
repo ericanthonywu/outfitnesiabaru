@@ -2,7 +2,7 @@ const {toko, kategori} = require('../../model')
 const mongoose = require("mongoose");
 
 exports.filterProduk = (req, res) => {
-    const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir, skip, limit} = req.body
+    const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir, skip = 0, limit = 3} = req.body
 
     let query = {}
     const $and = []
@@ -100,10 +100,10 @@ exports.filterProduk = (req, res) => {
             }
         },
         {
-            $skip: 0
+            $skip: skip
         },
         {
-            $limit: 20
+            $limit: limit
         }
     ])
         .then(data => res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}}))
