@@ -39,16 +39,29 @@ exports.filterProduk = (req, res) => {
     }
 
     toko.aggregate([
-        {$unwind: '$produk'},
         {$match: query},
+        {$unwind: '$produk'},
         {
             $lookup: {
                 from: "kategoris",
-                as: "produk.etalase",
-                let: {pjid: "$produk.jenis"},
+                as: "produk.jenisnya",
+                let: {
+                    pjid: "$produk.jenis"
+                },
                 pipeline: [
-                    {$unwind: "$jenis"},
-                    {$match: {$expr: {$eq: ["$$pjid", "$jenis._id"]}}},
+                    {
+                        $unwind: "$jenis"
+                    },
+                    {
+                        $match: {
+                            $expr: {
+                                $eq: [
+                                    "$$pjid",
+                                    "$jenis._id"
+                                ]
+                            }
+                        }
+                    },
                     {
                         $project: {
                             "jenis._id": 1,
@@ -58,14 +71,42 @@ exports.filterProduk = (req, res) => {
                 ]
             }
         },
-        {$unwind: {path: "$produk.etalase"}},
-        {$group: {_id: '$_id', produk: {$push: '$produk'}, foto_profil: {$first: '$foto_profil'}}},
-        {$limit: skip + limit},
-        {$skip: skip}
+        {
+            $unwind: {
+                path: "$produk.jenisnya"
+            }
+        },
+        {
+            $group: {
+                _id: {
+                    _id: "$_id",
+                    produk_id: "$produk._id"
+                },
+                root: {
+                    $first: "$$ROOT"
+                }
+            }
+        },
+        {
+            $replaceRoot: {
+                newRoot: {
+                    $mergeObjects: [
+                        {
+                            foto_profil: "$root.foto_profil"
+                        },
+                        "$root.produk"
+                    ]
+                }
+            }
+        },
+        {
+            $skip: 0
+        },
+        {
+            $limit: 10
+        }
     ])
-        .then(async data => {
-            res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}})
-        })
+        .then(data => res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}})).catch(err => res.status(500).json(err))
 }
 
 exports.searchProduk = (req, res) => {
