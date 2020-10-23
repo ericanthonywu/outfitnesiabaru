@@ -99,14 +99,15 @@ exports.filterProduk = (req, res) => {
                 }
             }
         },
-        // {
-        //     $skip: 0
-        // },
-        // {
-        //     $limit: 10
-        // }
+        {
+            $skip: 0
+        },
+        {
+            $limit: 20
+        }
     ])
-        .then(data => res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}})).catch(err => res.status(500).json(err))
+        .then(data => res.status(200).json({data, prefix: {produk: "uploads/produk", toko: "uploads/toko"}}))
+        .catch(err => res.status(500).json(err))
 }
 
 exports.searchProduk = (req, res) => {
