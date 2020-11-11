@@ -1,5 +1,4 @@
 const express = require('express');
-const {addTentangKami} = require("../controlller/crud/tentangKamiController");
 const router = express.Router();
 
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -16,7 +15,12 @@ const {
     showAllMerek,
     tokoPilihan,
     searchMerekByNama,
-    tentangKami
+    tentangKami,
+    listKategoriArtikel,
+    showArtikelByHot,
+    showArtikelById,
+    showArtikelByKategori,
+    showNewestArtikel
 } = require("../controlller/user/homeController");
 
 router.post('/register', registerUser)
@@ -35,6 +39,12 @@ router.post('/toogleFollow', authMiddleware, toggleFollow)
 router.get("/tokoPilihan", tokoPilihan)
 router.post("/searchMerekByNama", searchMerekByNama)
 router.get("/tentangKami", tentangKami)
-// router.get("/addTentangKami", addTentangKami)
+
+router.get("/listKategoriArtikel", listKategoriArtikel)
+router.get("/showArtikelByHot", showArtikelByHot)
+router.get("/showArtikelByHot", showArtikelByHot)
+router.post("/showArtikelById", showArtikelById)
+router.post("/showArtikelByKategori", showArtikelByKategori)
+router.get("/showNewestArtikel", showNewestArtikel)
 
 module.exports = router;

@@ -1,10 +1,10 @@
-const {banner, toko, poster, tentangKami} = require("../../model");
+const {banner, toko, poster, tentangKami, artikel, artikelKategori} = require("../../model");
 const mongoose = require("mongoose");
 
 exports.carrouselAdmin = (req, res) => {
     banner.find()
         .select("gambar link")
-        .sort({order: -1})
+        // .sort({order: -1})
         .lean()
         .then(data => res.status(200).json({data, prefix: 'uploads/banner'}))
         .catch(err => res.status(500).json(err))
@@ -295,6 +295,64 @@ exports.searchMerekByNama = (req, res) => {
 
 exports.tentangKami = (req, res) => {
     tentangKami.findOne()
+        .lean()
+        .then(data => res.status(200).json({data}))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.showArtikelByHot = (req, res) => {
+    artikel.find({hot: true})
+        .populate("kategori")
+        .lean()
+        .then(data => res.status(200).json({data}))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.showNewestArtikel = (req, res) => {
+    const {pagination = 1, limit = 10} = req.body
+    artikel.find()
+        .sort({createdAt: -1})
+        .populate("kategori")
+        .limit(limit)
+        .skip((pagination - 1) * limit)
+        .lean()
+        .then(data => res.status(200).json({data}))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.listKategoriArtikel = (req, res) => {
+    artikelKategori.find()
+        .lean()
+        .then(data => res.status(200).json({data}))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.showArtikelByKategori = (req, res) => {
+    const {kategori, search, pagination = 1, limit = 10} = req.body
+    if (kategori) {
+        return res.status(400).json({message: "kategori needed"})
+    }
+    const query = {kategori}
+
+    if (search) {
+        query.$or = {
+            judul: {$regex: `(?i)*.${search}.*`},
+            tulisan: {$regex: `(?i)*.${search}.*`}
+        }
+    }
+
+    artikel.find(query)
+        .limit(limit)
+        .skip((pagination - 1) * limit)
+        .lean()
+        .then(data => res.status(200).json({data}))
+        .catch(error => res.status(500).json(error))
+}
+
+exports.showArtikelById = (req, res) => {
+    const {id} = req.body
+    artikel.findById(id)
+        .populate("kategori")
         .lean()
         .then(data => res.status(200).json({data}))
         .catch(error => res.status(500).json(error))
