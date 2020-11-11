@@ -21,7 +21,7 @@ exports.loginAdmin = (req, res) => {
                     id: data._id,
                     username: data.username,
                     role: "admin"
-                }, process.env.JWTSECRETTOKEN, {}, (err, token) => {
+                }, process.env.JWTSECRETTOKEN, (err, token) => {
                     if (err) {
                         return res.status(500).json(err)
                     }
@@ -112,7 +112,7 @@ exports.loginUserAndToko = (req, res) => {
                         username: data.username,
                         email,
                         role: "user"
-                    }, process.env.JWTSECRETTOKEN, {}, (err, token) => {
+                    }, process.env.JWTSECRETTOKEN, (err, token) => {
                         if (err) {
                             return res.status(500).json(err)
                         }

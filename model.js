@@ -121,3 +121,19 @@ const tentangKamiSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 exports.tentangKami = mongoose.model("tentangKami", tentangKamiSchema);
+
+const artikelSchema = new mongoose.Schema({
+    judul: String,
+    kategori: {type: mongoose.Schema.Types.ObjectID, ref: 'artikelKategori'},
+    penulis: String,
+    tulisan: String,
+    hot: {type: Boolean, default: false}
+}, {timestamps: true});
+
+exports.artikel = mongoose.model("artikel", artikelSchema)
+
+const artikelKategoriSchema =  new mongoose.Schema({
+    nama: {type: String, required: true, unique: true},
+}, {timestamps: true});
+
+exports.artikelKategori = mongoose.model("artikelKategori", artikelKategoriSchema)
