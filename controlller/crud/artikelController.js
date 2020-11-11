@@ -9,6 +9,8 @@ exports.showArtikel = (req,res) => {
     artikel.find()
         .populate("kategori")
         .lean()
+        .limit(limit)
+        .skip((pagination - 1) * limit)
         .then(data => res.status(200).json({message: "list artikel kategori", data}))
         .catch(err => res.status(500).json(err))
 }
