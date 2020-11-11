@@ -1,4 +1,5 @@
 const express = require('express');
+const {showArtikel, addArtikel, deleteArtikel, editArtikel} = require("../controlller/crud/artikelController");
 const {showArtikelKategori, addArtikelKategori, deleteArtikelKategori, editArtikelKategori} = require("../controlller/crud/artikelKategoriSchema");
 const {getTentangKami, updateTentangKami} = require("../controlller/crud/tentangKamiController");
 const {gambarMerekPopuler} = require("../middleware/uploadFileMiddleware");
@@ -54,5 +55,10 @@ router.get('/showArtikelKategori', authMiddleware, showArtikelKategori)
 router.post('/addArtikelKategori', authMiddleware, addArtikelKategori)
 router.put('/editArtikelKategori', authMiddleware, editArtikelKategori)
 router.delete('/deleteArtikelKategori', authMiddleware, deleteArtikelKategori)
+
+router.get('/showArtikel', authMiddleware, showArtikel)
+router.post('/addArtikel', authMiddleware, addArtikel)
+router.put('/editArtikel', authMiddleware, editArtikel)
+router.delete('/deleteArtikel', authMiddleware, deleteArtikel)
 
 module.exports = router;
