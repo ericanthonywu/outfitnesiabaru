@@ -309,7 +309,7 @@ exports.showArtikelByHot = (req, res) => {
 }
 
 exports.showNewestArtikel = (req, res) => {
-    const {pagination = 1, limit = 10} = req.body
+    const {pagination = 1, limit = 10} = req.query
     artikel.find()
         .sort({createdAt: -1})
         .populate("kategori")

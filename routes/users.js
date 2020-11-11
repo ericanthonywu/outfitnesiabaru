@@ -42,7 +42,6 @@ router.get("/tentangKami", tentangKami)
 
 router.get("/listKategoriArtikel", listKategoriArtikel)
 router.get("/showArtikelByHot", showArtikelByHot)
-router.get("/showArtikelByHot", showArtikelByHot)
 router.post("/showArtikelById", showArtikelById)
 router.post("/showArtikelByKategori", showArtikelByKategori)
 router.get("/showNewestArtikel", showNewestArtikel)
