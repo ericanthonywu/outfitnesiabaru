@@ -329,7 +329,7 @@ exports.listKategoriArtikel = (req, res) => {
 
 exports.showArtikelByKategori = (req, res) => {
     const {kategori, search, pagination = 1, limit = 10} = req.body
-    if (kategori) {
+    if (!kategori) {
         return res.status(400).json({message: "kategori needed"})
     }
     const query = {kategori}
