@@ -36,7 +36,7 @@ exports.addArtikel = (req,res) => {
 }
 
 exports.editArtikel = (req,res) => {
-    const {id, judul, kategori, penulis, tulisan, hot} = req.body
+    const {id, judul, kategori, penulis, tulisan, hot, sinopsis} = req.body
     if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
         return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
     }
@@ -45,7 +45,8 @@ exports.editArtikel = (req,res) => {
         kategori,
         penulis,
         tulisan,
-        hot
+        hot,
+        sinopsis
     }
 
     if (req.file){
