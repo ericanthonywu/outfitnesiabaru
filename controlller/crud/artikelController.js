@@ -17,7 +17,7 @@ exports.showArtikel = (req,res) => {
 
 exports.addArtikel = (req,res) => {
     const {judul, kategori, penulis, tulisan, hot} = req.body
-    if (!judul || !kategori || !penulis || !tulisan || !hot){
+    if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
         return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
     }
     new artikel({
