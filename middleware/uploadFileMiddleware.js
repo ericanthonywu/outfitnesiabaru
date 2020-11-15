@@ -101,3 +101,14 @@ exports.gambarMerekPopuler = multer({
             cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
     }),
 });
+
+exports.cover = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            req.dest = "cover";
+            cb(null, path.join(__dirname, `../uploads/${req.dest}`))
+        },
+        filename: (req, file, cb) =>
+            cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname.trim())
+    }),
+});

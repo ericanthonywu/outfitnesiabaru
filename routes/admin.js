@@ -5,7 +5,7 @@ const {getTentangKami, updateTentangKami} = require("../controlller/crud/tentang
 const {gambarMerekPopuler} = require("../middleware/uploadFileMiddleware");
 const {addPoster, deletePoster, editPoster, showPoster} = require("../controlller/crud/posterController");
 const {getListTokoMerekPopuler, addListTokoMerek, removeListTokoMerek} = require("../controlller/crud/merekPopulerController");
-const {gambarJenis, gambarKategori, gambarBanner, gambarPoster} = require("../middleware/uploadFileMiddleware");
+const {gambarJenis, gambarKategori, gambarBanner, gambarPoster, cover} = require("../middleware/uploadFileMiddleware");
 const {showJenis, addJenis, editJenis, deleteJenis} = require("../controlller/crud/jenisController");
 const {showKategori, addKategori, editKategori, deleteKategori} = require("../controlller/crud/kategoriController");
 const {showBanner, addBanner, editBanner, deleteBanner} = require("../controlller/crud/bannerController");
@@ -57,8 +57,8 @@ router.put('/editArtikelKategori', authMiddleware, editArtikelKategori)
 router.delete('/deleteArtikelKategori', authMiddleware, deleteArtikelKategori)
 
 router.get('/showArtikel', authMiddleware, showArtikel)
-router.post('/addArtikel', authMiddleware, addArtikel)
-router.put('/editArtikel', authMiddleware, editArtikel)
+router.post('/addArtikel', cover.single("image"), authMiddleware, addArtikel)
+router.put('/editArtikel', cover.single("image"), authMiddleware, editArtikel)
 router.delete('/deleteArtikel', authMiddleware, deleteArtikel)
 
 module.exports = router;

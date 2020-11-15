@@ -1,4 +1,6 @@
 const {artikel} = require('../../model')
+const fs = require('fs')
+const path = require('path')
 
 exports.showArtikel = (req,res) => {
     const {pagination = 1, limit = 10} = req.body
@@ -16,7 +18,7 @@ exports.showArtikel = (req,res) => {
 }
 
 exports.addArtikel = (req,res) => {
-    const {judul, kategori, penulis, tulisan, hot} = req.body
+    const {judul, kategori, penulis, tulisan, hot, sinopsis} = req.body
     if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
         return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
     }
@@ -25,7 +27,9 @@ exports.addArtikel = (req,res) => {
         kategori,
         penulis,
         tulisan,
-        hot
+        hot,
+        sinopsis,
+        cover: req.file.filename
     }).save()
         .then(() => res.status(201).json({message: "artikel added"}))
         .catch(err => res.status(500).json(err))
@@ -33,22 +37,32 @@ exports.addArtikel = (req,res) => {
 
 exports.editArtikel = (req,res) => {
     const {id, judul, kategori, penulis, tulisan, hot} = req.body
-    if (!judul || kategori || penulis || tulisan || hot){
+    if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
         return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
     }
-    artikel.findByIdAndUpdate(id, {
+    const updateData = {
         judul,
         kategori,
         penulis,
         tulisan,
         hot
-    })
+    }
+
+    if (req.file){
+        updateData.cover = req.file.filename
+    }
+
+    artikel.findByIdAndUpdate(id, updateData)
         .then(() => res.status(200).json({message: "artikel edited"}))
         .catch(err => res.status(500).json(err))
 }
 
 exports.deleteArtikel = (req,res) => {
     const {id} = req.body
+    artikel.findById(id).select("cover").lean()
+        .then(cover =>
+        fs.unlinkSync(path.join(__dirname, "../../uploads/cover/"+cover))
+    )
     artikel.findByIdAndDelete(id)
         .then(() => res.status(200).json({message: "artikel deleted"}))
         .catch(err => res.status(500).json(err))

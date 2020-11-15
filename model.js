@@ -127,6 +127,8 @@ const artikelSchema = new mongoose.Schema({
     kategori: {type: mongoose.Schema.Types.ObjectID, ref: 'artikelKategori'},
     penulis: String,
     tulisan: String,
+    sinopsis: String,
+    cover: String,
     hot: {type: Boolean, default: false}
 }, {timestamps: true});
 
