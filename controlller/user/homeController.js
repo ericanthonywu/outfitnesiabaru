@@ -304,7 +304,7 @@ exports.showArtikelByHot = (req, res) => {
     artikel.find({hot: true})
         .populate("kategori")
         .lean()
-        .then(data => res.status(200).json({data}))
+        .then(data => res.status(200).json({data: {data, prefix: "uploads/cover"}}))
         .catch(error => res.status(500).json(error))
 }
 
@@ -323,7 +323,7 @@ exports.showNewestArtikel = (req, res) => {
 exports.listKategoriArtikel = (req, res) => {
     artikelKategori.find()
         .lean()
-        .then(data => res.status(200).json({data}))
+        .then(data => res.status(200).json({data: {data, prefix: "uploads/cover"}}))
         .catch(error => res.status(500).json(error))
 }
 
@@ -345,7 +345,7 @@ exports.showArtikelByKategori = (req, res) => {
         .limit(limit)
         .skip((pagination - 1) * limit)
         .lean()
-        .then(data => res.status(200).json({data}))
+        .then(data => res.status(200).json({data: {data, prefix: "uploads/cover"}}))
         .catch(error => res.status(500).json(error))
 }
 
@@ -354,6 +354,6 @@ exports.showArtikelById = (req, res) => {
     artikel.findById(id)
         .populate("kategori")
         .lean()
-        .then(data => res.status(200).json({data}))
+        .then(data => res.status(200).json({data: {data, prefix: "uploads/cover"}}))
         .catch(error => res.status(500).json(error))
 }
