@@ -19,9 +19,9 @@ exports.showArtikel = (req,res) => {
 
 exports.addArtikel = (req,res) => {
     const {judul, kategori, penulis, tulisan, hot, sinopsis} = req.body
-    if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
-        return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
-    }
+    // if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
+    //     return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
+    // }
     new artikel({
         judul,
         kategori,
@@ -37,9 +37,9 @@ exports.addArtikel = (req,res) => {
 
 exports.editArtikel = (req,res) => {
     const {id, judul, kategori, penulis, tulisan, hot, sinopsis} = req.body
-    if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
-        return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
-    }
+    // if (!judul || !kategori || !penulis || !tulisan || typeof hot !== "boolean"){
+    //     return res.status(400).json({message: "judul, kategori, penulis, tulisan dan hot needed"})
+    // }
     const updateData = {
         judul,
         kategori,
