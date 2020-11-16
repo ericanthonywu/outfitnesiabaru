@@ -316,7 +316,7 @@ exports.showNewestArtikel = (req, res) => {
         .limit(parseInt(limit))
         .skip((parseInt(pagination) - 1) * parseInt(limit))
         .lean()
-        .then(data => res.status(200).json({data}))
+        .then(data => res.status(200).json({data: {data, prefix: "uploads/cover"}}))
         .catch(error => res.status(500).json(error))
 }
 
