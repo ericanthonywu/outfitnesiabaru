@@ -13,7 +13,7 @@ exports.showArtikel = (req,res) => {
         .lean()
         .limit(limit)
         .skip((pagination - 1) * limit)
-        .then(data => res.status(200).json({message: "list artikel kategori", data}))
+        .then(data => res.status(200).json({message: "list artikel kategori", data:{data, prefix: "uploads/cover"}}))
         .catch(err => res.status(500).json(err))
 }
 
