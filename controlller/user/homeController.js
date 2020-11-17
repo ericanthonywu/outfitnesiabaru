@@ -240,10 +240,10 @@ exports.showAllMerek = (req, res) => {
             }
         },
         {
-            $skip: pagination * limit
+            $skip: parseInt(limit) * parseInt(pagination)
         },
         {
-            $limit: limit
+            $limit: parseInt(limit)
         }
     ])
         .then(data => res.status(200).json({
