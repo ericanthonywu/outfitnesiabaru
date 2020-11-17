@@ -12,6 +12,7 @@ exports.carrouselAdmin = (req, res) => {
 
 exports.poster = (req, res) => {
     poster.find().lean().then(data => res.status(200).json({data, prefix: 'uploads/poster'}))
+        .catch(err => res.status(500).json(err))
 }
 
 exports.getListMerekTokoPopuler = (req, res) => {
@@ -37,8 +38,7 @@ exports.toggleFollow = (req, res) => {
             }).then(() => res.status(200).json({message: "Unfollow success"}))
                 .catch(err => res.status(500).json(err))
             break;
-        case 1: // follow
-
+        case 1: // follow\
             toko.findByIdAndUpdate(tokoId, {
                 $push: {
                     follower: res.userData.id

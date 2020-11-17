@@ -117,7 +117,9 @@ exports.kategori = mongoose.model("kategori", kategoriSchema);
 
 const tentangKamiSchema = new mongoose.Schema({
     paragraf: String,
-    html: String
+    html: String,
+    visi: String,
+    misi: String
 }, {timestamps: true});
 
 exports.tentangKami = mongoose.model("tentangKami", tentangKamiSchema);
