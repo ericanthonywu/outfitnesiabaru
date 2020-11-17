@@ -211,7 +211,7 @@ exports.merekPopuler = (req, res) => {
 }
 
 exports.showAllMerek = (req, res) => {
-    const {pagination, keyword, limit} = req.body
+    const {pagination, keyword, limit} = req.query
     toko.aggregate([
         {
             $addFields: {
