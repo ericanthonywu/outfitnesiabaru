@@ -370,7 +370,7 @@ exports.tabSearch = (req,res) => {
             break
         case "produk":
             toko.aggregate([
-                {$unwind: '$produrouter.get("/tabSearch", tabSearch)k'},
+                {$unwind: '$produk'},
                 {$match: {"produk.nama_produk": {$regex: `(?i)${keyword}.*`}}},
                 {$group: {_id: '$_id', produk: {$push: '$produk'}}}
             ])
