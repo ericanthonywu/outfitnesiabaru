@@ -47,6 +47,6 @@ router.post("/showArtikelById", showArtikelById)
 router.post("/showArtikelByKategori", showArtikelByKategori)
 router.get("/showNewestArtikel", showNewestArtikel)
 
-router.get("/tabSearch", tabSearch)
+
 
 module.exports = router;

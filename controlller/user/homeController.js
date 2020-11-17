@@ -370,8 +370,8 @@ exports.tabSearch = (req,res) => {
             break
         case "produk":
             toko.aggregate([
-                {$unwind: '$produk'},
-                {$match: {"produk.nama_produk": {$regex: `(?i)${nama_produk}.*`}}},
+                {$unwind: '$produrouter.get("/tabSearch", tabSearch)k'},
+                {$match: {"produk.nama_produk": {$regex: `(?i)${keyword}.*`}}},
                 {$group: {_id: '$_id', produk: {$push: '$produk'}}}
             ])
                 .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
