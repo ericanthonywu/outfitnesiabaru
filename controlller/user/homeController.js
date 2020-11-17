@@ -197,7 +197,7 @@ exports.findTokoByAlphabet = (req, res) => {
 
 exports.merekPopuler = (req, res) => {
     toko.find({populer: true})
-        .select('merek foto_profil gambar_populer')
+        .select('merek foto_profil produk')
         .lean()
         .then(data =>
             res.status(200).json({
@@ -211,6 +211,7 @@ exports.merekPopuler = (req, res) => {
 }
 
 exports.showAllMerek = (req, res) => {
+    const {pagination, keyword, limit} = req.body
     toko.aggregate([
         {
             $addFields: {
@@ -226,7 +227,8 @@ exports.showAllMerek = (req, res) => {
         },
         {
             $match: {
-                approve: 2
+                approve: 2,
+                merek: {$regex: `(?i)${keyword}.*`}
             }
         },
         {
@@ -236,6 +238,12 @@ exports.showAllMerek = (req, res) => {
                 produk: 1,
                 foto_profil: 1,
             }
+        },
+        {
+            $skip: pagination * limit
+        },
+        {
+            $limit: limit
         }
     ])
         .then(data => res.status(200).json({
@@ -263,7 +271,7 @@ exports.tokoPilihan = (req, res) => {
         },
         {
             $match: {
-                pilihan: true
+                pilihan: true,
             }
         },
         {
@@ -273,7 +281,7 @@ exports.tokoPilihan = (req, res) => {
                 produk: 1,
                 foto_profil: 1,
             }
-        }
+        },
     ])
         .then(data => res.status(200).json({
             data, prefix: {
@@ -358,9 +366,9 @@ exports.showArtikelById = (req, res) => {
         .catch(error => res.status(500).json(error))
 }
 
-exports.tabSearch = (req,res) => {
+exports.tabSearch = (req, res) => {
     const {tab, keyword} = req.query
-    switch (tab){
+    switch (tab) {
         case "merek":
             toko.find({merek: {$regex: `(?i)${keyword}.*`}})
                 .select("merek foto_profil")
@@ -436,10 +444,10 @@ exports.tabSearch = (req,res) => {
             break
         case "artikel":
             artikel.find({judul: {$regex: `(?i)${keyword}.*`}})
-            .select("judul cover")
-            .lean()
-            .then(data => res.status(200).json({data, prefix: "uploads/cover"}))
-            .catch(error => res.status(500).json(error))
+                .select("judul cover")
+                .lean()
+                .then(data => res.status(200).json({data, prefix: "uploads/cover"}))
+                .catch(error => res.status(500).json(error))
             break
         default:
             res.status(400).json({message: "tab invalid"})

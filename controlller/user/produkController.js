@@ -111,6 +111,53 @@ exports.filterProduk = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
+exports.filterProdukMaxharga = (req, res) => {
+    const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir, skip = 0, limit = 12} = req.body
+
+    let query = {}
+    const $and = []
+
+    if (merek) {
+        $and.push({$or: merek.map(id => ({_id: mongoose.Types.ObjectId(id)}))})
+    }
+
+    if (warna) {
+        $and.push({$or: warna.map(warna => ({"produk.warna": warna}))})
+    }
+
+    if (kategori) {
+        query["produk.etalase"] = mongoose.Types.ObjectId(kategori)
+    }
+
+    if (jenis) {
+        $and.push({$or: jenis.map(id => ({"produk.jenis": mongoose.Types.ObjectId(id)}))})
+    }
+
+    if (hargaAwal !== '') {
+        query["produk.harga"] = {
+            $gte: parseInt(hargaAwal),
+        }
+    }
+    if (hargaAkhir !== '') {
+        query["produk.harga"] = {
+            ...query["produk.harga"],
+            $lte: parseInt(hargaAkhir)
+        }
+    }
+
+    if ($and.length > 0) {
+        query = {$and, ...query}
+    }
+
+    toko.aggregate([
+        {$project: {produk: 1}},
+        {$match: query},
+        {$unwind: "$produk"},
+        {$sort: {"produk.harga": -1}},
+        {$limit: 1}
+    ])
+}
+
 exports.searchProduk = (req, res) => {
     const {nama_produk} = req.body
 
