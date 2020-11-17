@@ -372,7 +372,64 @@ exports.tabSearch = (req,res) => {
             toko.aggregate([
                 {$unwind: '$produk'},
                 {$match: {"produk.nama_produk": {$regex: `(?i)${keyword}.*`}}},
-                {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+                {
+                    $lookup: {
+                        from: "kategoris",
+                        as: "produk.jenisnya",
+                        let: {
+                            pjid: "$produk.jenis"
+                        },
+                        pipeline: [
+                            {
+                                $unwind: "$jenis"
+                            },
+                            {
+                                $match: {
+                                    $expr: {
+                                        $eq: [
+                                            "$$pjid",
+                                            "$jenis._id"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                $project: {
+                                    "jenis._id": 1,
+                                    "jenis.label": 1
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    $unwind: {
+                        path: "$produk.jenisnya"
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            _id: "$_id",
+                            produk_id: "$produk._id"
+                        },
+                        root: {
+                            $first: "$$ROOT"
+                        }
+                    }
+                },
+                {
+                    $replaceRoot: {
+                        newRoot: {
+                            $mergeObjects: [
+                                {
+                                    foto_profil: "$root.foto_profil"
+                                },
+                                "$root.produk"
+                            ]
+                        }
+                    }
+                },
             ])
                 .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
                 .catch(err => res.status(500).json(err))
