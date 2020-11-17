@@ -1,4 +1,5 @@
 const express = require('express');
+const {tabSearch} = require("../controlller/user/homeController");
 const router = express.Router();
 
 const {authMiddleware} = require("../middleware/authMiddleware");
@@ -45,5 +46,7 @@ router.get("/showArtikelByHot", showArtikelByHot)
 router.post("/showArtikelById", showArtikelById)
 router.post("/showArtikelByKategori", showArtikelByKategori)
 router.get("/showNewestArtikel", showNewestArtikel)
+
+router.get("/tabSearch", tabSearch)
 
 module.exports = router;

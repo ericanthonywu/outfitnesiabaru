@@ -357,3 +357,34 @@ exports.showArtikelById = (req, res) => {
         .then(data => res.status(200).json({data: {data, prefix: "uploads/cover"}}))
         .catch(error => res.status(500).json(error))
 }
+
+exports.tabSearch = (req,res) => {
+    const {tab, keyword} = req.query
+    switch (tab){
+        case "merek":
+            toko.find({merek: {$regex: `(?i)${keyword}.*`}})
+                .select("merek foto_profil")
+                .lean()
+                .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
+                .catch(error => res.status(500).json(error))
+            break
+        case "produk":
+            toko.aggregate([
+                {$unwind: '$produk'},
+                {$match: {"produk.nama_produk": {$regex: `(?i)${nama_produk}.*`}}},
+                {$group: {_id: '$_id', produk: {$push: '$produk'}}}
+            ])
+                .then(data => res.status(200).json({data, prefix: "uploads/produk"}))
+                .catch(err => res.status(500).json(err))
+            break
+        case "artikel":
+            artikel.find({judul: {$regex: `(?i)${keyword}.*`}})
+            .select("judul cover")
+            .lean()
+            .then(data => res.status(200).json({data, prefix: "uploads/cover"}))
+            .catch(error => res.status(500).json(error))
+            break
+        default:
+            res.status(400).json({message: "tab invalid"})
+    }
+}
