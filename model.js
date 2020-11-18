@@ -78,7 +78,7 @@ const tokoSchema = new mongoose.Schema({
     instagram: String,
     whatsapp: String,
     website: String,
-    alamat: String,
+    alamat: [String],
     foto_profil: String,
     bukalapak: String,
     shopee: String,
