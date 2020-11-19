@@ -344,8 +344,8 @@ exports.showArtikelByKategori = (req, res) => {
 
     if (search) {
         query.$or = {
-            judul: {$regex: `(?i)*.${search}.*`},
-            tulisan: {$regex: `(?i)*.${search}.*`}
+            judul: {$regex: `(?i)${search}.*`},
+            tulisan: {$regex: `(?i)${search}.*`}
         }
     }
 
