@@ -343,10 +343,11 @@ exports.showArtikelByKategori = (req, res) => {
     const query = {kategori}
 
     if (search) {
-        query.$or = {
-            judul: {$regex: `(?i)${search}.*`},
-            tulisan: {$regex: `(?i)${search}.*`}
-        }
+        // query.$or = {
+        //     judul: {$regex: `(?i)${search}.*`},
+        //     tulisan: {$regex: `(?i)${search}.*`}
+        // }
+        query.judul = {$regex: `(?i)${search}.*`}
     }
 
     artikel.find(query)
@@ -452,4 +453,8 @@ exports.tabSearch = (req, res) => {
         default:
             res.status(400).json({message: "tab invalid"})
     }
+}
+
+exports.showMerekPopuler = (req,res) => {
+    const {} = req.body
 }
