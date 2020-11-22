@@ -195,7 +195,7 @@ exports.findTokoByAlphabet = (req, res) => {
         .catch(error => res.status(500).json(error))
 }
 
-exports.merekPopuler = (req, res) => {
+exports.merekPopuler = (req, res) => {d
     toko.find({populer: true, "produk.display":true})
         .select('merek foto_profil produk')
         .lean()
