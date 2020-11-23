@@ -175,12 +175,12 @@ exports.listFilterProduk = (req, res) => {
         .lean()
         .then(data =>
             toko.find({approve: 2})
-                .select("merek")
+                .select("merek foto_profil")
                 .lean()
                 .then(merek =>
                     res.status(200).json({
                         data: {kategoriJenis: data, merek},
-                        prefix: {kategori: "uploads/kategori", jenis: "uploads/jenis"}
+                        prefix: {kategori: "uploads/kategori", jenis: "uploads/jenis", merek: "uploads/toko"}
                     })
                 )
                 .catch(err => res.status(500).json(err))
