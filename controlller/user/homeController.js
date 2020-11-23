@@ -196,7 +196,7 @@ exports.findTokoByAlphabet = (req, res) => {
 }
 
 exports.merekPopuler = (req, res) => {
-    toko.find({populer: true, "produk.display":true})
+    toko.find({populer: true, "produk.display": true})
         .select('merek foto_profil produk')
         .lean()
         .then(data =>
@@ -458,6 +458,6 @@ exports.tabSearch = (req, res) => {
     }
 }
 
-exports.showMerekPopuler = (req,res) => {
+exports.showMerekPopuler = (req, res) => {
     const {} = req.body
 }
