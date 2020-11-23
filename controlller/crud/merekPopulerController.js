@@ -19,14 +19,14 @@ exports.getListTokoMerekPopuler = (req, res) => {
 
 exports.addListTokoMerek = (req, res) => {
     const {tokoId} = req.body
-    toko.findByIdAndUpdate(tokoId, {populer: true, gambar_populer: req.files.map(({filename}) => filename)})
+    toko.findByIdAndUpdate(tokoId, {populer: true})
         .then(() => res.status(200).json({message: "populer added"}))
         .catch(err => res.status(500).json(err))
 }
 
 exports.removeListTokoMerek = (req, res) => {
     const {tokoId} = req.body
-    toko.findByIdAndUpdate(tokoId, {populer: false, gambar_populer: []})
+    toko.findByIdAndUpdate(tokoId, {populer: false})
         .then(() => res.status(200).json({message: "populer removed"}))
         .catch(err => res.status(500).json(err))
 

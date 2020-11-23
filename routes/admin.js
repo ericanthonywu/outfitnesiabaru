@@ -40,7 +40,7 @@ router.post('/deleteTokoById', authMiddleware, deleteTokoById)
 router.post("/tooglePilihan", authMiddleware, tooglePilihan)
 
 router.post('/getListTokoMerekPopuler', authMiddleware, getListTokoMerekPopuler)
-router.post('/addListTokoMerek', authMiddleware, gambarMerekPopuler.array("gambar", 2), addListTokoMerek)
+router.post('/addListTokoMerek', authMiddleware, addListTokoMerek)
 router.post('/removeListTokoMerek', authMiddleware, removeListTokoMerek)
 
 router.get('/showPoster', authMiddleware, showPoster)
