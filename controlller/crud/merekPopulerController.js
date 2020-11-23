@@ -30,12 +30,4 @@ exports.removeListTokoMerek = (req, res) => {
         .then(() => res.status(200).json({message: "populer removed"}))
         .catch(err => res.status(500).json(err))
 
-    toko.findById(tokoId)
-        .select("gambar_populer")
-        .lean()
-        .then(({gambar_populer}) =>
-            gambar_populer.forEach(populer =>
-                fs.unlinkSync(path.join(__dirname, "../../uploads/merekPopuler/" + populer))
-            )
-        )
 }
