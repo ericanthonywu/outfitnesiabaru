@@ -196,18 +196,21 @@ exports.findTokoByAlphabet = (req, res) => {
 }
 
 exports.merekPopuler = (req, res) => {
-    toko.find({populer: true, produk: {$elemMatch: {display: true}}})
-        .select('merek foto_profil produk')
-        .lean()
-        .then(data =>
-            res.status(200).json({
-                data,
-                prefix: {
-                    profil: "uploads/toko",
-                    populer: "uploads/merekPopuler"
-                }
-            }))
+    toko.aggregate([
+        {$match: {populer: true}},
+        {$unwind: '$produk'},
+        {$match: {'produk.display': true}},
+        {$group: {_id: '$_id', produk: {$push: '$produk'}, merek: '$merek', foto_profil: '$foto_profil'}}
+    ]).then(data =>
+        res.status(200).json({
+            data,
+            prefix: {
+                profil: "uploads/toko",
+                populer: "uploads/merekPopuler"
+            }
+        }))
         .catch(error => res.status(500).json(error))
+
 }
 
 exports.showAllMerek = (req, res) => {
