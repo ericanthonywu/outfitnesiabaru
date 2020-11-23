@@ -240,6 +240,9 @@ exports.showAllMerek = (req, res) => {
             }
         },
         {
+            $sort: {merek: 1}
+        },
+        {
             $skip: parseInt(limit) * parseInt(pagination)
         },
         {
