@@ -200,7 +200,7 @@ exports.merekPopuler = (req, res) => {
         {$match: {populer: true}},
         {$unwind: '$produk'},
         {$match: {'produk.display': true}},
-        {$group: {_id: '$_id', produk: {$push: '$produk'}, merek: '$merek', foto_profil: '$foto_profil'}}
+        {$group: {_id: '$_id', produk: {$push: '$produk'}, merek: {$first: "$merek"}, foto_profil: {$first: "$foto_profil"}}}
     ]).then(data =>
         res.status(200).json({
             data,
