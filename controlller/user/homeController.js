@@ -196,7 +196,7 @@ exports.findTokoByAlphabet = (req, res) => {
 }
 
 exports.merekPopuler = (req, res) => {
-    toko.find({populer: true, "produk.display": true})
+    toko.find({populer: true, produk: {$elemMatch: {display: true}}})
         .select('merek foto_profil produk')
         .lean()
         .then(data =>
