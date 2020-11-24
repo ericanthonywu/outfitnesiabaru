@@ -1,4 +1,5 @@
 const express = require('express');
+const {showKategoriPoster, addKategoriPoster, deleteKategoriPoster, editKategoriPoster} = require("../controlller/crud/kategoriPosterController");
 const {showArtikel, addArtikel, deleteArtikel, editArtikel} = require("../controlller/crud/artikelController");
 const {showArtikelKategori, addArtikelKategori, deleteArtikelKategori, editArtikelKategori} = require("../controlller/crud/artikelKategoriSchema");
 const {getTentangKami, updateTentangKami} = require("../controlller/crud/tentangKamiController");
@@ -42,6 +43,11 @@ router.post("/tooglePilihan", authMiddleware, tooglePilihan)
 router.post('/getListTokoMerekPopuler', authMiddleware, getListTokoMerekPopuler)
 router.post('/addListTokoMerek', authMiddleware, addListTokoMerek)
 router.post('/removeListTokoMerek', authMiddleware, removeListTokoMerek)
+
+router.get("/showKategoriPoster", authMiddleware, showKategoriPoster)
+router.post("/addKategoriPoster", authMiddleware, addKategoriPoster)
+router.put("/editKategoriPoster", authMiddleware, editKategoriPoster)
+router.post("/deleteKategoriPoster", authMiddleware, deleteKategoriPoster)
 
 router.get('/showPoster', authMiddleware, showPoster)
 router.post('/addPoster', authMiddleware, gambarPoster.single('gambar'), addPoster)
