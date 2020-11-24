@@ -169,7 +169,6 @@ exports.getTokoById = (req, res) => {
                         fotoktp: 1,
                         banner: 1,
                         populer: 1,
-                        produk: 1
                     }).lean().then(data => res.status(200).json({
                         data: {...data, ...etalaseData},
                         prefix: {

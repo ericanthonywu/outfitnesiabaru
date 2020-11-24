@@ -39,10 +39,17 @@ exports.banner = mongoose.model("banner", bannerSchema);
 const posterSchema = new mongoose.Schema({
     gambar: {type: String, required: true, trim: true, unique: true},
     link: {type: String, required: true, trim: true},
+    kategori: {type: mongoose.Schema.Types.ObjectID, ref: 'kategoriPoster'}
     // order: {type: Number, required: true, unique: true},
 }, {timestamps: true});
 
 exports.poster = mongoose.model("poster", posterSchema);
+
+const kategoriPosterSchema = new mongoose.Schema({
+    nama: String
+}, {timestamps: true});
+
+exports.kategoriPoster = mongoose.model("kategoriPoster", kategoriPosterSchema);
 
 const produkSchema = new mongoose.Schema({
     nama_produk: String,
