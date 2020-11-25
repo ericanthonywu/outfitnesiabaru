@@ -154,10 +154,6 @@ exports.registerToko = (req, res) => {
     if (!password && !merek && !alamat && !whatsapp && !instagram && !line && !email) {
         return res.status(400).json({message: "request incomplete"})
     }
-
-    if (!req.file) {
-        return res.status(400).json({message: "foto_ktp needed"})
-    }
     bcrypt.hash(password, 10).then(password => {
         new Toko({
             password,
@@ -167,7 +163,6 @@ exports.registerToko = (req, res) => {
             instagram,
             line,
             email,
-            fotoktp: req.file.filename
         }).save()
             .then(() => res.status(201).json({message: "Register successfull! Waiting for admin's approval"}))
             .catch(err => res.status(500).json(err))
