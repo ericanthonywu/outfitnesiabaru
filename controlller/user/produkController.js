@@ -112,7 +112,7 @@ exports.filterProduk = (req, res) => {
 }
 
 exports.filterProdukMaxharga = (req, res) => {
-    const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir, skip = 0, limit = 12} = req.body
+    const {merek, warna, kategori, jenis, hargaAwal, hargaAkhir} = req.body
 
     let query = {}
     const $and = []
@@ -150,12 +150,10 @@ exports.filterProdukMaxharga = (req, res) => {
     }
 
     toko.aggregate([
-        {$project: {produk: 1}},
         {$match: query},
         {$unwind: "$produk"},
-        {$sort: {"produk.harga": -1}},
-        {$limit: 1}
-    ])
+        {$group: {_id: null, maxharga: {$max: '$produk.harga'}}}
+    ]).then(data => res.status(200).json({message: "max harga", maxharga: data}))
 }
 
 exports.searchProduk = (req, res) => {
