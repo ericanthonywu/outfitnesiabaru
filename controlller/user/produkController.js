@@ -150,6 +150,7 @@ exports.filterProdukMaxharga = (req, res) => {
     }
 
     toko.aggregate([
+        {$unwind: '$produk'},
         {$match: query},
         {$unwind: "$produk"},
         {$group: {_id: null, maxharga: {$max: '$produk.harga'}}}
