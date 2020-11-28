@@ -101,7 +101,7 @@ exports.filterProduk = (req, res) => {
             }
         },
         {
-            $skip: skip * limit
+            $skip: skip
         },
         {
             $limit: limit
