@@ -11,7 +11,9 @@ exports.carrouselAdmin = (req, res) => {
 }
 
 exports.poster = (req, res) => {
-    poster.find().lean().then(data => res.status(200).json({data, prefix: 'uploads/poster'}))
+    poster.find()
+        .populate("kategori")
+        .lean().then(data => res.status(200).json({data, prefix: 'uploads/poster'}))
         .catch(err => res.status(500).json(err))
 }
 
