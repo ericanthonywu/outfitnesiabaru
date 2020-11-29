@@ -47,7 +47,11 @@ exports.deleteTokoById = (req, res) => {
         .lean()
         .then((data) => {
             if (data) {
-                data.forEach(({foto_produk}) => fs.unlinkSync(path.join(__dirname, "../../uploads/produk/" + foto_produk)))
+                try {
+                    data.produk.forEach(({foto_produk}) => fs.unlinkSync(path.join(__dirname, "../../uploads/produk/" + foto_produk)))
+                } catch (e) {
+                    console.log(e)
+                }
                 toko.findByIdAndDelete(tokoId)
                     .then(() => res.status(202).json({message: "Toko Deleted!"}))
                     .catch(err => res.status(500).json(err))
