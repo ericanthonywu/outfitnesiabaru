@@ -40,6 +40,7 @@ exports.filterProduk = (req, res) => {
     }
 
     toko.aggregate([
+        {$match: {approve: 2}},
         {$unwind: '$produk'},
         {$match: query},
         {
@@ -150,6 +151,7 @@ exports.filterProdukMaxharga = (req, res) => {
     }
 
     toko.aggregate([
+        {$match: {approve: 2}},
         {$unwind: '$produk'},
         {$match: query},
         {$unwind: "$produk"},
@@ -161,6 +163,7 @@ exports.searchProduk = (req, res) => {
     const {nama_produk} = req.body
 
     toko.aggregate([
+        {$match: {approve: 2}},
         {$unwind: '$produk'},
         {$match: {"produk.nama_produk": {$regex: `(?i)${nama_produk}.*`}}},
         {$group: {_id: '$_id', produk: {$push: '$produk'}}}

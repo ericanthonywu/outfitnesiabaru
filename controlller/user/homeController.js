@@ -198,7 +198,7 @@ exports.findTokoByAlphabet = (req, res) => {
 
 exports.merekPopuler = (req, res) => {
     toko.aggregate([
-        {$match: {populer: true}},
+        {$match: {populer: true, approve: 2}},
         {$unwind: '$produk'},
         {$match: {'produk.display': true}},
         {$group: {_id: '$_id', produk: {$push: '$produk'}, merek: {$first: "$merek"}, foto_profil: {$first: "$foto_profil"}}}
@@ -278,6 +278,7 @@ exports.tokoPilihan = (req, res) => {
         },
         {
             $match: {
+                approve: 2,
                 pilihan: true,
             }
         },
@@ -301,7 +302,7 @@ exports.tokoPilihan = (req, res) => {
 
 exports.searchMerekByNama = (req, res) => {
     const {nama} = req.body
-    toko.find({merek: {$regex: `(?i)${nama}.*`}})
+    toko.find({merek: {$regex: `(?i)${nama}.*`, approve: 2}})
         .select("merek foto_profil")
         .lean()
         .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
@@ -378,7 +379,7 @@ exports.tabSearch = (req, res) => {
     const {tab, keyword} = req.query
     switch (tab) {
         case "merek":
-            toko.find({merek: {$regex: `(?i)${keyword}.*`}})
+            toko.find({merek: {$regex: `(?i)${keyword}.*`, approve: 2}})
                 .select("merek foto_profil")
                 .lean()
                 .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
@@ -386,6 +387,7 @@ exports.tabSearch = (req, res) => {
             break
         case "produk":
             toko.aggregate([
+                {$match: {approve: 2}},
                 {$unwind: '$produk'},
                 {$match: {"produk.nama_produk": {$regex: `(?i)${keyword}.*`}}},
                 {
@@ -460,8 +462,4 @@ exports.tabSearch = (req, res) => {
         default:
             res.status(400).json({message: "tab invalid"})
     }
-}
-
-exports.showMerekPopuler = (req, res) => {
-    const {} = req.body
 }

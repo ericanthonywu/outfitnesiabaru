@@ -71,10 +71,9 @@ exports.loginUserAndToko = (req, res) => {
                             }
 
                             switch (data.approve) {
-                                case 0:
-                                    return res.status(403).json({message: "Your Toko hasn't been approved yet"})
                                 case 1:
                                     return res.status(403).json({message: "Toko has been rejected"})
+                                case 0:
                                 case 2:
                                     return jwt.sign({
                                         id: data._id,
