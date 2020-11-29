@@ -1,4 +1,6 @@
 const {toko} = require('../../model')
+const fs = require('fs')
+const path = require('path')
 
 exports.getToko = (req, res) => {
     const {limit, offset, approve = null} = req.body
@@ -38,14 +40,24 @@ exports.toogleStatusToko = (req, res) => {
         .catch(err => res.status(500).json(err))
 }
 
-exports.deleteTokoById = (req,res) => {
+exports.deleteTokoById = (req, res) => {
     const {tokoId} = req.body
-    toko.findByIdAndDelete(tokoId)
-        .then(() => res.status(202).json({message: "Toko Deleted!"}))
-        .catch(err => res.status(500).json(err))
+    toko.findById(tokoId)
+        .select("produk.foto_produk")
+        .lean()
+        .then((data) => {
+            if (data) {
+                data.forEach(({foto_produk}) => fs.unlinkSync(path.join(__dirname, "../../uploads/produk/" + foto_produk)))
+                toko.findByIdAndDelete(tokoId)
+                    .then(() => res.status(202).json({message: "Toko Deleted!"}))
+                    .catch(err => res.status(500).json(err))
+            } else {
+                res.status(404).json({message: "toko tidak ditemukan"})
+            }
+        })
 }
 
-exports.tooglePilihan = (req,res) => {
+exports.tooglePilihan = (req, res) => {
     const {tokoId, pilihan} = req.body
     toko.findByIdAndUpdate(tokoId, {pilihan})
         .then(() => res.status(202).json({message: "Pilihan toko Updated!"}))
