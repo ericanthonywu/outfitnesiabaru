@@ -201,7 +201,14 @@ exports.merekPopuler = (req, res) => {
         {$match: {populer: true, approve: 2}},
         {$unwind: '$produk'},
         {$match: {'produk.display': true}},
-        {$group: {_id: '$_id', produk: {$push: '$produk'}, merek: {$first: "$merek"}, foto_profil: {$first: "$foto_profil"}}}
+        {
+            $group: {
+                _id: '$_id',
+                produk: {$push: '$produk'},
+                merek: {$first: "$merek"},
+                foto_profil: {$first: "$foto_profil"}
+            }
+        }
     ]).then(data =>
         res.status(200).json({
             data,
@@ -380,7 +387,7 @@ exports.tabSearch = (req, res) => {
     switch (tab) {
         case "merek":
 
-            toko.find({merek: {$regex: `(?i)${keyword}.*`, approve: parseInt("2")}})
+            toko.find({$and: [{merek: {$regex: `(?i)${keyword}.*`}}, {approve: 2}]})
                 .select("merek foto_profil")
                 .lean()
                 .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
