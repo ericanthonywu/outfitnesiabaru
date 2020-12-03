@@ -379,11 +379,15 @@ exports.tabSearch = (req, res) => {
     const {tab, keyword} = req.query
     switch (tab) {
         case "merek":
+
             toko.find({merek: {$regex: `(?i)${keyword}.*`, approve: 2}})
                 .select("merek foto_profil")
                 .lean()
                 .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
-                .catch(error => res.status(500).json(error))
+                .catch(error => {
+                    console.log(error)
+                    res.status(500).json(error)
+                })
             break
         case "produk":
             toko.aggregate([
