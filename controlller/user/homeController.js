@@ -391,10 +391,7 @@ exports.tabSearch = (req, res) => {
                 .select("merek foto_profil")
                 .lean()
                 .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
-                .catch(error => {
-                    console.log(error)
-                    res.status(500).json(error)
-                })
+                .catch(error => res.status(500).json(error))
             break
         case "produk":
             toko.aggregate([
