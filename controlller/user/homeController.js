@@ -380,7 +380,7 @@ exports.tabSearch = (req, res) => {
     switch (tab) {
         case "merek":
 
-            toko.find({merek: {$regex: `(?i)${keyword}.*`, approve: 2}})
+            toko.find({merek: {$regex: `(?i)${keyword}.*`, approve: parseInt("2")}})
                 .select("merek foto_profil")
                 .lean()
                 .then(data => res.status(200).json({data, prefix: "uploads/toko"}))
